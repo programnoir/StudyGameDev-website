@@ -1011,6 +1011,14 @@ var refs = [
 },
 // ### art-animals #############################################################
 {
+ section: "art-animals",
+ tagName: "Software",
+ tagColor: "purple",
+ url: "https://x6ud.github.io",
+ summary: "Animal Skull and Head Reference Tool",
+ details: "Github user x6ud designed a tool for fetching images of animal heads from a manually updated database, filtered by head type and angle."
+},
+{
   section: "art-animals",
   tagName: "Graphic",
   tagColor: "red",
