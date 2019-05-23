@@ -246,7 +246,7 @@
   <div id="main-content">
 
    <div id="prog-intro" class="topic"><h2>An Introduction to Programming</h2>
-    <div class="xc"><button type="button" aria-label="Expand Description" class="bc">What is Programming?</button><section id="prog-what-is"></section></div>
+    <div class="xc"><button type="button" aria-label="Expand Description" class="bc">What is Programming?</button><section id="prog-what-is"><div class="lc">test</div></section></div>
     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">Integrated Development Environments</button><section id="prog-IDEs"></section></div>
     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">Programmer Safety</button><section id="prog-safety"></section></div>
     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">Programmer Utilities</button><section id="prog-utilties"></section></div>
@@ -466,13 +466,13 @@
    </p>
   </div>
  </main>
- <div id="loading-bar" loading="0"></div>
+ <div id="loading-bar" class="done" loading="0"></div>
  <button type="button" id="button-generate-code" aria-label="Open the dialog for generating content codes" aria-controls="gen-code" aria-haspopup="menu">Make<br/>Code</button>
  <script defer type="text/javascript" src="./taffy-min.js"></script>
  <script defer type="text/javascript" src="./db-init.js"></script>
  <script defer type="text/javascript" src="./db-populate.js"></script>
- <script defer type="text/javascript" src="./awesome-menu.js"></script>
  <script defer type="text/javascript" src="./section-toggle.js"></script>
+ <script defer type="text/javascript" src="./awesome-menu.js"></script>
  <script defer type="text/javascript" src="./gencode.js"></script>
  <script defer type="text/javascript" src="./jquery-2.1.4.min.js"></script>
  <script defer type="text/javascript" src="./search.js"></script>

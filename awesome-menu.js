@@ -432,6 +432,7 @@ MS.App = ( function()
   flagDialogAccess = true;
   dialogAccess.children[ 0 ].focus();
  }
+
  function evtClickButtonSave()
  {
   var z = document.querySelector('#show-content:checked');
@@ -451,6 +452,7 @@ MS.App = ( function()
   setSiteSettings( options[ 0 ], options[ 1 ], options[ 2 ] );
   set_cookie( options[ 0 ], options[ 1 ], options[ 2 ], 30, "studygamedev.com" );
  }
+
  function evtKeyButton( event )
  {
   if( event.keyCode == 32 )
@@ -459,16 +461,24 @@ MS.App = ( function()
   }
  }
 
- // Custom function for when the menu items are clicked in studygamedev.
- function handleMenuClick(event)
+ /// Custom function for when the menu items are clicked in studygamedev.
+ function handleMenuClick( event )
  {
+  ///
   var topics = document.getElementsByClassName("topic");
+  var to = event.target.getAttribute( "to" );
+  var targ = document.getElementById( to );
+
+  // In this part, we set all of the attributes appropriately.
   for( var i = 0; i < topics.length; i++ )
   {
-   topics[i].classList.remove("show");
+   topics[ i ].classList.remove("show");
   }
-  var to = event.target.getAttribute("to");
-  var targ = document.getElementById(to);
+
+  //////////////////////////////////////////////////////////////////////////////-------------------------------------------
+  removeResourceNodes(); // Clear out nodes we are no longer using (reduce RAM usage)
+  populateByMenuClick(to);
+
   targ.classList.add("show");
   if( navMain.className == "open" )
   {
@@ -478,7 +488,6 @@ MS.App = ( function()
   targ = targ.getElementsByTagName( "button" )[ 0 ];
   targ.focus();
  }
- // handleMenuClick() is not necessary, it can be removed from this code.
 
  function initApp()
  { // Bind actions to functions.
