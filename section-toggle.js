@@ -4,6 +4,7 @@
  but wait, some screen reader users have vision.
 */
 var keysConfirm = {13:1,32:1};
+var group_class_xc = document.getElementsByClassName("xc");
 
 function setText( elem, mode )
 {
@@ -73,26 +74,25 @@ function handleClickLC(event)
   toggleLC(this);
  }
 }
-function isTriggerXC(me)
+function isTriggerXC( me )
 {
- var allXCs = document.getElementsByClassName("xc");
- allXCs = Array.prototype.slice.call(allXCs);
- for( var i = 0; i < allXCs.length; i++ )
+ var group_sliced_xcs = Array.prototype.slice.call( group_class_xc );
+ for( var i = 0; i < group_sliced_xcs.length; i++ )
  {
-  if( me == allXCs[i] )
+  if( me == group_sliced_xcs[ i ] )
   {
-   toggleLC(allXCs[i]);
-   i = allXCs.length;
+   toggleLC( group_sliced_xcs[ i ] );
+   i = group_sliced_xcs.length;
   }
  }
- if( me.classList.contains("open") && me.classList.contains("lc") == false )
+ if( me.classList.contains( "open" ) && me.classList.contains( "lc" ) == false )
  {
-  if( me.classList.contains("bc") )
+  if( me.classList.contains( "bc" ) )
   {
    me = me.parentNode;
   }
-  me = me.getElementsByTagName("section")[0];
-  me = me.getElementsByTagName("div")[0];
+  me = me.getElementsByTagName( "section" )[ 0 ];
+  me = me.getElementsByTagName( "div")[0];
   me.focus();
  }
  else
@@ -106,7 +106,7 @@ function handleClickXC(event)
 }
 function handleKeyUpXC(event)
 {
- if( keysConfirm[event.keyCode] )
+ if( keysConfirm[ event.keyCode ] )
  {
   isTriggerXC(document.activeElement);
  }
@@ -115,19 +115,15 @@ function handleClickBC(event)
 {
  toggleLC(this);
 }
-//var lcx = document.getElementsByClassName("lc");
-//lcx.addEventListener("keyup",handleKeyUpLC,false);
-//lcx.addEventListener("click",handleClickLC,false);
-var x = document.getElementsByClassName("xc");
-for( var i = 0; i < x.length; i++ )
+
+for( var i = 0; i < group_class_xc.length; i++ )
 {
- x[i].addEventListener("click",handleClickXC,false);
- x[i].addEventListener("keyup",handleKeyUpXC,false);
+ group_class_xc[ i ].addEventListener( "click", handleClickXC, false );
+ group_class_xc[ i ].addEventListener( "keyup", handleKeyUpXC, false );
 }
-x = document.getElementsByClassName("bc");
-for( var i = 0; i < x.length; i++ )
+var group_class_bc = document.getElementsByClassName("bc");
+for( var i = 0; i < group_class_bc.length; i++ )
 {
- setText( x[i], "Expand" );
- x[i].addEventListener("click",handleClickBC,false);
-// x[i].addEventListener("keyup",handleKeyUpBC,false);
+ setText( group_class_bc[i], "Expand" );
+ group_class_bc[ i ].addEventListener( "click", handleClickBC, false );
 }
