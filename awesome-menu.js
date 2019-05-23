@@ -5,9 +5,11 @@
  should they be licensed, be licensed with a
  libre license for free software.
 
-Important point to make: If you use this, and something breaks, yeah that sucks. But I will legally have to say: This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. Please seek the consultation of a professional developer before using foreign code.
-*/
-/*
+ Important point to make: If you use this, and something breaks, yeah that sucks.
+ But I will legally have to say: This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ Please seek the consultation of a professional developer before using foreign code.
+
  I based a lot of my code from these two projects:
  https://codepen.io/marcysutton/pen/JoQqVw
  https://codepen.io/rjmccollam/pen/ZYNEXd
@@ -15,28 +17,28 @@ Important point to make: If you use this, and something breaks, yeah that sucks.
 var MS = MS || {};
 MS.App = ( function()
 {
- var isFirefox = typeof InstallTrigger !== 'undefined',
- lastFocused = document.getElementById("global-title").children[0],
+ var isFirefox = typeof InstallTrigger !== "undefined",
+ lastFocused = document.getElementById( "global-title" ).children[ 0 ],
  flagDialogAccess = false,
- keysMenu = { 90: 1, 191: 1}, // Z and slash
- keysConfirm = { 13: 1, 32: 1 }, // ENTER, SPACE
- keysScroll = { 32: 1, 37: 1, 38: 1, 39: 1, 40: 1}, // ARROWS
- keysMouse = { 0: 1, 1: 1, 2: 1 },
+ keysMenu = { 90: 1,  191: 1 }, // Z and slash
+ keysConfirm = { 13: 1,  32: 1 }, // ENTER, SPACE
+ keysScroll = { 32: 1,  37: 1,  38: 1,  39: 1,  40: 1 }, // ARROWS
+ keysMouse = { 0: 1,  1: 1,  2: 1 },
  // temp vars: openedElements, submenuButtons,
- buttonNavMain = document.getElementById('button-nav-main'),
- navMain = document.getElementById('nav-main'),
- buttonsSubmenu = navMain.getElementsByClassName('button-submenu'),
- mainWrap = document.getElementById('main-wrapper'),
- drawDark = document.getElementById("draw-dark"),
- buttonAccess = document.getElementById("button-settings-accessibility"),
- dialogAccess = document.getElementById("access-controls");
+ buttonNavMain = document.getElementById( "button-nav-main" ),
+ navMain = document.getElementById( "nav-main" ),
+ buttonsSubmenu = navMain.getElementsByClassName( "button-submenu" ),
+ mainWrap = document.getElementById( "main-wrapper" ),
+ drawDark = document.getElementById( "draw-dark" ),
+ buttonAccess = document.getElementById( "button-settings-accessibility" ),
+ dialogAccess = document.getElementById( "access-controls" );
+
 
  /// Set Cookie Settings: 1. dark/bright, 2. default/larger/largest
-
- function set_cookie ( theme_value, font_value, show_content_value, lifespan_in_days, valid_domain )
+ function set_cookie( theme_value, font_value, show_content_value, lifespan_in_days, valid_domain )
  {
   // https://www.thesitewizard.com/javascripts/cookies.shtml (Thank youuu)
-  var domain_string = valid_domain ? ("; domain=" + valid_domain) : '' ;
+  var domain_string = valid_domain ? ( "; domain=" + valid_domain) : '';
   document.cookie = "theme" + "=" + encodeURIComponent( theme_value ) +
    "; max-age=" + 60 * 60 * 24 * lifespan_in_days +
    "; path=/" + domain_string ;
@@ -48,28 +50,29 @@ MS.App = ( function()
    "; path=/" + domain_string ;
  }
 
- /// Get Cookie once you reload.
 
+ /// Get Cookie once you reload.
  function get_cookie( cookie_name )
  {
   // https://www.thesitewizard.com/javascripts/cookies.shtml
   var cookie_string = document.cookie;
-  if (cookie_string.length != 0)
+  if( cookie_string.length != 0 )
   {
    var cookie_array = cookie_string.split( '; ' );
-   for (i = 0 ; i < cookie_array.length ; i++)
+   for( i = 0; i < cookie_array.length; i++ )
    {
-    cookie_value = cookie_array[i].match ( cookie_name + '=(.*)' );
-    if (cookie_value != null) {
-      return decodeURIComponent( cookie_value[1] );
+    cookie_value = cookie_array[ i ].match( cookie_name + '=(.*)' );
+    if (cookie_value != null)
+    {
+     return decodeURIComponent( cookie_value[ 1 ] );
     }
    }
   }
-  return '' ;
+  return '';
  }
 
- /// Site settings, set by cookies and forms.
 
+ /// Site settings, set by cookies and forms.
  function setSiteSettings( theme, fontsize, showcontent )
  {
   document.body.className = theme;
@@ -77,44 +80,43 @@ MS.App = ( function()
   document.getElementById("marker").className = showcontent;
  }
 
- /// Focus after a small timer.
 
- function focusDelay(me)
+ /// Focus after a small timer.
+ function focusDelay( me )
  {
-  setTimeout( function()
-  {
-   me.focus();
-  }, 100 );
+  setTimeout( function(){ me.focus(); }, 100 );  // For readability.
  }
 
- /// Scroll Disabling
 
- function preventDefault(e)
+ /// Scroll Disabling (mouse)
+ function preventDefault( e )
  {
   e = e || window.event;
-  if (e.preventDefault)
-      e.preventDefault();
+  if( e.preventDefault )
+  {
+   e.preventDefault();
+  }
   e.returnValue = false;
  }
- function preventDefaultForScrollKeys(e)
- {
-  if(keysScroll[e.keyCode])
+ function preventDefaultForScrollKeys( e )
+ { /// Keyboard
+  if( keysScroll[ e.keyCode ] )
   {
    preventDefault(e);
    return false;
   }
  }
  function enableScroll()
- {
+ { /// Re-enabling scroll
   document.onkeydown = null;
  }
  function disableScroll()
- {
-  document.onkeydown  = preventDefaultForScrollKeys;
+ { /// Re-enabling keys
+  document.onkeydown = preventDefaultForScrollKeys;
  }
 
- /// Tabindex and ARIA-Hidden
 
+ /// Tabindex and ARIA-Hidden
  function enableAccess( this_tag )
  {
   this_tag.removeAttribute("tabindex");
@@ -129,25 +131,25 @@ MS.App = ( function()
  {
   for( var i = 0; i < this_tag.children.length; i++ )
   {
-   enableAccess(this_tag.children[i].children[0]);
+   enableAccess( this_tag.children[ i ].children[ 0 ] );
   }
  }
  function disableSubmenuAccess(this_tag)
  {
   for( var i = 0; i < this_tag.children.length; i++ )
   {
-   disableAccess(this_tag.children[i].children[0]);
+   disableAccess( this_tag.children[ i ].children[ 0 ] );
   }
  }
  function enableAllAccess()
  { // Links lose their tabIndex="-1" thing.
   enableAccess(navMain);
-  var listChildren = navMain.children[1].children;
+  var listChildren = navMain.children[ 1 ].children;
   for( var i = 0; i < listChildren.length; i++ )
   {
-   var childButton = listChildren[i].children[0];
+   var childButton = listChildren[ i ].children[ 0 ];
    enableAccess(childButton);
-   if(listChildren[i].classList.contains("submenu-li"))
+   if( listChildren[ i ].classList.contains( "submenu-li" ) )
    {
     let sibUL = childButton.nextElementSibling;
     enableSubmenuAccess( sibUL );
@@ -157,18 +159,19 @@ MS.App = ( function()
  function disableAllAccess()
  { // Links lose their tabIndex="-1" thing.
   disableAccess(navMain);
-  var listChildren = navMain.children[1].children;
+  var listChildren = navMain.children[ 1 ].children;
   for( var i = 0; i < listChildren.length; i++ )
   {
-   var childButton = listChildren[i].children[0];
+   var childButton = listChildren[ i ].children[ 0 ];
    disableAccess(childButton);
-   if(listChildren[i].classList.contains("submenu-li"))
+   if( listChildren[ i ].classList.contains( "submenu-li" ) )
    {
     let sibUL = childButton.nextElementSibling;
-    disableSubmenuAccess( sibUL );
+    disableSubmenuAccess(sibUL);
    }
   }
  }
+
 
  /// Opening/Closing Navigation
  function moveButtonIn()
@@ -181,7 +184,6 @@ MS.App = ( function()
   document.getElementById("nav-button-open").removeChild(buttonNavMain);
   document.getElementById("nav-button").appendChild(buttonNavMain);
  }
-
  function openNavMain()
  {
   drawDark.className = "open";
@@ -190,9 +192,9 @@ MS.App = ( function()
   buttonNavMain.setAttribute( 'aria-label', 'Close the menu ' );
   disableScroll();
   enableAllAccess();
-  focusDelay(navMain.children[1].children[0].children[0]);
+  focusDelay( navMain.children[ 1 ].children[ 0 ].children[ 0 ] );
   moveButtonIn();
-  navMain.children[1].children[0].children[0].focus();
+  navMain.children[ 1 ].children[ 0 ].children[ 0 ].focus();
  }
  function closeNavMain()
  {
@@ -201,7 +203,7 @@ MS.App = ( function()
    return;
   }
   let openedElements = Array.prototype.slice.call(
-                        navMain.getElementsByClassName("open") );
+                        navMain.getElementsByClassName( "open" ) );
   for( let i of openedElements )
   {
    i.classList.remove("open");
@@ -215,8 +217,8 @@ MS.App = ( function()
   moveButtonOut();
  }
 
- /// Is child a descendent of parent?
 
+ /// Is child a descendent of parent?
  function isDescendent( parent, child )
  {
   var node = child.parentNode;
@@ -231,16 +233,16 @@ MS.App = ( function()
   return false;
  }
 
- /// Are we focused on something in the menu?
 
+ /// Are we focused on something in the menu?
  function isNavFocused()
  {
   return isDescendent( navMain, document.activeElement );
  }
 
- /// Wait, you mean INNERTEXT ISN'T CROSS-BROWSER, YET?!
 
- function retrieveText(elem)
+ /// Wait, you mean INNERTEXT ISN'T CROSS-BROWSER, YET?!
+ function retrieveText( elem )
  {
   if( typeof elem.textContent != null )
   {
@@ -249,16 +251,16 @@ MS.App = ( function()
   return elem.innerText;
  }
 
- /// Toggle Opening/Closing of Submenus
 
- function openSubmenu(submenu)
+ /// Toggle Opening/Closing of Submenus
+ function openSubmenu( submenu )
  {
   submenu.classList.add("open");
   enableSubmenuAccess(submenu.nextElementSibling);
-  var toFocus = submenu.nextElementSibling.children[0].children[0];
+  var toFocus = submenu.nextElementSibling.children[ 0 ].children[ 0 ];
   toFocus.focus();
  }
- function closeSubmenu(submenu)
+ function closeSubmenu( submenu )
  {
   submenu.classList.remove("open");
   disableSubmenuAccess(submenu.nextElementSibling);
@@ -274,9 +276,9 @@ MS.App = ( function()
    }
   }
  }
- function toggleSubmenu(submenu)
+ function toggleSubmenu( submenu )
  {
-  if(submenu.classList.contains("open"))
+  if( submenu.classList.contains( "open" ) )
   {
    closeSubmenu(submenu);
    submenu.setAttribute( 'aria-label', 'Open the ' + retrieveText(submenu) + ' sub-menu' );
@@ -288,14 +290,14 @@ MS.App = ( function()
   }
  }
 
- /// Events
 
+ /// Events
  function evtClickButtonSubmenu()
  {
   closeAllSubmenus();
   toggleSubmenu(this);
  }
- function evtClickButtonNavMain(event)
+ function evtClickButtonNavMain( event )
  {
   if( this.className == "open" )
   {
@@ -308,30 +310,32 @@ MS.App = ( function()
   }
  }
 
+
  function closeDialogAccess()
  {
   drawDark.classList.remove("config");
   dialogAccess.classList.remove("open");
   disableAccess(dialogAccess);
   // Do the same for all selects and buttons in dialogAccess
-  var buttonsDialogAccess = dialogAccess.getElementsByTagName("button");
-  buttonsDialogAccess = Array.prototype.slice.call(buttonsDialogAccess);
-  var selectsDialogAccess = dialogAccess.getElementsByTagName("select");
-  selectsDialogAccess = Array.prototype.slice.call(selectsDialogAccess);
+  var buttonsDialogAccess = dialogAccess.getElementsByTagName( "button" );
+  buttonsDialogAccess = Array.prototype.slice.call( buttonsDialogAccess );
+  var selectsDialogAccess = dialogAccess.getElementsByTagName( "select" );
+  selectsDialogAccess = Array.prototype.slice.call( selectsDialogAccess );
   for( var i = 0; i < buttonsDialogAccess.length; i++ )
   {
-   disableAccess(buttonsDialogAccess[i]);
+   disableAccess( buttonsDialogAccess[ i ] );
   }
   for( var i = 0; i < selectsDialogAccess.length; i++  )
   {
-   disableAccess(selectsDialogAccess[i]);
+   disableAccess( selectsDialogAccess[ i ] );
   }
-  dialogAccess.children[0].setAttribute( "tabindex", "-1" );
+  dialogAccess.children[ 0 ].setAttribute( "tabindex", "-1" );
   flagDialogAccess = false;
   buttonAccess.focus();
  }
 
- function evtKeyUpGlobal(event)
+
+ function evtKeyUpGlobal( event )
  {
   if( flagDialogAccess )
   {
@@ -344,11 +348,7 @@ MS.App = ( function()
   {
    closeAllSubmenus();
   }
-  else if( document.activeElement == buttonNavMain )
-  {
-   ; // We will look at this in a bit.
-  }
-  else
+  else if( document.activeElement != buttonNavMain )
   {
    if( navMain.className == "open" )
    {
@@ -372,10 +372,11 @@ MS.App = ( function()
  function evtBlurLastNav()
  {
   var lastNav = this;
-  setTimeout( function(){
+  setTimeout( function()
+  {
    if( isNavFocused() == false )
    {
-    if( lastNav.classList.contains("open") == false )
+    if( lastNav.classList.contains( "open" ) == false )
     {
      closeNavMain();
      lastFocused.focus();
@@ -384,7 +385,7 @@ MS.App = ( function()
   }, 100 );
  }
 
- function evtBlurAccessExit(event)
+ function evtBlurAccessExit( event )
  {
   setTimeout( function()
   {
@@ -400,7 +401,7 @@ MS.App = ( function()
  }
  function evtClickDarkDraw()
  {
-  if( this.classList.contains("config") )
+  if( this.classList.contains( "config" ) )
   {
    closeDialogAccess();
   }
@@ -414,22 +415,22 @@ MS.App = ( function()
   dialogAccess.classList.add("open");
   drawDark.classList.add("config");
   enableAccess(dialogAccess);
-  var buttonsDialogAccess = dialogAccess.getElementsByTagName("button");
-  buttonsDialogAccess = Array.prototype.slice.call(buttonsDialogAccess);
-  var selectsDialogAccess = dialogAccess.getElementsByTagName("select");
-  selectsDialogAccess = Array.prototype.slice.call(selectsDialogAccess);
+  var buttonsDialogAccess = dialogAccess.getElementsByTagName( "button" );
+  buttonsDialogAccess = Array.prototype.slice.call( buttonsDialogAccess );
+  var selectsDialogAccess = dialogAccess.getElementsByTagName( "select" );
+  selectsDialogAccess = Array.prototype.slice.call( selectsDialogAccess );
   for( var i = 0; i < buttonsDialogAccess.length; i++ )
   {
-   enableAccess(buttonsDialogAccess[i]);
+   enableAccess( buttonsDialogAccess[ i ] );
   }
   for( var i = 0; i < selectsDialogAccess.length; i++  )
   {
-   enableAccess(selectsDialogAccess[i]);
+   enableAccess( selectsDialogAccess[ i ] );
   }
-  dialogAccess.children[0].setAttribute( "tabindex", "0" );
+  dialogAccess.children[ 0 ].setAttribute( "tabindex", "0" );
   // Do the same for all selects and buttons in dialogAccess
   flagDialogAccess = true;
-  dialogAccess.children[0].focus();
+  dialogAccess.children[ 0 ].focus();
  }
  function evtClickButtonSave()
  {
@@ -447,10 +448,10 @@ MS.App = ( function()
    document.getElementById("font-size").value,
    z
   ];
-  setSiteSettings( options[0], options[1], options[2] );
-  set_cookie( options[0], options[1], options[2], 30, "studygamedev.com" );
+  setSiteSettings( options[ 0 ], options[ 1 ], options[ 2 ] );
+  set_cookie( options[ 0 ], options[ 1 ], options[ 2 ], 30, "studygamedev.com" );
  }
- function evtKeyButton(event)
+ function evtKeyButton( event )
  {
   if( event.keyCode == 32 )
   {
@@ -473,8 +474,8 @@ MS.App = ( function()
   {
    closeNavMain();
   }
-  document.getElementById("welcome").className = "hidden";
-  targ = targ.getElementsByTagName("button")[0];
+  document.getElementById( "welcome" ).className = "hidden";
+  targ = targ.getElementsByTagName( "button" )[ 0 ];
   targ.focus();
  }
  // handleMenuClick() is not necessary, it can be removed from this code.
