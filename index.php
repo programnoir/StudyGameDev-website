@@ -468,6 +468,8 @@
  </main>
  <div id="loading-bar" loading="0"></div>
  <button type="button" id="button-generate-code" aria-label="Open the dialog for generating content codes" aria-controls="gen-code" aria-haspopup="menu">Make<br/>Code</button>
+ <script defer type="text/javascript" src="./taffy-min.js"></script>
+ <script defer type="text/javascript" src="./db-init.js"></script>
  <script defer type="text/javascript" src="./awesome-menu.js"></script>
  <script defer type="text/javascript" src="./section-toggle.js"></script>
  <script defer type="text/javascript" src="./db.js"></script>

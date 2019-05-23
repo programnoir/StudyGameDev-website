@@ -14,19 +14,19 @@ function setText( elem, mode )
  elem.setAttribute( "aria-label", mode );
 }
 
-function toggleLC(lc)
+function toggleLC( lc )
 {
  var elem, txt;
- if( lc.classList.contains("open") )
+ if( lc.classList.contains( "open" ) )
  {
   lc.classList.remove("open");
-  if( lc.classList.contains("bc") )
+  if( lc.classList.contains( "bc" ) )
   {
    lc.parentNode.classList.remove("open");
   }
-  else if( lc.classList.contains("xc") )
+  else if( lc.classList.contains( "xc" ) )
   {
-   lc = lc.getElementsByClassName("bc")[0];
+   lc = lc.getElementsByClassName( "bc" )[ 0 ];
    lc.classList.remove("open");
   }
   txt = "Expand";
@@ -34,18 +34,18 @@ function toggleLC(lc)
  else
  {
   lc.classList.add("open");
-  if( lc.classList.contains("bc") )
+  if( lc.classList.contains( "bc" ) )
   {
    lc.parentNode.classList.add("open");
   }
-  else if( lc.classList.contains("xc") )
+  else if( lc.classList.contains( "xc" ) )
   {
-   lc = lc.getElementsByClassName("bc")[0];
+   lc = lc.getElementsByClassName( "bc" )[ 0 ];
    lc.classList.add("open");
   }
   txt = "Collapse";
  }
- if( lc.classList.contains("bc") )
+ if( lc.classList.contains( "bc" ) )
  {
   setText( lc, txt );
  }
@@ -55,21 +55,21 @@ function toggleLC(lc)
  }
 }
 
-function handleKeyUpLC(event)
+function handleKeyUpLC( event )
 {
- if( keysConfirm[event.keyCode] )
+ if( keysConfirm[ event.keyCode ] )
  {
-  var curNode = document.activeElement.nodeName;
-  if( curNode != "A" )
+  var node_current = document.activeElement.nodeName;
+  if( node_current != "A" )
   {
    toggleLC(this);
   }
  }
 }
-function handleClickLC(event)
+function handleClickLC( event )
 {
- var curNode = event.target.nodeName;
- if( curNode != "SPAN" && curNode != "A" )
+ var node_current = event.target.nodeName;
+ if( node_current != "SPAN" && node_current != "A" )
  {
   toggleLC(this);
  }
@@ -92,7 +92,7 @@ function isTriggerXC( me )
    me = me.parentNode;
   }
   me = me.getElementsByTagName( "section" )[ 0 ];
-  me = me.getElementsByTagName( "div")[0];
+  me = me.getElementsByTagName( "div" )[ 0 ];
   me.focus();
  }
  else
@@ -100,18 +100,18 @@ function isTriggerXC( me )
   me.focus();
  }
 }
-function handleClickXC(event)
+function handleClickXC( event )
 {
  isTriggerXC(event.target);
 }
-function handleKeyUpXC(event)
+function handleKeyUpXC( event )
 {
  if( keysConfirm[ event.keyCode ] )
  {
   isTriggerXC(document.activeElement);
  }
 }
-function handleClickBC(event)
+function handleClickBC( event )
 {
  toggleLC(this);
 }

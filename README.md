@@ -18,6 +18,7 @@ StudyGameDev is a relatively simple website project, facilitating the use of HTM
 
 ## Licenses
 * This version of jQuery is under the [MIT license](https://tldrlegal.com/license/mit-license). For more information, visit https://jquery.org/license/
+* This version of Taffy DB is under the [MIT license](https://tldrlegal.com/license/mit-license).
 * The font licenses (Open Font License) for ABeeZee and Oswald are contained within the font directory.
 
 # How a Beginner Can Contribute to StudyGameDev.com
