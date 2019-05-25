@@ -70,8 +70,20 @@ function addNewXC( import_d, import_i, import_terms )
  xc.appendChild( s );
 
  import_d.appendChild(xc);
- /// Attach event listeners?
  return import_i + 1;
+}
+
+
+function addNewTopic( node_id, node_text )
+{
+ var d = document.createElement('div');
+ d.className = "topic";
+ d.id = node_id;
+ var dh2 = document.createElement('h2');
+ dh2.appendChild( document.createTextNode( node_text ) );
+ d.appendChild(dh2);
+ document.getElementById( "main-content" ).appendChild( d );
+ return d;
 }
 
 /* Someone very kind has provided a basic way to do this.
@@ -221,14 +233,8 @@ function populateTopicsBySection( node_selected )
  var i = 0;
 
  /// Create the topic element.
- var d = document.createElement('div');
- d.className = "topic";
- d.id = node_selected;
- var dh2 = document.createElement('h2');
  var h2Text = db_topics( { "topic_id" : node_selected } ).first().topic;
- dh2.appendChild( document.createTextNode( h2Text ) );
- d.appendChild(dh2);
- document.getElementById( "main-content" ).appendChild( d );
+ var d = addNewTopic( node_selected, h2Text );
 
  doHeavyTask(
   {

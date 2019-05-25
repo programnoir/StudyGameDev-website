@@ -4,14 +4,34 @@ var string_search = "";
 var timer = null;
 
 
+function beginNewSearch()
+{
+ /// The idea here is to preserve the active section and then gradually
+ //   add topics and search results to a
+ node_saved_section = document.getElementsByClassName( "topic" )[0].id;
+
+ /// To-do: Populate search results.
+}
+
+
 /// Called when the search box is empty.
 function revertState()
 {
  // First, we eliminate all resource nodes.
- removeResourceNodes();
+ eraseEventListeners(); // Erases event listeners and resource nodes.
 
  // Next, we check if we have saved a section.
  // If there is one, we load that node.
+ if( node_saved_section == null )
+ {
+  return;
+ }
+ setTimeout( function()
+ {
+  populateTopicsBySection( node_saved_section );
+  node_saved_section = null;
+  document.getElementsByClassName( "topic" )[0].classList.add("show");
+ }, 26 );
 }
 
 /// handleSearchInput is the main processor of the search functions.
@@ -32,7 +52,7 @@ function handleSearchInput()
  // Otherwise, we need to check the timer. If it is null, we start one.
  if( timer != null )
  {
-  clearTimeout(timer);
+  clearTimeout(timer); // Only counts down until we have a search result.
  }
 
  timer = setTimeout( beginNewSearch, 2000 );
