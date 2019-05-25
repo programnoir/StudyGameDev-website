@@ -8,6 +8,7 @@ var refs = TAFFY([]);
 var total_tasks = 0;
 var bar_width = 0;
 var current = 0;
+var interrupt_flag = false;
 
 /// Remove node
 function removeElement( node )
@@ -53,6 +54,26 @@ function addNewModule()
  increaseLoadingBar();
 }
 
+
+function addNewXC( import_d, import_i, import_terms )
+{
+ var xc = document.createElement('div');
+ var b = document.createElement('button');
+ var s = document.createElement('section');
+ xc.className = "xc";
+ b.className = "bc";
+ b.setAttribute( "type", "button" );
+ b.setAttribute( "aria-label", "Expand description" );
+ b.appendChild( document.createTextNode( import_terms[ import_i ][ 1 ] ) );
+ s.id = import_terms[ import_i ][ 0 ];
+ xc.appendChild( b );
+ xc.appendChild( s );
+
+ import_d.appendChild(xc);
+ /// Attach event listeners?
+ return import_i + 1;
+}
+
 /* Someone very kind has provided a basic way to do this.
 https://stackoverflow.com/questions/41366438/how-to-output-to-console-in-real-time-in-javascript
 */
@@ -80,7 +101,7 @@ function doHeavyTask( params )
  var totalTasks = params.totalTasks;
  var tasksPerTick = params.tasksPerTick;
  var tasksCompleted = 0;
- var totalTicks = Math.ceil(totalTasks / tasksPerTick);
+ var totalTicks = Math.ceil( totalTasks / tasksPerTick );
  var interval = null;
 
  current = 0;
@@ -101,8 +122,12 @@ function doHeavyTask( params )
    params.task( tasksCompleted++ );
   } while( tasksCompleted < totalByEndOfTick );
 
-  if( tasksCompleted >= totalTasks )
+  if( tasksCompleted >= totalTasks || interrupt_flag )
   {
+   if( interrupt_flag == false )
+   {
+    params.taskUponCompletion();
+   }
    clearInterval(interval);
   }
  };
@@ -110,23 +135,9 @@ function doHeavyTask( params )
  doTick();
  if( totalTicks > 1 )
  {
-  interval = setInterval(doTick, totalMillisAllotted / totalTicks);
+  interval = setInterval( doTick, totalMillisAllotted / totalTicks );
  }
 }
-
-// We do a function call
-/*doHeavyTask(
- { // And supply a bunch of arguments in the form of an object.
-  totalMillisAllotted: 0.5 * 1000,
-  totalTasks: total_tasks,
-  tasksPerTick: 1,
-  task: function() // In here we attach a function.
-  {
-   addNewModule();
-  }
- }
-);
-*/
 
 /// Iterate through actively opened elements and destroy all nodes.
 function removeResourceNodes()
@@ -142,7 +153,7 @@ function removeResourceNodes()
 
 
 /// Populate the refs object according to section (handled by menu clicks)
-function populate_refs_by_section( terms )
+function populateRefsWithResourcesBySection( terms )
 {
  for( var i = 0; i < terms.length; i++ )
  {
@@ -157,36 +168,109 @@ function populate_refs_by_section( terms )
  }
 }
 
+function addAllEventListeners()
+{
+ var group_class_xc = document.getElementsByClassName("xc");
+ for( var j = 0; j < group_class_xc.length; j++ )
+ {
+  group_class_xc[ j ].addEventListener( "click", handleClickXC, false );
+  group_class_xc[ j ].addEventListener( "keyup", handleKeyUpXC, false );
+ }
+ var group_class_bc = document.getElementsByClassName("bc");
+ for( var j = 0; j < group_class_bc.length; j++ )
+ {
+  setText( group_class_bc[ j ], "Expand" );
+  group_class_bc[ j ].addEventListener( "click", handleClickBC, false );
+ }
+}
+
 /// TODO: Each button click in awesome menu needs a function to gather the sections under an ID
 function getListOfSections( node_selected )
 {
- var queryString = "#" + node_selected + " section";
- var group_tag_section = document.querySelectorAll( queryString );
- var search_terms = [];
- for( var i = 0; i < group_tag_section.length; i++ )
- {
-  search_terms[ i ] = group_tag_section[ i ].id;
- }
- return search_terms;
+ return db_topics( { "topic_id" : node_selected } ).first().topic_array;
 }
 
-
-function populateByMenuClick( node_selected )
+function populateResourcesIntoTopic( node_selected )
 {
+ interrupt_flag = false;
  var terms = getListOfSections( node_selected );
- populate_refs_by_section(terms);
+ populateRefsWithResourcesBySection(terms);
  total_tasks = refs().count();
  doHeavyTask(
   { // And supply a bunch of arguments in the form of an object.
-   totalMillisAllotted: 0.5 * 1000,
+   totalMillisAllotted: 25,
    totalTasks: total_tasks,
    tasksPerTick: 1,
    task: function() // In here we attach a function.
    {
     addNewModule();
+   },
+   taskUponCompletion: function()
+   {
+    addAllEventListeners();
    }
   }
  );
+}
+
+function populateTopicsBySection( node_selected )
+{
+ interrupt_flag = false;
+ var terms = getListOfSections( node_selected );
+ total_tasks = terms.length;
+ var i = 0;
+
+ /// Create the topic element.
+ var d = document.createElement('div');
+ d.className = "topic";
+ d.id = node_selected;
+ var dh2 = document.createElement('h2');
+ var h2Text = db_topics( { "topic_id" : node_selected } ).first().topic;
+ dh2.appendChild( document.createTextNode( h2Text ) );
+ d.appendChild(dh2);
+ document.getElementById( "main-content" ).appendChild( d );
+
+ doHeavyTask(
+  {
+   totalMillisAllotted: 25,
+   totalTasks: total_tasks,
+   tasksPerTick: 1,
+   task: function()
+   {
+    i = addNewXC( d, i, terms );
+   },
+   taskUponCompletion: function()
+   {
+    populateResourcesIntoTopic( node_selected );
+   }
+  }
+ );
+}
+
+function eraseEventListeners()
+{
+ var group_class_bc = document.getElementsByClassName("bc");
+ for( var j = 0; j < group_class_bc.length; j++ )
+ {
+  group_class_bc[ j ].removeEventListener( "click", handleClickBC, false );
+ }
+ for( var j = 0; j < group_class_xc.length; j++ )
+ {
+  group_class_xc[ j ].removeEventListener( "click", handleClickXC, false );
+  group_class_xc[ j ].removeEventListener( "keyup", handleKeyUpXC, false );
+ }
+ var group_class_topic = document.getElementsByClassName("topic");
+ for( var j = 0; j < group_class_topic.length; j++ )
+ {
+  removeElement( group_class_topic[ j ] );
+ }
+}
+
+function populateByMenuClick( node_selected )
+{
+ interrupt_flag = true; // First, cancel all existing timers.
+ eraseEventListeners();
+ setTimeout( populateTopicsBySection( node_selected ), 26 );
 }
 
 /*

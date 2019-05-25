@@ -28,6 +28,304 @@ Supplies
 
 // Initialize a global variable for the database itself.
 var db = TAFFY([]);
+var db_topics = TAFFY([]);
+
+/// Programming
+db_topics.insert( { "topic_id" : "prog-intro", "topic" : "An Introduction to Programming",
+"topic_array" : [
+   [ "prog-what-is", "What is Programming?" ],
+   [ "prog-IDEs", "Integrated Development Environments" ],
+   [ "prog-safety", "Programmer Safety" ],
+   [ "prog-utilties", "Programmer Utilities" ]
+  ]
+ } );
+db_topics.insert( { "topic_id" : "prog-c", "topic" : "The C Programming Language",
+ "topic_array" : [
+    [ "prog-c-books-references", "Books and References on C" ],
+   ]
+ } );
+db_topics.insert( { "topic_id" : "prog-lua", "topic" : "The Lua Programming Language",
+  "topic_array" : [
+     [ "prog-lua-books-references", "Books and References on Lua" ]
+    ]
+ } );
+db_topics.insert( { "topic_id" : "prog-eng-love2d", "topic" : "The Love2D Engine",
+ "topic_array" : [
+    [ "prog-love2d-engine-software", "Love2D Engine and Softwares" ],
+    [ "prog-love2d-engine-basics", "Basics of the Love2D Engine" ]
+   ]
+ } );
+
+
+
+/// Writing
+db_topics.insert( { "topic_id" : "writ-intro", "topic" : "Introduction and Fundamentals of Writing",
+  "topic_array" : [
+     [ "writ-intro-articles", "Introduction to Writing for Video Games" ],
+     [ "writ-software", "Software for Writing" ],
+     [ "writ-story-fundamentals", "Fundamentals of Storytelling" ]
+    ]
+ } );
+
+
+
+/// Sound Design
+db_topics.insert( { "topic_id" : "sd-intro", "topic" : "Introduction to Sound Design",
+   "topic_array" : [
+      [ "sd-intro-articles", "What is Sound Design?" ],
+      [ "sd-software", "Sound Design Software" ],
+      [ "sd-pros", "Sound Design Professionals" ],
+     ]
+ } );
+db_topics.insert( { "topic_id" : "sd-fundamentals", "topic" : "Fundamentals of Audio",
+   "topic_array" : [
+      [ "sd-fundamentals-full", "Full Courses on Audio Fundamentals" ]
+     ]
+ } );
+db_topics.insert( { "topic_id" : "sd-recording", "topic" : "Recording Techniques in Sound Design",
+   "topic_array" : [
+      [ "sd-recording-vocals", "Recording Vocals" ]
+     ]
+ } );
+db_topics.insert( { "topic_id" : "sd-processing", "topic" : "Processing Techniques in Sound Design",
+   "topic_array" : [
+      [ "sd-processing-vocals", "Processing Vocals" ]
+     ]
+ } );
+/// Music Production
+db_topics.insert( { "topic_id" : "mp-intro", "topic" : "Introduction to Music Production",
+   "topic_array" : [
+      [ "mp-what-is", "What is Music Production?" ],
+      [ "mp-musician-safety", "Musician Safety" ],
+      [ "mp-daws", "Digital Audio Workstations" ],
+      [ "mp-vsts", "VST Instruments for DAWs" ],
+     ]
+ } );
+db_topics.insert( { "topic_id" : "mp-music-theory", "topic" : "Music Theory",
+   "topic_array" : [
+      [ "mp-music-theory-courses", "Full Courses in Music Theory" ],
+     ]
+ } );
+db_topics.insert( { "topic_id" : "mp-tracking-stage", "topic" : "Tracking",
+   "topic_array" : [
+      [ "mp-tracking-what-is", "What is Tracking?" ],
+      [ "mp-tracking-advice", "Tracking Advice" ],
+      [ "mp-synthesis", "Synthesis" ],
+     ]
+ } );
+db_topics.insert( { "topic_id" : "mp-mixing-stage", "topic" : "Mixing and Mastering",
+   "topic_array" : [
+      [ "mp-mixing", "Mixing Advice" ],
+      [ "mp-mastering", "Mastering Advice" ],
+     ]
+ } );
+db_topics.insert( { "topic_id" : "mp-applications", "topic" : "Applications of Video Game Music",
+   "topic_array" : [
+      [ "mp-music-application", "Examples of Music Application" ],
+     ]
+ } );
+
+
+/// Art
+db_topics.insert( { "topic_id" : "art-intro", "topic" : "Introduction to Art",
+   "topic_array" : [
+      [ "art-what-is", "What is Art?" ],
+      [ "art-safety", "Artist Safety" ],
+      [ "art-artist-advice", "Artist Advice" ],
+      [ "art-raster-software", "Raster Art Software" ],
+      [ "art-vector-software", "Vector Art Software" ],
+      [ "art-software-assets", "Art Software Assets" ],
+      [ "art-software-techniques", "Art Software Techniques" ],
+      [ "art-databases", "Art Databases" ],
+     ]
+ } );
+db_topics.insert( { "topic_id" : "art-fundamentals-topic", "topic" : "Fundamentals of Art",
+   "topic_array" : [
+      [ "art-fundamentals", "Fundamentals of Art" ],
+     ]
+ } );
+db_topics.insert( { "topic_id" : "art-human-anatomy-topic", "topic" : "Human Anatomy",
+   "topic_array" : [
+      [ "art-human-anatomy", "Human Anatomy" ],
+      [ "art-human-skeleton", "Human Skeleton" ],
+      [ "art-human-head", "Human Head & Face" ],
+      [ "art-human-hairstyles", "Human Hairstyles" ],
+      [ "art-human-eyes", "Human Eyes" ],
+      [ "art-human-ears", "Human Ears" ],
+      [ "art-human-torso", "Human Torso" ],
+      [ "art-human-arms", "Human Arms" ],
+      [ "art-human-hands", "Human Hands" ],
+      [ "art-human-waist", "Human Waist & Lower" ],
+      [ "art-human-legs", "Human Legs" ],
+      [ "art-human-feet", "Human Feet" ],
+     ]
+ } );
+db_topics.insert( { "topic_id" : "art-drawing", "topic" : "References for Drawing Other Things",
+   "topic_array" : [
+      [ "art-draw-structures", "Drawing Structures" ],
+      [ "art-animals", "Drawing Animals" ],
+      [ "art-draw-materials", "Drawing Materials" ],
+      [ "art-nature", "Drawing Nature" ],
+      [ "art-weapons", "Drawing Weapons" ],
+      [ "art-effects", "Drawing Magic & Effects" ],
+     ]
+ } );
+db_topics.insert( { "topic_id" : "art-specializations", "topic" : "Specializations of Artists",
+   "topic_array" : [
+      [ "art-concept-artist", "Concept Artists" ],
+      [ "art-comic-artist", "Comic Book Artists" ],
+      [ "art-sprite-artist", "Pixel and Sprite Artists" ],
+      [ "art-storyboard-artist", "Storyboard Artists" ],
+     ]
+ } );
+db_topics.insert( { "topic_id" : "art-animation", "topic" : "2D Animation",
+   "topic_array" : [
+      [ "art-2d-animation", "2D Animation Collection" ],
+     ]
+ } );
+
+
+/// 3D Modelling
+db_topics.insert( { "topic_id" : "3d-intro", "topic" : "Introduction to 3D Modelling",
+   "topic_array" : [
+      [ "3d-what-is", "What is 3D Modelling?" ],
+      [ "3d-safety", "Artist Safety" ],
+      [ "3d-advice", "Artist Advice" ],
+      [ "3d-asset-software", "3D Asset Software" ],
+      [ "3d-software-assets", "Art Software Assets" ],
+     ]
+ } );
+db_topics.insert( { "topic_id" : "3d-softwares", "topic" : "Manuals, Advice, and Resources for 3D Software",
+   "topic_array" : [
+      [ "3d-blender", "Blender" ],
+      [ "3d-3dsmax", "3DS Max" ],
+      [ "3d-maya", "Maya" ],
+      [ "3d-free-textures", "Free Texture Sites" ],
+     ]
+ } );
+db_topics.insert( { "topic_id" : "3d-animation-topic", "topic" : "3D Animation",
+   "topic_array" : [
+      [ "3d-animation", "3D Animation Collection" ],
+     ]
+ } );
+
+
+/// Game Design
+db_topics.insert( { "topic_id" : "gd-intro", "topic" : "Introduction to Game Design",
+   "topic_array" : [
+      [ "gd-what-is", "What is Game Design?" ],
+      [ "gd-utilities", "Game Design Tools" ],
+      [ "gd-topic-channels", "Game Design Topic Channels" ],
+     ]
+ } );
+
+
+/// User Experience
+db_topics.insert( { "topic_id" : "ux-intro", "topic" : "Introduction to User Experience",
+   "topic_array" : [
+      [ "ux-what-is", "What is User Experience?" ],
+      [ "ux-websites", "Websites on UX Design" ],
+     ]
+ } );
+db_topics.insert( { "topic_id" : "ux-menus", "topic" : "User-Friendly Menus",
+   "topic_array" : [
+      [ "ux-menu-cases", "Case Studies: Menus" ],
+     ]
+ } );
+
+
+/// Quality Assurance
+db_topics.insert( { "topic_id" : "qa-intro", "topic" : "Introduction to Quality Assurance",
+   "topic_array" : [
+      [ "qa-what-is", "What is Quality Assurance?" ],
+     ]
+ } );
+
+
+/// Production & Project Management
+db_topics.insert( { "topic_id" : "ppm-intro", "topic" : "Introduction to Production and Project Management",
+   "topic_array" : [
+      [ "ppm-what-is", "What is a Producer and What is Project Management?" ],
+      [ "ppm-software", "Project Management Software" ],
+     ]
+ } );
+db_topics.insert( { "topic_id" : "ppm-documentation", "topic" : "Project Documentation",
+   "topic_array" : [
+      [ "ppm-design-docs", "Design Documents" ],
+     ]
+ } );
+
+
+/// Marketing
+db_topics.insert( { "topic_id" : "mkt-intro", "topic" : "Introduction to Marketing",
+   "topic_array" : [
+      [ "mkt-what-is", "What is Marketing?" ],
+     ]
+ } );
+db_topics.insert( { "topic_id" : "mkt-inbound", "topic" : "Inbound Marketing",
+   "topic_array" : [
+      [ "mkt-market-research", "Market Research" ],
+      [ "mkt-seo", "Search Engine Optimizaton (SEO) Basics" ],
+      [ "mkt-seo-mistakes", "Avoiding SEO Mistakes" ],
+      [ "mkt-seo-advanced", "Advanced Technical SEO Knowledge" ],
+      [ "mkt-seo-tools", "Tools for Search Engine Optimization" ],
+     ]
+ } );
+db_topics.insert( { "topic_id" : "mkt-outbound", "topic" : "Outbound Marketing",
+   "topic_array" : [
+      [ "mkt-unthical-practices", "Unethical Practices and Bad Marketing" ],
+      [ "mkt-asset-sales", "Asset Sales" ],
+     ]
+ } );
+
+
+/// Financial Management
+db_topics.insert( { "topic_id" : "fm-intro", "topic" : "Introduction to Financial Management",
+   "topic_array" : [
+      [ "fm-what-is", "What are Finances and What is Financial Management?" ],
+     ]
+ } );
+db_topics.insert( { "topic_id" : "fm-logistics-projections", "topic" : "Logistics and Projections",
+   "topic_array" : [
+      [ "fm-business-plan-templates", "Template Files for Business Plans" ],
+     ]
+ } );
+db_topics.insert( { "topic_id" : "fm-taxes", "topic" : "Business Taxes",
+   "topic_array" : [
+      [ "fm-business-taxes", "Small Business Taxes" ],
+     ]
+ } );
+
+
+/// Business Management & Law
+db_topics.insert( { "topic_id" : "bl-intro", "topic" : "Introduction to Business Management and Law",
+   "topic_array" : [
+      [ "bl-what-is", "What is Business Management and What Are My Legal Responsibilities?" ],
+     ]
+ } );
+db_topics.insert( { "topic_id" : "bl-start", "topic" : "Starting a Business",
+   "topic_array" : [
+      [ "bl-plans", "Business Plans" ],
+      [ "bl-permits", "Business IDs, Forms, and Permits" ],
+     ]
+ } );
+db_topics.insert( { "topic_id" : "bl-labor", "topic" : "Labor Laws and Employee Safety",
+   "topic_array" : [
+      [ "bl-labor-law", "Labor Laws" ],
+      [ "bl-labor-hiring", "Hiring and Getting Hired" ],
+      [ "bl-labor-safety", "Employee Safety" ],
+      [ "bl-labor-environments", "Employee Environments" ],
+     ]
+ } );
+
+/*
+db_topics.insert( { "topic_id" : "", "topic" : "",
+ "topic_array" : [
+    [ "", "" ]
+   ]
+ } );
+*/
+ //console.log( db_topics().first().topic_array[0][1] );
 
 /* This template is used when making a database entry.
 db.insert( { "section" : "", "tagName" : "", "tagColor": "",

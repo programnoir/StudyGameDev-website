@@ -467,8 +467,6 @@ MS.App = ( function()
   ///
   var topics = document.getElementsByClassName("topic");
   var to = event.target.getAttribute( "to" );
-  var targ = document.getElementById( to );
-
   // In this part, we set all of the attributes appropriately.
   for( var i = 0; i < topics.length; i++ )
   {
@@ -479,14 +477,18 @@ MS.App = ( function()
   removeResourceNodes(); // Clear out nodes we are no longer using (reduce RAM usage)
   populateByMenuClick(to);
 
-  targ.classList.add("show");
-  if( navMain.className == "open" )
-  {
-   closeNavMain();
-  }
-  document.getElementById( "welcome" ).className = "hidden";
-  targ = targ.getElementsByTagName( "button" )[ 0 ];
-  targ.focus();
+  var this_timer = setTimeout( function(){
+   var targ = document.getElementById( to );
+   targ.classList.add("show");
+   if( navMain.className == "open" )
+   {
+    closeNavMain();
+   }
+   document.getElementById( "welcome" ).className = "hidden";
+   targ = targ.getElementsByTagName( "button" )[ 0 ];
+   targ.focus();
+
+ }, 26 ); // 5 to give enough of a buffer
  }
 
  function initApp()

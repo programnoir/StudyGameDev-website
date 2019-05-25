@@ -115,7 +115,7 @@ function handleClickBC( event )
 {
  toggleLC(this);
 }
-
+/*
 for( var i = 0; i < group_class_xc.length; i++ )
 {
  group_class_xc[ i ].addEventListener( "click", handleClickXC, false );
@@ -127,3 +127,4 @@ for( var i = 0; i < group_class_bc.length; i++ )
  setText( group_class_bc[i], "Expand" );
  group_class_bc[ i ].addEventListener( "click", handleClickBC, false );
 }
+*/

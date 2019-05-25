@@ -2,9 +2,9 @@
 <head>
  <title>Study Game Development</title>
  <link rel="canonical" href="https://www.studygamedev.com/" />
- <link rel="stylesheet" media="screen, speech" href="./style.css" />
  <link rel='shortlink' href='https://www.studygamedev.com/' />
  <meta charset="UTF-8"/>
+ <link rel="stylesheet" media="screen, speech" href="./style.css" />
  <meta name="description" content="Study game development online in fields such as programming, writing, sound effects, music, art, 3D models, design, user experience, quality assurance, production, marketing, finances, and management."/>
  <meta property="og:type" content="website" />
  <meta property="og:locale" content="en_US" />
@@ -243,208 +243,7 @@
  </form>
 
  <main id="main-wrapper" role="main">
-  <div id="main-content">
-
-   <div id="prog-intro" class="topic"><h2>An Introduction to Programming</h2>
-    <div class="xc"><button type="button" aria-label="Expand Description" class="bc">What is Programming?</button><section id="prog-what-is"><div class="lc">test</div></section></div>
-    <div class="xc"><button type="button" aria-label="Expand Description" class="bc">Integrated Development Environments</button><section id="prog-IDEs"></section></div>
-    <div class="xc"><button type="button" aria-label="Expand Description" class="bc">Programmer Safety</button><section id="prog-safety"></section></div>
-    <div class="xc"><button type="button" aria-label="Expand Description" class="bc">Programmer Utilities</button><section id="prog-utilties"></section></div>
-   </div>
-   <div id="prog-c" class="topic"><h2>The C Programming Language</h2>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">Books and References on C</button><section id="prog-c-books-references"></section></div>
-   </div>
-   <div id="prog-lua" class="topic"><h2>The Lua Programming Language</h2>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">Books and References on Lua</button><section id="prog-lua-books-references"></section></div>
-   </div>
-   <div id="prog-eng-love2d" class="topic"><h2>The Love2D Engine</h2>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">Love2D Engine and Softwares</button><section id="prog-love2d-engine-software"></section></div>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">Basics of the Love2D Engine</button><section id="prog-love2d-engine-basics"></section></div>
-   </div>
-
-
-   <div id="writ-intro" class="topic"><h2>Introduction and Fundamentals of Writing</h2>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">Introduction to Writing for Video Games</button><section id="writ-intro-articles"></section></div>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">Software for Writing</button><section id="writ-software"></section></div>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">Fundamentals of Storytelling</button><section id="writ-story-fundamentals"></section></div>
-   </div>
-
-
-   <div id="sd-intro" class="topic"><h2>Introduction to Sound Design</h2>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">What is Sound Design?</button><section id="sd-intro-articles"></section></div>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">Sound Design Software</button><section id="sd-software"></section></div>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">Sound Design Professionals</button><section id="sd-pros"></section></div>
-   </div>
-   <div id="sd-fundamentals" class="topic"><h2>Fundamentals of Audio</h2>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">Full Courses on Audio Fundamentals</button><section id="sd-fundamentals-full"></section></div>
-   </div>
-   <div id="sd-recording" class="topic"><h2>Recording Techniques in Sound Design</h2>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">Recording Vocals</button><section id="sd-recording-vocals"></section></div>
-   </div>
-   <div id="sd-processing" class="topic"><h2>Processing Techniques in Sound Design</h2>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">Processing Vocals</button><section id="sd-processing-vocals"></section></div>
-   </div>
-
-
-   <div id="mp-intro" class="topic"><h2>Introduction to Music Production</h2>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">What is Music Production?</button><section id="mp-what-is"></section></div>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">Musician Safety</button><section id="mp-musician-safety"></section></div>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">Digital Audio Workstations</button><section id="mp-daws"></section></div>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">VST Instruments for DAWs</button><section id="mp-vsts"></section></div>
-   </div>
-   <div id="mp-music-theory" class="topic"><h2>Music Theory</h2>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">Full Courses in Music Theory</button><section id="mp-music-theory-courses"></section></div>
-   </div>
-   <div id="mp-tracking-stage" class="topic"><h2>Tracking</h2>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">What is Tracking?</button><section id="mp-tracking-what-is"></section></div>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">Tracking Advice</button><section id="mp-tracking-advice"></section></div>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">Synthesis</button><section id="mp-synthesis"></section></div>
-   </div>
-   <div id="mp-mixing-stage" class="topic"><h2>Mixing and Mastering</h2>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">Mixing Advice</button><section id="mp-mixing"></section></div>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">Mastering Advice</button><section id="mp-mastering"></section></div>
-   </div>
-   <div id="mp-applications" class="topic"><h2>Applications of Video Game Music</h2>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">Examples of Music Application</button><section id="mp-music-application"></section></div>
-   </div>
-
-
-   <div id="art-intro" class="topic"><h2>Introduction to Art</h2>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">What is Art?</button><section id="art-what-is"></section></div>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">Artist Safety</button><section id="art-safety"></section></div>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">Artist Advice</button><section id="art-artist-advice"></section></div>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">Raster Art Software</button><section id="art-raster-software"></section></div>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">Vector Art Software</button><section id="art-vector-software"></section></div>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">Art Software Assets</button><section id="art-software-assets"></section></div>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">Art Software Techniques</button><section id="art-software-techniques"></section></div>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">Art Databases</button><section id="art-databases"></section></div>
-   </div>
-   <div id="art-fundamentals-topic" class="topic"><h2>Fundamentals of Art</h2>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">Fundamentals of Art</button><section id="art-fundamentals"></section></div>
-   </div>
-   <div id="art-human-anatomy-topic" class="topic"><h2>Human Anatomy</h2>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">Human Anatomy</button><section id="art-human-anatomy"></section></div>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">Human Skeleton</button><section id="art-human-skeleton"></section></div>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">Human Head & Face</button><section id="art-human-head"></section></div>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">Human Hairstyles</button><section id="art-human-hairstyles"></section></div>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">Human Eyes</button><section id="art-human-eyes"></section></div>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">Human Ears</button><section id="art-human-ears"></section></div>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">Human Torso</button><section id="art-human-torso"></section></div>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">Human Arms</button><section id="art-human-arms"></section></div>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">Human Hands</button><section id="art-human-hands"></section></div>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">Human Waist & Lower</button><section id="art-human-waist"></section></div>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">Human Legs</button><section id="art-human-legs"></section></div>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">Human Feet</button><section id="art-human-feet"></section></div>
-   </div>
-   <div id="art-drawing" class="topic"><h2>References for Drawing Other Things</h2>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">Drawing Structures</button><section id="art-draw-structures"></section></div>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">Drawing Animals</button><section id="art-animals"></section></div>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">Drawing Materials</button><section id="art-draw-materials"></section></div>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">Drawing Nature</button><section id="art-nature"></section></div>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">Drawing Weapons</button><section id="art-weapons"></section></div>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">Drawing Magic & Effects</button><section id="art-effects"></section></div>
-   </div>
-   <div id="art-specializations" class="topic"><h2>Specializations of Artists</h2>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">Concept Artists</button><section id="art-concept-artist"></section></div>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">Comic Book Artists</button><section id="art-comic-artist"></section></div>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">Pixel and Sprite Artists</button><section id="art-sprite-artist"></section></div>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">Storyboard Artists</button><section id="art-storyboard-artist"></section></div>
-   </div>
-   <div id="art-animation" class="topic"><h2>2D Animation</h2>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">2D Animation Collection</button><section id="art-2d-animation"></section></div>
-   </div>
-
-
-   <div id="3d-intro" class="topic"><h2>Introduction to 3D Modelling</h2>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">What is 3D Modelling?</button><section id="3d-what-is"></section></div>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">Artist Safety</button><section id="3d-safety"></section></div>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">Artist Advice</button><section id="3d-advice"></section></div>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">3D Asset Software</button><section id="3d-asset-software"></section></div>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">Art Software Assets</button><section id="3d-software-assets"></section></div>
-   </div>
-   <div id="3d-softwares" class="topic"><h2>Manuals, Advice, and Resources for 3D Software</h2>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">Blender</button><section id="3d-blender"></section></div>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">3DS Max</button><section id="3d-3dsmax"></section></div>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">Maya</button><section id="3d-maya"></section></div>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">Free Texture Sites</button><section id="3d-free-textures"></section></div>
-   </div>
-   <div id="3d-animation-topic" class="topic"><h2>3D Animation</h2>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">3D Animation Collection</button><section id="3d-animation"></section></div>
-   </div>
-
-
-   <div id="gd-intro" class="topic"><h2>Introduction to Game Design</h2>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">What is Game Design?</button><section id="gd-what-is"></section></div>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">Game Design Tools</button><section id="gd-utilities"></section></div>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">Game Design Topic Channels</button><section id="gd-topic-channels"></section></div>
-   </div>
-
-
-   <div id="ux-intro" class="topic"><h2>Introduction to User Experience</h2>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">What is User Experience?</button><section id="ux-what-is"></section></div>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">Websites on UX Design</button><section id="ux-websites"></section></div>
-   </div>
-   <div id="ux-menus" class="topic"><h2>User-Friendly Menus</h2>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">Case Studies: Menus</button><section id="ux-menu-cases"></section></div>
-   </div>
-
-
-   <div id="qa-intro" class="topic"><h2>Introduction to Quality Assurance</h2>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">What is Quality Assurance?</button><section id="qa-what-is"></section></div>
-   </div>
-
-
-   <div id="ppm-intro" class="topic"><h2>Introduction to Production and Project Management</h2>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">What is a Producer and What is Project Management?</button><section id="ppm-what-is"></section></div>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">Project Management Software</button><section id="ppm-software"></section></div>
-   </div>
-   <div id="ppm-documentation" class="topic"><h2>Project Documentation</h2>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">Design Documents</button><section id="ppm-design-docs"></section></div>
-   </div>
-
-
-   <div id="mkt-intro" class="topic"><h2>Introduction to Marketing</h2>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">What is Marketing?</button><section id="mkt-what-is"></section></div>
-   </div>
-   <div id="mkt-inbound" class="topic"><h2>Inbound Marketing</h2>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">Market Research</button><section id="mkt-market-research"></section></div>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">Search Engine Optimizaton (SEO) Basics</button><section id="mkt-seo"></section></div>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">Avoiding SEO Mistakes</button><section id="mkt-seo-mistakes"></section></div>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">Advanced Technical SEO Knowledge</button><section id="mkt-seo-advanced"></section></div>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">Tools for Search Engine Optimization</button><section id="mkt-seo-tools"></section></div>
-   </div>
-   <div id="mkt-outbound" class="topic"><h2>Outbound Marketing</h2>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">Unethical Practices and Bad Marketing</button><section id="mkt-unthical-practices"></section></div>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">Asset Sales</button><section id="mkt-asset-sales"></section></div>
-   </div>
-
-
-   <div id="fm-intro" class="topic"><h2>Introduction to Financial Management</h2>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">What are Finances and What is Financial Management?</button><section id="fm-what-is"></section></div>
-   </div>
-   <div id="fm-logistics-projections" class="topic"><h2>Logistics and Projections</h2>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">Template Files for Business Plans</button><section id="fm-business-plan-templates"></section></div>
-   </div>
-   <div id="fm-taxes" class="topic"><h2>Business Taxes</h2>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">Small Business Taxes</button><section id="fm-business-taxes"></section></div>
-   </div>
-
-
-   <div id="bl-intro" class="topic"><h2>Introduction to Business Management and Law</h2>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">What is Business Management and What Are My Legal Responsibilities?</button><section id="bl-what-is"></section></div>
-   </div>
-   <div id="bl-start" class="topic"><h2>Starting a Business</h2>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">Business Plans</button><section id="bl-plans"></section></div>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">Business IDs, Forms, and Permits</button><section id="bl-permits"></section></div>
-   </div>
-   <div id="bl-labor" class="topic"><h2>Labor Laws and Employee Safety</h2>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">Labor Laws</button><section id="bl-labor-law"></section></div>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">Hiring and Getting Hired</button><section id="bl-labor-hiring"></section></div>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">Employee Safety</button><section id="bl-labor-safety"></section></div>
-     <div class="xc"><button type="button" aria-label="Expand Description" class="bc">Employee Environments</button><section id="bl-labor-environments"></section></div>
-   </div>
-
-  </div>
+  <div id="main-content"></div>
   <div id="welcome">
    <h2>Study one of many fields of game development.</h2>
    <p>We list resources that explain topics of game development. Under each category, we try to arrange information in an academic order. There are a lot of resources to dive into, here, so let's get you started with a few recommended subjects.</p>
@@ -468,10 +267,10 @@
  </main>
  <div id="loading-bar" class="done" loading="0"></div>
  <button type="button" id="button-generate-code" aria-label="Open the dialog for generating content codes" aria-controls="gen-code" aria-haspopup="menu">Make<br/>Code</button>
+ <script defer type="text/javascript" src="./section-toggle.js"></script>
  <script defer type="text/javascript" src="./taffy-min.js"></script>
  <script defer type="text/javascript" src="./db-init.js"></script>
  <script defer type="text/javascript" src="./db-populate.js"></script>
- <script defer type="text/javascript" src="./section-toggle.js"></script>
  <script defer type="text/javascript" src="./awesome-menu.js"></script>
  <script defer type="text/javascript" src="./gencode.js"></script>
  <script defer type="text/javascript" src="./jquery-2.1.4.min.js"></script>
