@@ -6,6 +6,10 @@ var timer = null;
 
 function beginNewSearch()
 {
+ eraseEventListeners(); // Erases event listeners and resource nodes.
+ removeResourceNodes();
+ removeTopicNodes();
+ clearRefs();
  /// The idea here is to preserve the active section and then gradually
  //   add topics and search results to a
  node_saved_section = document.getElementsByClassName( "topic" );
@@ -21,7 +25,6 @@ function beginNewSearch()
  /// The tricky part is that I must first get results from the resources
  ///  and then acquire the matching sections before putting everything
  ///  in its place.
- eraseEventListeners();
  populateRefsWithResourcesBySearch( string_search );
 
  var array_of_sections = refs().distinct("section"); // This gets an array of refs sections.

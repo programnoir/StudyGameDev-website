@@ -185,9 +185,9 @@ function removeTopicNodes()
 {
  let openedElements = Array.prototype.slice.call(
                        document.getElementsByClassName( "topic" ) );
- for( let i of openedElements )
+ for( var i_r = openedElements.length - 1; i_r >= 0; i_r--  )
  {
-  removeElement(i);
+  removeElement( openedElements[i_r] );
  }
  openedElements = null;
 }
@@ -195,13 +195,13 @@ function removeTopicNodes()
 /// Iterate through actively opened elements and destroy all nodes.
 function removeResourceNodes()
 {
- let openedElements = Array.prototype.slice.call(
-                       document.getElementsByClassName( "lc" ) );
- for( let i of openedElements )
- {
-  removeElement(i);
- }
- openedElements = null;
+  let openedElements = Array.prototype.slice.call(
+                        document.getElementsByClassName( "lc" ) );
+  for( var i_r = openedElements.length - 1; i_r >= 0; i_r--  )
+  {
+   removeElement( openedElements[i_r] );
+  }
+  openedElements = null;
 }
 
 
