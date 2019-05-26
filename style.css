@@ -1,11 +1,12 @@
 /*
  User Interface Layout
  Layer 0: Body
- Layer 1: Body 2
- Layer 2: Dark Layer
- Layer 3: Drawer Menu
- Layer 4: Dark Layer .config
- Layer 5: Config Window
+ Layer 1: Above Content
+ Layer 2: Search bar
+ Layer 3: Dark Layer
+ Layer 4: Drawer Menu
+ Layer 5: Dark Layer .config
+ Layer 6: Config Window
 */
 
 /* Global */
@@ -74,6 +75,7 @@ header[role="banner"]
  height: 1.8rem;
  line-height: 1.5rem;
  vertical-align: top;
+ z-index: 1;
 }
 #global-title
 {
@@ -122,7 +124,7 @@ header[role="banner"]
  top: 0;
  left: calc( 13.5rem );
  right: 0;
- z-index: 1;
+ z-index: 2;
 }
 /* Navigation */
 #button-nav-main,
@@ -140,7 +142,7 @@ header[role="banner"]
  font-family: 'Oswald';
  text-transform: uppercase;
  cursor: pointer;
- z-index: 3;
+ z-index: 4;
  transition: all 200ms;
 }
 #button-nav-main::before
@@ -215,7 +217,7 @@ header[role="banner"]
  width: 0;
  max-width: 200px;
  overflow-y: auto;
- z-index: 3;
+ z-index: 4;
  transition: width 200ms;
 }
 #nav-main a,
@@ -244,7 +246,7 @@ header[role="banner"]
 #draw-dark
 {
  position: fixed;
- z-index: 2;
+ z-index: 3;
 }
 #access-controls
 {
@@ -259,7 +261,7 @@ header[role="banner"]
  padding: 1rem;
  box-shadow: 0 0 3px #000;
  overflow-y: auto;
- z-index: 5;
+ z-index: 6;
  transition: top 200ms;
 }
 #access-controls h2
@@ -551,7 +553,7 @@ section
 #draw-dark.config,
 #draw-dark.gen
 {
- z-index: 4;
+ z-index: 5;
 }
 /* Top Row */
 #search:focus:not(:placeholder-shown)
@@ -1107,7 +1109,7 @@ body.bright
  padding-top: 0.3rem;
  bottom: 0.2rem;
  left: 0.125rem;
- z-index: 0;
+ z-index: 1;
 }
 #button-generate-code:hover,
 #button-generate-code:focus
@@ -1133,7 +1135,7 @@ body.bright
  border-radius: 4px;
  box-shadow: 0 0 10px rgba( 0, 0, 0, 0.3 );
  padding: 10px;
- z-index: 5;
+ z-index: 6;
  transition: all 0.5s;
 }
 #gen-code p
@@ -1322,7 +1324,7 @@ body.bright
  background: green;
  text-align: right;
  color: #fff;
- z-index: 0;
+ z-index: 1;
 }
 #loading-bar.done
 {

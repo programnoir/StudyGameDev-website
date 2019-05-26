@@ -121,7 +121,7 @@ function handleSearchInput()
  // Compare the strings.
  var value_input_search = input_search.value.toLowerCase();
 
- if( value_input_search == string_search )
+ if( value_input_search == string_search || value_input_search.length < 4 )
  {
   return;
  }

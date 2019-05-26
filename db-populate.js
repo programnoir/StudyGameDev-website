@@ -319,8 +319,10 @@ function eraseEventListeners()
   group_class_xc[ j ].removeEventListener( "keyup", handleKeyUpXC, false );
  }
  var group_class_topic = document.getElementsByClassName("topic");
- for( var j = 0; j < group_class_topic.length; j++ )
+ console.log( group_class_topic.length );
+ for( var j = group_class_topic.length - 1; j >= 0 ; j-- )
  {
+  console.log( j );
   removeElement( group_class_topic[ j ] );
  }
 }
