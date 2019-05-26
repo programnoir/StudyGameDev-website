@@ -16,6 +16,10 @@ function removeElement( node )
  node.parentNode.removeChild(node);
 }
 
+function clearRefs()
+{
+ refs().remove();
+}
 
 /// Function for adding a new module using the refs entry.
 function addNewModule()
@@ -55,7 +59,7 @@ function addNewModule()
 }
 
 
-function addNewXC( import_d, import_i, import_terms )
+function addNewXC( buttonText, import_id )
 {
  var xc = document.createElement('div');
  var b = document.createElement('button');
@@ -64,12 +68,22 @@ function addNewXC( import_d, import_i, import_terms )
  b.className = "bc";
  b.setAttribute( "type", "button" );
  b.setAttribute( "aria-label", "Expand description" );
- b.appendChild( document.createTextNode( import_terms[ import_i ][ 1 ] ) );
- s.id = import_terms[ import_i ][ 0 ];
+ b.appendChild( document.createTextNode( buttonText ) );
+ s.id = import_id;
  xc.appendChild( b );
  xc.appendChild( s );
 
- import_d.appendChild(xc);
+ return xc;
+}
+
+function addNewXCFromMenuClick( import_d, import_i, import_terms )
+{
+ var bText = import_terms[ import_i ][ 1 ];
+ var idT = import_terms[ import_i ][ 0 ];
+
+ var xcNode = addNewXC( bText, idT );
+
+ import_d.appendChild(xcNode);
  return import_i + 1;
 }
 
@@ -198,10 +212,9 @@ function populateRefsWithResourcesBySearch( s )
     return true;
    }
    return false;
-  }).each( //,{"tagName":{like:s}},{"summary":{like:s}},{"details":{like:s}},{"url":{like:s}} ).each(
+  }).each(
   function( record, recordnumber )
   {
-   console.log( record["summary"] + " " + record[ "details" ] + " " + record[ "url" ] );
    addModuleToRef(record);
   }
  );
@@ -270,7 +283,7 @@ function populateTopicsBySection( node_selected )
    tasksPerTick: 1,
    task: function()
    {
-    i = addNewXC( d, i, terms );
+    i = addNewXCFromMenuClick( d, i, terms );
    },
    taskUponCompletion: function()
    {
@@ -278,6 +291,19 @@ function populateTopicsBySection( node_selected )
    }
   }
  );
+}
+
+function populateTopicsBySearch( node_selected )
+{
+ interrupt_flag = false;
+ var terms = getListOfSections( node_selected );
+ total_tasks = terms.length;
+ var i = 0;
+
+ /// Create the topic element.
+ var h2Text = db_topics( { "topic_id" : node_selected } ).first().topic;
+ var d = addNewTopic( node_selected, h2Text );
+
 }
 
 function eraseEventListeners()

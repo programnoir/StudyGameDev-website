@@ -16,13 +16,80 @@ function beginNewSearch()
  else
  {
   node_saved_section = document.getElementsByClassName( "topic" )[0].id;
-  console.log(node_saved_section);
  }
  /// To-do: Populate search results.
  /// The tricky part is that I must first get results from the resources
  ///  and then acquire the matching sections before putting everything
  ///  in its place.
  populateRefsWithResourcesBySearch( string_search );
+
+ var array_of_sections = refs().distinct("section"); // This gets an array of refs sections.
+
+  // Now I just need topics.
+ var array_of_topics = [];
+ var topic_index = 0;
+
+ for( var k = 0; k < array_of_sections.length; k++ )
+ {
+  var text_button = "";
+  var sec = array_of_sections[ k ];
+  var topic_selected = db_topics( function()
+   {
+    for( var z = 0; z < this.topic_array.length; z++ )
+    {
+     if( this.topic_array[ z ][ 0 ] == sec )
+     {
+      text_button = this.topic_array[ z ][ 1 ];
+      return true;
+     }
+    }
+    return false;
+   }
+  ).first();
+  var flagMadeTopicAlready = false;
+
+  // This groups the topics into one place.
+  for( var l = 0; l < array_of_topics.length; l++ )
+  {
+   if( array_of_topics[ l ] == topic_selected.topic )
+   {
+    l = array_of_sections.length;
+    flagMadeTopicAlready = true;
+   }
+  }
+
+  if( flagMadeTopicAlready == false )
+  {
+   array_of_topics[ topic_index ] = topic_selected.topic;
+   topic_index++;
+   populateTopicsBySearch( topic_selected.topic_id );
+   /// This populates all of the topics.
+   /// But I need to only populate the XCs that are needed.
+   /// I do however have an array of XCs.
+  }
+
+  var node_xc = addNewXC( text_button, array_of_sections[ k ] );
+  document.getElementById( topic_selected.topic_id ).appendChild( node_xc );
+
+ }
+
+ total_tasks = refs().count();
+ doHeavyTask(
+  { // And supply a bunch of arguments in the form of an object.
+   totalMillisAllotted: 25,
+   totalTasks: total_tasks,
+   tasksPerTick: 1,
+   task: function() // In here we attach a function.
+   {
+    addNewModule();
+   },
+   taskUponCompletion: function()
+   {
+    addAllEventListeners();
+   }
+  }
+ );
+
 }
 
 
@@ -31,7 +98,7 @@ function revertState()
 {
  // First, we eliminate all resource nodes.
  eraseEventListeners(); // Erases event listeners and resource nodes.
-
+ clearRefs();
  // Next, we check if we have saved a section.
  // If there is one, we load that node.
  if( node_saved_section == null )
