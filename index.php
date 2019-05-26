@@ -273,7 +273,6 @@
  <script defer type="text/javascript" src="./db-populate.js"></script>
  <script defer type="text/javascript" src="./awesome-menu.js"></script>
  <script defer type="text/javascript" src="./gencode.js"></script>
- <script defer type="text/javascript" src="./jquery-2.1.4.min.js"></script>
  <script defer type="text/javascript" src="./search.js"></script>
 </body>
 </html>
