@@ -13,7 +13,13 @@ var interrupt_flag = false;
 /// Remove node
 function removeElement( node )
 {
- node.parentNode.removeChild(node);
+ var range = document.createRange();
+ range.selectNodeContents(node);
+ range.deleteContents();
+ range = null;
+ var pN = node.parentNode;
+ pN.removeChild(node);
+ pN = null;
 }
 
 function clearRefs()
@@ -53,6 +59,12 @@ function addNewModule()
  d.appendChild( aa );
  d.appendChild( dp );
  document.getElementById( first_result.section ).appendChild( d );
+ // Remove references?
+ d = null;
+ first_result = null;
+ dp = null;
+ aa = null;
+ tg = null;
 
  refs().limit(1).remove();
  increaseLoadingBar();
@@ -72,6 +84,8 @@ function addNewXC( buttonText, import_id )
  s.id = import_id;
  xc.appendChild( b );
  xc.appendChild( s );
+ s = null;
+ b = null;
 
  return xc;
 }
@@ -97,6 +111,7 @@ function addNewTopic( node_id, node_text )
  dh2.appendChild( document.createTextNode( node_text ) );
  d.appendChild(dh2);
  document.getElementById( "main-content" ).appendChild( d );
+ dh2 = null;
  return d;
 }
 
@@ -166,15 +181,27 @@ function doHeavyTask( params )
 }
 
 /// Iterate through actively opened elements and destroy all nodes.
-function removeResourceNodes()
+function removeTopicNodes()
 {
- var main_content = document.getElementById( "main-content" );
  let openedElements = Array.prototype.slice.call(
-                       main_content.getElementsByClassName( "lc" ) );
+                       document.getElementsByClassName( "topic" ) );
  for( let i of openedElements )
  {
   removeElement(i);
  }
+ openedElements = null;
+}
+
+/// Iterate through actively opened elements and destroy all nodes.
+function removeResourceNodes()
+{
+ let openedElements = Array.prototype.slice.call(
+                       document.getElementsByClassName( "lc" ) );
+ for( let i of openedElements )
+ {
+  removeElement(i);
+ }
+ openedElements = null;
 }
 
 
@@ -201,6 +228,8 @@ function populateRefsWithResourcesBySection( terms )
 }
 
 
+
+
 /// Populate refs with results from search input string "s"
 function populateRefsWithResourcesBySearch( s )
 {
@@ -218,6 +247,8 @@ function populateRefsWithResourcesBySearch( s )
    addModuleToRef(record);
   }
  );
+
+
 }
 
 function addAllEventListeners()
@@ -234,6 +265,8 @@ function addAllEventListeners()
   setText( group_class_bc[ j ], "Expand" );
   group_class_bc[ j ].addEventListener( "click", handleClickBC, false );
  }
+ group_class_xc = null;
+ group_class_bc = null;
 }
 
 /// TODO: Each button click in awesome menu needs a function to gather the sections under an ID
@@ -287,13 +320,14 @@ function populateTopicsBySection( node_selected )
    },
    taskUponCompletion: function()
    {
+    d = null;
     populateResourcesIntoTopic( node_selected );
    }
   }
  );
 }
 
-function populateTopicsBySearch( node_selected )
+function prepareTopicBySearch( node_selected )
 {
  interrupt_flag = false;
  var terms = getListOfSections( node_selected );
@@ -302,8 +336,48 @@ function populateTopicsBySearch( node_selected )
 
  /// Create the topic element.
  var h2Text = db_topics( { "topic_id" : node_selected } ).first().topic;
- var d = addNewTopic( node_selected, h2Text );
+ addNewTopic( node_selected, h2Text );
+}
 
+function populateTopicsBySearch( k, i_tIndex, i_a_sections, i_a_topics )
+{
+ var text_button = "";
+ var sec = i_a_sections[ k ];
+ var topic_selected = db_topics( function()
+  {
+   for( var z = 0; z < this.topic_array.length; z++ )
+   {
+    if( this.topic_array[ z ][ 0 ] == sec )
+    {
+     text_button = this.topic_array[ z ][ 1 ];
+     return true;
+    }
+   }
+   return false;
+  }
+ ).first();
+ var flagMadeTopicAlready = false;
+
+ // This groups the topics into one place.
+ for( var l = 0; l < i_a_topics.length; l++ )
+ {
+  if( i_a_topics[ l ] == topic_selected.topic )
+  {
+   l = i_a_sections.length;
+   flagMadeTopicAlready = true;
+  }
+ }
+
+ if( flagMadeTopicAlready == false )
+ {
+  i_a_topics[ i_tIndex ] = topic_selected.topic;
+  i_tIndex++;
+  prepareTopicBySearch( topic_selected.topic_id );
+ }
+ var node_xc = addNewXC( text_button, i_a_sections[ k ] );
+ document.getElementById( topic_selected.topic_id ).appendChild( node_xc );
+
+ return { _k : k + 1, _t: i_tIndex };
 }
 
 function eraseEventListeners()
@@ -313,6 +387,7 @@ function eraseEventListeners()
  {
   group_class_bc[ j ].removeEventListener( "click", handleClickBC, false );
  }
+ var group_class_xc = document.getElementsByClassName("xc");
  for( var j = 0; j < group_class_xc.length; j++ )
  {
   group_class_xc[ j ].removeEventListener( "click", handleClickXC, false );
@@ -323,6 +398,9 @@ function eraseEventListeners()
  {
   removeElement( group_class_topic[ j ] );
  }
+ group_class_bc = null;
+ group_class_xc = null;
+ group_class_topic = null;
 }
 
 function populateByMenuClick( node_selected )
