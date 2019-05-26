@@ -21,6 +21,7 @@ function beginNewSearch()
  /// The tricky part is that I must first get results from the resources
  ///  and then acquire the matching sections before putting everything
  ///  in its place.
+ eraseEventListeners();
  populateRefsWithResourcesBySearch( string_search );
 
  var array_of_sections = refs().distinct("section"); // This gets an array of refs sections.
