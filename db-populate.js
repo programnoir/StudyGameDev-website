@@ -183,9 +183,9 @@ function doHeavyTask( params )
 /// Iterate through actively opened elements and destroy all nodes.
 function removeTopicNodes()
 {
- let openedElements = Array.prototype.slice.call(
+ var openedElements = Array.prototype.slice.call(
                        document.getElementsByClassName( "topic" ) );
- for( var i_r = openedElements.length - 1; i_r >= 0; i_r--  )
+ for( let i_r = openedElements.length - 1; i_r >= 0; i_r--  )
  {
   removeElement( openedElements[i_r] );
  }
@@ -195,13 +195,13 @@ function removeTopicNodes()
 /// Iterate through actively opened elements and destroy all nodes.
 function removeResourceNodes()
 {
-  let openedElements = Array.prototype.slice.call(
-                        document.getElementsByClassName( "lc" ) );
-  for( var i_r = openedElements.length - 1; i_r >= 0; i_r--  )
-  {
-   removeElement( openedElements[i_r] );
-  }
-  openedElements = null;
+ var openedElements = Array.prototype.slice.call(
+                       document.getElementsByClassName( "lc" ) );
+ for( let i_r = openedElements.length - 1; i_r >= 0; i_r--  )
+ {
+  removeElement( openedElements[i_r] );
+ }
+ openedElements = null;
 }
 
 
@@ -218,7 +218,7 @@ function addModuleToRef( i_record )
 /// Populate the refs object according to section (handled by menu clicks)
 function populateRefsWithResourcesBySection( terms )
 {
- for( var i = 0; i < terms.length; i++ )
+ for( let i = 0; i < terms.length; i++ )
  {
   db( { "section" : terms[ i ] } ).each( function( record, recordnumber )
   {
@@ -254,13 +254,13 @@ function populateRefsWithResourcesBySearch( s )
 function addAllEventListeners()
 {
  var group_class_xc = document.getElementsByClassName("xc");
- for( var j = 0; j < group_class_xc.length; j++ )
+ for( let j = 0; j < group_class_xc.length; j++ )
  {
   group_class_xc[ j ].addEventListener( "click", handleClickXC, false );
   group_class_xc[ j ].addEventListener( "keyup", handleKeyUpXC, false );
  }
  var group_class_bc = document.getElementsByClassName("bc");
- for( var j = 0; j < group_class_bc.length; j++ )
+ for( let j = 0; j < group_class_bc.length; j++ )
  {
   setText( group_class_bc[ j ], "Expand" );
   group_class_bc[ j ].addEventListener( "click", handleClickBC, false );
@@ -345,7 +345,7 @@ function populateTopicsBySearch( k, i_tIndex, i_a_sections, i_a_topics )
  var sec = i_a_sections[ k ];
  var topic_selected = db_topics( function()
   {
-   for( var z = 0; z < this.topic_array.length; z++ )
+   for( let z = 0; z < this.topic_array.length; z++ )
    {
     if( this.topic_array[ z ][ 0 ] == sec )
     {
@@ -359,7 +359,7 @@ function populateTopicsBySearch( k, i_tIndex, i_a_sections, i_a_topics )
  var flagMadeTopicAlready = false;
 
  // This groups the topics into one place.
- for( var l = 0; l < i_a_topics.length; l++ )
+ for( let l = 0; l < i_a_topics.length; l++ )
  {
   if( i_a_topics[ l ] == topic_selected.topic )
   {
@@ -383,18 +383,18 @@ function populateTopicsBySearch( k, i_tIndex, i_a_sections, i_a_topics )
 function eraseEventListeners()
 {
  var group_class_bc = document.getElementsByClassName("bc");
- for( var j = 0; j < group_class_bc.length; j++ )
+ for( let j = 0; j < group_class_bc.length; j++ )
  {
   group_class_bc[ j ].removeEventListener( "click", handleClickBC, false );
  }
  var group_class_xc = document.getElementsByClassName("xc");
- for( var j = 0; j < group_class_xc.length; j++ )
+ for( let j = 0; j < group_class_xc.length; j++ )
  {
   group_class_xc[ j ].removeEventListener( "click", handleClickXC, false );
   group_class_xc[ j ].removeEventListener( "keyup", handleKeyUpXC, false );
  }
  var group_class_topic = document.getElementsByClassName("topic");
- for( var j = group_class_topic.length - 1; j >= 0 ; j-- )
+ for( let j = group_class_topic.length - 1; j >= 0 ; j-- )
  {
   removeElement( group_class_topic[ j ] );
  }

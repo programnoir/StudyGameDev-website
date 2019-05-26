@@ -59,7 +59,7 @@ MS.App = ( function()
   if( cookie_string.length != 0 )
   {
    var cookie_array = cookie_string.split( '; ' );
-   for( i = 0; i < cookie_array.length; i++ )
+   for( let i = 0; i < cookie_array.length; i++ )
    {
     cookie_value = cookie_array[ i ].match( cookie_name + '=(.*)' );
     if (cookie_value != null)
@@ -129,14 +129,14 @@ MS.App = ( function()
  }
  function enableSubmenuAccess(this_tag)
  {
-  for( var i = 0; i < this_tag.children.length; i++ )
+  for( let i = 0; i < this_tag.children.length; i++ )
   {
    enableAccess( this_tag.children[ i ].children[ 0 ] );
   }
  }
  function disableSubmenuAccess(this_tag)
  {
-  for( var i = 0; i < this_tag.children.length; i++ )
+  for( let i = 0; i < this_tag.children.length; i++ )
   {
    disableAccess( this_tag.children[ i ].children[ 0 ] );
   }
@@ -145,7 +145,7 @@ MS.App = ( function()
  { // Links lose their tabIndex="-1" thing.
   enableAccess(navMain);
   var listChildren = navMain.children[ 1 ].children;
-  for( var i = 0; i < listChildren.length; i++ )
+  for( let i = 0; i < listChildren.length; i++ )
   {
    var childButton = listChildren[ i ].children[ 0 ];
    enableAccess(childButton);
@@ -160,7 +160,7 @@ MS.App = ( function()
  { // Links lose their tabIndex="-1" thing.
   disableAccess(navMain);
   var listChildren = navMain.children[ 1 ].children;
-  for( var i = 0; i < listChildren.length; i++ )
+  for( let i = 0; i < listChildren.length; i++ )
   {
    var childButton = listChildren[ i ].children[ 0 ];
    disableAccess(childButton);
@@ -321,11 +321,11 @@ MS.App = ( function()
   buttonsDialogAccess = Array.prototype.slice.call( buttonsDialogAccess );
   var selectsDialogAccess = dialogAccess.getElementsByTagName( "select" );
   selectsDialogAccess = Array.prototype.slice.call( selectsDialogAccess );
-  for( var i = 0; i < buttonsDialogAccess.length; i++ )
+  for( let i = 0; i < buttonsDialogAccess.length; i++ )
   {
    disableAccess( buttonsDialogAccess[ i ] );
   }
-  for( var i = 0; i < selectsDialogAccess.length; i++  )
+  for( let i = 0; i < selectsDialogAccess.length; i++  )
   {
    disableAccess( selectsDialogAccess[ i ] );
   }
@@ -419,11 +419,11 @@ MS.App = ( function()
   buttonsDialogAccess = Array.prototype.slice.call( buttonsDialogAccess );
   var selectsDialogAccess = dialogAccess.getElementsByTagName( "select" );
   selectsDialogAccess = Array.prototype.slice.call( selectsDialogAccess );
-  for( var i = 0; i < buttonsDialogAccess.length; i++ )
+  for( let i = 0; i < buttonsDialogAccess.length; i++ )
   {
    enableAccess( buttonsDialogAccess[ i ] );
   }
-  for( var i = 0; i < selectsDialogAccess.length; i++  )
+  for( let i = 0; i < selectsDialogAccess.length; i++  )
   {
    enableAccess( selectsDialogAccess[ i ] );
   }
@@ -468,7 +468,7 @@ MS.App = ( function()
   var topics = document.getElementsByClassName("topic");
   var to = event.target.getAttribute( "to" );
   // In this part, we set all of the attributes appropriately.
-  for( var i = 0; i < topics.length; i++ )
+  for( let i = 0; i < topics.length; i++ )
   {
    topics[ i ].classList.remove("show");
   }
@@ -497,7 +497,7 @@ MS.App = ( function()
   buttonNavMain.addEventListener( "click", evtClickButtonNavMain, false );
   buttonNavMain.setAttribute( 'aria-label', 'Open the menu' );
   let submenuButtons = Array.prototype.slice.call(buttonsSubmenu);
-  for( var i = 0; i < submenuButtons.length; i++ )
+  for( let i = 0; i < submenuButtons.length; i++ )
   {
    submenuButtons[i].addEventListener( "click", evtClickButtonSubmenu, false );
    submenuButtons[i].setAttribute( 'aria-label', 'Open the ' +
@@ -523,23 +523,23 @@ MS.App = ( function()
   if( isFirefox == false )
   {
    var elems = [ "button" ];
-   for( var i = 0; i < elems.length; i++ )
+   for( let i = 0; i < elems.length; i++ )
    {
     var allElems = document.getElementsByTagName(elems[i]);
-    for( var j = 0; j < allElems.length; j++ )
+    for( let j = 0; j < allElems.length; j++ )
     {
      allElems[j].addEventListener( "keyup", evtKeyButton, false );
     }
    }
   }
   var menuItems = document.querySelectorAll(".submenu-li a");
-  for( var i = 0; i < menuItems.length; i++ )
+  for( let i = 0; i < menuItems.length; i++ )
   {
    menuItems[i].addEventListener( "click", handleMenuClick, false );
    menuItems[i].addEventListener( "keyup", evtKeyButton, false );
   }
   menuItems = document.querySelectorAll("#recommended a");
-  for( var i = 0; i < menuItems.length; i++ )
+  for( let i = 0; i < menuItems.length; i++ )
   {
    menuItems[i].addEventListener( "click", handleMenuClick, false );
    menuItems[i].addEventListener( "keyup", evtKeyButton, false );
