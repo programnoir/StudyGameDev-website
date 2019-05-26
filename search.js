@@ -45,6 +45,7 @@ function beginNewSearch()
    var o_kt = populateTopicsBySearch( k, topic_index, array_of_sections, array_of_topics );
    k = o_kt._k;
    topic_index = o_kt._t;
+   o_kt = null;
   },
   taskUponCompletion: function()
   {
