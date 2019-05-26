@@ -164,6 +164,16 @@ function removeResourceNodes()
 }
 
 
+function addModuleToRef( i_record )
+{
+  refs.insert( {
+   "tagName" : i_record[ "tagName" ], "tagColor" : i_record[ "tagColor" ],
+   "section" : i_record[ "section" ], "summary" : i_record[ "summary" ],
+   "url" : i_record[ "url" ], "details" : i_record[ "details" ] }
+  );
+}
+
+
 /// Populate the refs object according to section (handled by menu clicks)
 function populateRefsWithResourcesBySection( terms )
 {
@@ -171,13 +181,30 @@ function populateRefsWithResourcesBySection( terms )
  {
   db( { "section" : terms[ i ] } ).each( function( record, recordnumber )
   {
-   refs.insert( {
-    "tagName" : record[ "tagName" ], "tagColor" : record[ "tagColor" ],
-    "section" : record[ "section" ], "summary" : record[ "summary" ],
-    "url" : record[ "url" ], "details" : record[ "details" ] }
-   );
+   addModuleToRef(record);
   } );
  }
+}
+
+
+/// Populate refs with results from search input string "s"
+function populateRefsWithResourcesBySearch( s )
+{
+ db( function(){
+   if( this.section.includes( s ) || this.summary.includes( s ) ||
+        this.details.includes( s ) || this.url.includes( s ) ||
+        this.tagName.includes( s ) )
+   {
+    return true;
+   }
+   return false;
+  }).each( //,{"tagName":{like:s}},{"summary":{like:s}},{"details":{like:s}},{"url":{like:s}} ).each(
+  function( record, recordnumber )
+  {
+   console.log( record["summary"] + " " + record[ "details" ] + " " + record[ "url" ] );
+   addModuleToRef(record);
+  }
+ );
 }
 
 function addAllEventListeners()

@@ -8,9 +8,21 @@ function beginNewSearch()
 {
  /// The idea here is to preserve the active section and then gradually
  //   add topics and search results to a
- node_saved_section = document.getElementsByClassName( "topic" )[0].id;
-
+ node_saved_section = document.getElementsByClassName( "topic" );
+ if( node_saved_section.length == 0 )
+ {
+  node_saved_section = null;
+ }
+ else
+ {
+  node_saved_section = document.getElementsByClassName( "topic" )[0].id;
+  console.log(node_saved_section);
+ }
  /// To-do: Populate search results.
+ /// The tricky part is that I must first get results from the resources
+ ///  and then acquire the matching sections before putting everything
+ ///  in its place.
+ populateRefsWithResourcesBySearch( string_search );
 }
 
 
@@ -42,9 +54,15 @@ function handleSearchInput()
  // Compare the strings.
  var value_input_search = input_search.value.toLowerCase();
 
+ if( value_input_search == string_search )
+ {
+  return;
+ }
+ string_search = value_input_search;
  if( value_input_search == "" )
  {
   // If we have completely cleared the input, we need to revert to normal.
+  clearTimeout(timer);
   revertState();
   return;
  }
@@ -60,90 +78,3 @@ function handleSearchInput()
 }
 
 input_search.addEventListener( "keyup", handleSearchInput );
-
-
-
-
-/*https://codepen.io/chrismccoy/pen/ogNMXY*/
-$( document ).ready( function()
-{
- function keyword_index_filter( elem )
- {
-
-  /// So, it needs to be able to go from database access mode to not.
-
-  var value = $(elem).val().toLowerCase();
-  $(".lc").each(function()
-  {
-   if( $(this).text().toLowerCase().search(value) > -1 )
-   {
-    $(this).removeClass('hidden');
-   }
-   else
-   {
-    $(this).addClass('hidden');
-   }
-  });
-
-
-  $(".xc").each(function()
-  {
-   if( $("#search").val() == "" )
-   {
-    $(this).removeClass('hidden');
-   }
-   else
-   {
-    $(this).addClass('hidden');
-    var show = false;
-    var kids = this.getElementsByClassName("lc");
-    for( var i = 0; i < kids.length; i++ )
-    {
-     if( kids[i].classList.contains('hidden') == false )
-     {
-      show = true;
-      i = kids.length;
-     }
-    }
-    if( kids.length > 0 && show )
-    {
-     $(this).removeClass('hidden');
-    }
-   }
-  });
-
-
-  $(".topic").each(function()
-  {
-   if( $("#search").val() == "" )
-   {
-    $(this).removeClass('hidden');
-   }
-   else
-   {
-    $(this).addClass('hidden');
-    var show = false;
-    var kids = this.getElementsByClassName("xc");
-    for( var i = 0; i < kids.length; i++ )
-    {
-     if( kids[i].classList.contains('hidden') == false )
-     {
-      show = true;
-      i = kids.length;
-     }
-    }
-    if( kids.length > 0 && show )
-    {
-     $(this).removeClass('hidden');
-    }
-   }
-  });
-
- }
-
- $('#search').on('keyup', function()
- {
-  keyword_index_filter(this);
- });
-
-});
