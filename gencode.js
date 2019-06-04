@@ -55,7 +55,7 @@ MS.App2 = ( function()
  function populateSections()
  {
   var secSel = document.getElementById("parameter-select-section");
-  var contents = document.getElementsByClassName("bc");
+  var contents = document.getElementsByClassName("button-chapter-name");
   for( var i = 0; i < contents.length; i++ )
   {
    var opt = document.createElement('option');

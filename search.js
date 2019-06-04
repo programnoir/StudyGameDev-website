@@ -89,7 +89,6 @@ function revertState()
  {
   populateTopicsBySection( node_saved_section );
   node_saved_section = null;
-  document.getElementsByClassName( "topic" )[0].classList.add("show");
  }, 26 );
 }
 

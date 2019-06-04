@@ -39,7 +39,7 @@ function addNewModule()
  // Containing div that acts similar to details.
  d.setAttribute( "aria-label", "Expand description" );
  d.setAttribute( "tabIndex", "0" );
- d.className = "lc";
+ d.className = "resource";
  d.addEventListener( "keyup", handleKeyUpLC, false );
  d.addEventListener( "click", handleClickLC, false );
  // The tag in each summary.
@@ -52,7 +52,7 @@ function addNewModule()
  aa.className = "icon-external-link";
  aa.appendChild( document.createTextNode( first_result.summary ) );
  // The description.
- dp.className = "desc";
+ dp.className = "resource-details";
  dp.appendChild( document.createTextNode( first_result.details ) );
  // Assemble it.
  d.appendChild( tg );
@@ -71,33 +71,33 @@ function addNewModule()
 }
 
 
-function addNewXC( buttonText, import_id )
+function addNewchapter( buttonText, import_id )
 {
- var xc = document.createElement('div');
+ var chapter = document.createElement('div');
  var b = document.createElement('button');
  var s = document.createElement('section');
- xc.className = "xc";
- b.className = "bc";
+ chapter.className = "chapter";
+ b.className = "button-chapter-name";
  b.setAttribute( "type", "button" );
  b.setAttribute( "aria-label", "Expand description" );
  b.appendChild( document.createTextNode( buttonText ) );
  s.id = import_id;
- xc.appendChild( b );
- xc.appendChild( s );
+ chapter.appendChild( b );
+ chapter.appendChild( s );
  s = null;
  b = null;
 
- return xc;
+ return chapter;
 }
 
-function addNewXCFromMenuClick( import_d, import_i, import_terms )
+function addNewchapterFromMenuClick( import_d, import_i, import_terms )
 {
  var bText = import_terms[ import_i ][ 1 ];
  var idT = import_terms[ import_i ][ 0 ];
 
- var xcNode = addNewXC( bText, idT );
+ var chapterNode = addNewchapter( bText, idT );
 
- import_d.appendChild(xcNode);
+ import_d.appendChild(chapterNode);
  return import_i + 1;
 }
 
@@ -196,7 +196,7 @@ function removeTopicNodes()
 function removeResourceNodes()
 {
  var openedElements = Array.prototype.slice.call(
-                       document.getElementsByClassName( "lc" ) );
+                       document.getElementsByClassName( "resource" ) );
  for( let i_r = openedElements.length - 1; i_r >= 0; i_r--  )
  {
   removeElement( openedElements[i_r] );
@@ -253,19 +253,19 @@ function populateRefsWithResourcesBySearch( s )
 
 function addAllEventListeners()
 {
- var group_class_xc = document.getElementsByClassName("xc");
- for( let j = 0; j < group_class_xc.length; j++ )
+ var group_class_chapter = document.getElementsByClassName("chapter");
+ for( let j = 0; j < group_class_chapter.length; j++ )
  {
-  group_class_xc[ j ].addEventListener( "click", handleClickXC, false );
-  group_class_xc[ j ].addEventListener( "keyup", handleKeyUpXC, false );
+  group_class_chapter[ j ].addEventListener( "click", handleClickchapter, false );
+  group_class_chapter[ j ].addEventListener( "keyup", handleKeyUpchapter, false );
  }
- var group_class_bc = document.getElementsByClassName("bc");
+ var group_class_bc = document.getElementsByClassName("button-chapter-name");
  for( let j = 0; j < group_class_bc.length; j++ )
  {
   setText( group_class_bc[ j ], "Expand" );
   group_class_bc[ j ].addEventListener( "click", handleClickBC, false );
  }
- group_class_xc = null;
+ group_class_chapter = null;
  group_class_bc = null;
 }
 
@@ -316,7 +316,7 @@ function populateTopicsBySection( node_selected )
    tasksPerTick: 1,
    task: function()
    {
-    i = addNewXCFromMenuClick( d, i, terms );
+    i = addNewchapterFromMenuClick( d, i, terms );
    },
    taskUponCompletion: function()
    {
@@ -374,24 +374,24 @@ function populateTopicsBySearch( k, i_tIndex, i_a_sections, i_a_topics )
   i_tIndex++;
   prepareTopicBySearch( topic_selected.topic_id );
  }
- var node_xc = addNewXC( text_button, i_a_sections[ k ] );
- document.getElementById( topic_selected.topic_id ).appendChild( node_xc );
+ var node_chapter = addNewchapter( text_button, i_a_sections[ k ] );
+ document.getElementById( topic_selected.topic_id ).appendChild( node_chapter );
 
  return { _k : k + 1, _t: i_tIndex };
 }
 
 function eraseEventListeners()
 {
- var group_class_bc = document.getElementsByClassName("bc");
+ var group_class_bc = document.getElementsByClassName("button-chapter-name");
  for( let j = 0; j < group_class_bc.length; j++ )
  {
   group_class_bc[ j ].removeEventListener( "click", handleClickBC, false );
  }
- var group_class_xc = document.getElementsByClassName("xc");
- for( let j = 0; j < group_class_xc.length; j++ )
+ var group_class_chapter = document.getElementsByClassName("chapter");
+ for( let j = 0; j < group_class_chapter.length; j++ )
  {
-  group_class_xc[ j ].removeEventListener( "click", handleClickXC, false );
-  group_class_xc[ j ].removeEventListener( "keyup", handleKeyUpXC, false );
+  group_class_chapter[ j ].removeEventListener( "click", handleClickchapter, false );
+  group_class_chapter[ j ].removeEventListener( "keyup", handleKeyUpchapter, false );
  }
  var group_class_topic = document.getElementsByClassName("topic");
  for( let j = group_class_topic.length - 1; j >= 0 ; j-- )
@@ -399,7 +399,7 @@ function eraseEventListeners()
   removeElement( group_class_topic[ j ] );
  }
  group_class_bc = null;
- group_class_xc = null;
+ group_class_chapter = null;
  group_class_topic = null;
 }
 

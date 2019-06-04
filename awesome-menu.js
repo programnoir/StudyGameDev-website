@@ -468,10 +468,6 @@ MS.App = ( function()
   var topics = document.getElementsByClassName("topic");
   var to = event.target.getAttribute( "to" );
   // In this part, we set all of the attributes appropriately.
-  for( let i = 0; i < topics.length; i++ )
-  {
-   topics[ i ].classList.remove("show");
-  }
 
   //////////////////////////////////////////////////////////////////////////////-------------------------------------------
   removeResourceNodes(); // Clear out nodes we are no longer using (reduce RAM usage)
@@ -479,12 +475,11 @@ MS.App = ( function()
 
   var this_timer = setTimeout( function(){
    var targ = document.getElementById( to );
-   targ.classList.add("show");
    if( navMain.className == "open" )
    {
     closeNavMain();
    }
-   document.getElementById( "welcome" ).className = "hidden";
+   document.getElementById( "wrapper-home-page-content" ).className = "hidden";
    targ = targ.getElementsByTagName( "button" )[ 0 ];
    targ.focus();
 

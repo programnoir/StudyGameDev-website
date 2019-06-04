@@ -4,7 +4,7 @@
  but wait, some screen reader users have vision.
 */
 var keysConfirm = {13:1,32:1};
-var group_class_xc = document.getElementsByClassName("xc");
+var group_class_chapter = document.getElementsByClassName("chapter");
 
 function setText( elem, mode )
 {
@@ -20,13 +20,13 @@ function toggleLC( lc )
  if( lc.classList.contains( "open" ) )
  {
   lc.classList.remove("open");
-  if( lc.classList.contains( "bc" ) )
+  if( lc.classList.contains( "button-chapter-name" ) )
   {
    lc.parentNode.classList.remove("open");
   }
-  else if( lc.classList.contains( "xc" ) )
+  else if( lc.classList.contains( "chapter" ) )
   {
-   lc = lc.getElementsByClassName( "bc" )[ 0 ];
+   lc = lc.getElementsByClassName( "button-chapter-name" )[ 0 ];
    lc.classList.remove("open");
   }
   txt = "Expand";
@@ -34,18 +34,18 @@ function toggleLC( lc )
  else
  {
   lc.classList.add("open");
-  if( lc.classList.contains( "bc" ) )
+  if( lc.classList.contains( "button-chapter-name" ) )
   {
    lc.parentNode.classList.add("open");
   }
-  else if( lc.classList.contains( "xc" ) )
+  else if( lc.classList.contains( "chapter" ) )
   {
-   lc = lc.getElementsByClassName( "bc" )[ 0 ];
+   lc = lc.getElementsByClassName( "button-chapter-name" )[ 0 ];
    lc.classList.add("open");
   }
   txt = "Collapse";
  }
- if( lc.classList.contains( "bc" ) )
+ if( lc.classList.contains( "button-chapter-name" ) )
  {
   setText( lc, txt );
  }
@@ -74,20 +74,20 @@ function handleClickLC( event )
   toggleLC(this);
  }
 }
-function isTriggerXC( me )
+function isTriggerchapter( me )
 {
- var group_sliced_xcs = Array.prototype.slice.call( group_class_xc );
- for( var i = 0; i < group_sliced_xcs.length; i++ )
+ var group_sliced_chapters = Array.prototype.slice.call( group_class_chapter );
+ for( var i = 0; i < group_sliced_chapters.length; i++ )
  {
-  if( me == group_sliced_xcs[ i ] )
+  if( me == group_sliced_chapters[ i ] )
   {
-   toggleLC( group_sliced_xcs[ i ] );
-   i = group_sliced_xcs.length;
+   toggleLC( group_sliced_chapters[ i ] );
+   i = group_sliced_chapters.length;
   }
  }
- if( me.classList.contains( "open" ) && me.classList.contains( "lc" ) == false )
+ if( me.classList.contains( "open" ) && me.classList.contains( "resource" ) == false )
  {
-  if( me.classList.contains( "bc" ) )
+  if( me.classList.contains( "button-chapter-name" ) )
   {
    me = me.parentNode;
   }
@@ -100,15 +100,15 @@ function isTriggerXC( me )
   me.focus();
  }
 }
-function handleClickXC( event )
+function handleClickchapter( event )
 {
- isTriggerXC(event.target);
+ isTriggerchapter(event.target);
 }
-function handleKeyUpXC( event )
+function handleKeyUpchapter( event )
 {
  if( keysConfirm[ event.keyCode ] )
  {
-  isTriggerXC(document.activeElement);
+  isTriggerchapter(document.activeElement);
  }
 }
 function handleClickBC( event )
@@ -116,12 +116,12 @@ function handleClickBC( event )
  toggleLC(this);
 }
 /*
-for( var i = 0; i < group_class_xc.length; i++ )
+for( var i = 0; i < group_class_chapter.length; i++ )
 {
- group_class_xc[ i ].addEventListener( "click", handleClickXC, false );
- group_class_xc[ i ].addEventListener( "keyup", handleKeyUpXC, false );
+ group_class_chapter[ i ].addEventListener( "click", handleClickchapter, false );
+ group_class_chapter[ i ].addEventListener( "keyup", handleKeyUpchapter, false );
 }
-var group_class_bc = document.getElementsByClassName("bc");
+var group_class_bc = document.getElementsByClassName("button-chapter-name");
 for( var i = 0; i < group_class_bc.length; i++ )
 {
  setText( group_class_bc[i], "Expand" );
