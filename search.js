@@ -1,4 +1,4 @@
-var input_search = document.getElementById( "search" );
+var input_search = document.getElementById( "line-input-search" );
 var node_saved_section = null;
 var string_search = "";
 var timer = null;

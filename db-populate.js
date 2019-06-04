@@ -110,7 +110,7 @@ function addNewTopic( node_id, node_text )
  var dh2 = document.createElement('h2');
  dh2.appendChild( document.createTextNode( node_text ) );
  d.appendChild(dh2);
- document.getElementById( "main-content" ).appendChild( d );
+ document.getElementById( "wrapper-resource-content" ).appendChild( d );
  dh2 = null;
  return d;
 }
@@ -125,13 +125,13 @@ function increaseLoadingBar()
  // And to do that, we want one action, like this, repeated
  bar_width = ++current / total_tasks * 100;
  // And for the browser to update like so,
- var loading_bar = document.getElementById("loading-bar");
+ var loading_bar = document.getElementById("dynamic-loading-bar");
  loading_bar.style.width = bar_width + '%';
  // but without processing the increase all at once.
  loading_bar.setAttribute('loading', current + ' / ' + total_tasks );
  if( bar_width == 100 )
  {
-  loading_bar.className = 'done';
+  loading_bar.className = 'loading-complete';
  }
 }
 
@@ -146,8 +146,8 @@ function doHeavyTask( params )
  var interval = null;
 
  current = 0;
- var loading_bar = document.getElementById("loading-bar");
- loading_bar.classList.remove("done");
+ var loading_bar = document.getElementById("dynamic-loading-bar");
+ loading_bar.classList.remove("loading-complete");
  loading_bar.setAttribute('loading', current + ' / ' + total_tasks );
 
  if( totalTicks === 0 )

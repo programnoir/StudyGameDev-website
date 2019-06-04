@@ -4,8 +4,8 @@
   add each as an option to #section select.
 
  Button: Make Code
-  .draw-dark -- .open .gen
-  #gen-code -- .active, remove tabIndex="-1"
+  .background-black-alpha -- .open .gen
+  #wrapper-code-generator -- .active, remove tabIndex="-1"
   focus on h1.
  Inputs -> Textarea
   keyup or value change updates textarea.
@@ -13,13 +13,13 @@
   copies to clipboard.
  Exit: Exit Make Code
   self remove .active, set tabIndex = -1
-  .draw-dark clear of classes.
+  .background-black-alpha clear of classes.
   focus the button again
 */
 
 MS.App2 = ( function()
 {
- dialogGenCode = document.getElementById("gen-code");
+ dialogGenCode = document.getElementById("wrapper-code-generator");
 
  /// Is child a descendent of parent?
 
@@ -54,7 +54,7 @@ MS.App2 = ( function()
 
  function populateSections()
  {
-  var secSel = document.getElementById("section");
+  var secSel = document.getElementById("parameter-select-section");
   var contents = document.getElementsByClassName("bc");
   for( var i = 0; i < contents.length; i++ )
   {
@@ -70,18 +70,18 @@ MS.App2 = ( function()
  function convertIO()
  {
   var str="{\n section: \"";
-  str += document.getElementById("section").value;
+  str += document.getElementById("parameter-select-section").value;
   str += "\",\n tagName: \"";
-  var tag = document.getElementById("tagSelect").value.split(",");
+  var tag = document.getElementById("parameter-select-tag").value.split(",");
   str += tag[1];
   str += "\",\n tagColor: \"";
   str += tag[0];
   str += "\",\n url: \"";
-  str += document.getElementById("url").value;
+  str += document.getElementById("parameter-resource-url").value;
   str += "\",\n summary: \"";
-  str += document.getElementById("summary").value;
+  str += document.getElementById("parameter-resource-summary").value;
   str += "\",\n details: \"";
-  str += document.getElementById("details").value;
+  str += document.getElementById("parameter-resource-details").value;
   str += "\"\n},";
   return str;
  }
@@ -90,25 +90,25 @@ MS.App2 = ( function()
 
  function updateOutput()
  {
-  document.getElementById("out").value = convertIO();
+  document.getElementById("text-output-code-generator").value = convertIO();
  }
 
  /// Close the code generation dialog.
 
  function exitGenCode()
  {
-  if( document.getElementById("draw-dark").classList.contains("gen") )
+  if( document.getElementById("background-black-alpha").classList.contains("gen") )
   {
-   document.getElementById("draw-dark").classList.remove("open");
-   document.getElementById("draw-dark").classList.remove("gen");
-   document.getElementById("gen-code").classList.remove("active");
+   document.getElementById("background-black-alpha").classList.remove("open");
+   document.getElementById("background-black-alpha").classList.remove("gen");
+   document.getElementById("wrapper-code-generator").classList.remove("active");
    disableAccess(dialogGenCode);
-   var AllButtons = dialogGenCode.getElementsByClassName("gen-group");
+   var AllButtons = dialogGenCode.getElementsByClassName("group-focusable-code-generator");
    for( var i = 0; i < AllButtons.length; i++ )
    {
     disableAccess(AllButtons[i]);
    }
-   document.getElementById("button-generate-code").focus();
+   document.getElementById("button-code-generator").focus();
   }
  }
 
@@ -131,42 +131,42 @@ MS.App2 = ( function()
 
  function assignEventListeners()
  {
-  document.getElementById("button-generate-code").addEventListener( "click", function(){
-   document.getElementById("draw-dark").classList.add("open");
-   document.getElementById("draw-dark").classList.add("gen");
-   document.getElementById("gen-code").classList.add("active");
+  document.getElementById("button-code-generator").addEventListener( "click", function(){
+   document.getElementById("background-black-alpha").classList.add("open");
+   document.getElementById("background-black-alpha").classList.add("gen");
+   document.getElementById("wrapper-code-generator").classList.add("active");
    enableAccess(dialogGenCode);
-   var AllButtons = dialogGenCode.getElementsByClassName("gen-group");
+   var AllButtons = dialogGenCode.getElementsByClassName("group-focusable-code-generator");
    for( var i = 0; i < AllButtons.length; i++ )
    {
     enableAccess(AllButtons[i]);
    }
-   document.getElementById("gen-title").setAttribute("tabIndex","0");
-   document.getElementById("gen-title").focus();
+   document.getElementById("text-code-generator-title").setAttribute("tabIndex","0");
+   document.getElementById("text-code-generator-title").focus();
   }, false );
 
-  var inp = document.getElementsByClassName("in");
+  var inp = document.getElementsByClassName("form-line-input-code-generator");
   for( var i = 0; i < inp.length; i++ )
   {
    inp[i].addEventListener( "keyup", updateOutput, false );
   }
-  inp = document.getElementsByClassName("select");
+  inp = document.getElementsByClassName("form-select-code-generator");
   for( var i = 0; i < inp.length; i++ )
   {
    inp[i].addEventListener( "change", updateOutput, false );
   }
 
-  var cB = document.getElementById('copy');
+  var cB = document.getElementById('button-code-generator-copy-output');
   cB.addEventListener('click', function(event)
   { // Copy button
-   document.getElementById('out').select();
+   document.getElementById('text-output-code-generator').select();
    document.execCommand('copy');
   });
 
-  document.getElementById("gen-title").addEventListener( "blur", evtBlurCodeGenExit, false );
-  document.getElementById("close-gen-code").addEventListener( "blur", evtBlurCodeGenExit, false );
-  document.getElementById('close-gen-code').addEventListener('click', exitGenCode, false );
-  document.getElementById('draw-dark').addEventListener('click', exitGenCode, false );
+  document.getElementById("text-code-generator-title").addEventListener( "blur", evtBlurCodeGenExit, false );
+  document.getElementById("button-code-generator-close").addEventListener( "blur", evtBlurCodeGenExit, false );
+  document.getElementById('button-code-generator-close').addEventListener('click', exitGenCode, false );
+  document.getElementById('background-black-alpha').addEventListener('click', exitGenCode, false );
  }
 
  function initApp()
@@ -174,7 +174,7 @@ MS.App2 = ( function()
   populateSections();
   assignEventListeners();
   disableAccess(dialogGenCode);
-  var AllButtons = dialogGenCode.getElementsByClassName("gen-group");
+  var AllButtons = dialogGenCode.getElementsByClassName("group-focusable-code-generator");
   for( var i = 0; i < AllButtons.length; i++ )
   {
    disableAccess(AllButtons[i]);

@@ -18,20 +18,20 @@ var MS = MS || {};
 MS.App = ( function()
 {
  var isFirefox = typeof InstallTrigger !== "undefined",
- lastFocused = document.getElementById( "global-title" ).children[ 0 ],
+ lastFocused = document.getElementById( "text-site-title" ).children[ 0 ],
  flagDialogAccess = false,
  keysMenu = { 90: 1,  191: 1 }, // Z and slash
  keysConfirm = { 13: 1,  32: 1 }, // ENTER, SPACE
  keysScroll = { 32: 1,  37: 1,  38: 1,  39: 1,  40: 1 }, // ARROWS
  keysMouse = { 0: 1,  1: 1,  2: 1 },
  // temp vars: openedElements, submenuButtons,
- buttonNavMain = document.getElementById( "button-nav-main" ),
- navMain = document.getElementById( "nav-main" ),
- buttonsSubmenu = navMain.getElementsByClassName( "button-submenu" ),
- mainWrap = document.getElementById( "main-wrapper" ),
- drawDark = document.getElementById( "draw-dark" ),
+ buttonNavMain = document.getElementById( "button-main-menu" ),
+ navMain = document.getElementById( "wrapper-main-menu" ),
+ buttonsSubmenu = navMain.getElementsByClassName( "button-toggle-submenu" ),
+ mainWrap = document.getElementById( "wrapper-main-site-content" ),
+ drawDark = document.getElementById( "background-black-alpha" ),
  buttonAccess = document.getElementById( "button-settings-accessibility" ),
- dialogAccess = document.getElementById( "access-controls" );
+ dialogAccess = document.getElementById( "wrapper-settings-accessibility" );
 
 
  /// Set Cookie Settings: 1. dark/bright, 2. default/larger/largest
@@ -77,7 +77,7 @@ MS.App = ( function()
  {
   document.body.className = theme;
   document.getElementsByTagName("html")[0].className = fontsize;
-  document.getElementById("marker").className = showcontent;
+  document.getElementById("setting-unfolding-marker").className = showcontent;
  }
 
 
@@ -149,7 +149,7 @@ MS.App = ( function()
   {
    var childButton = listChildren[ i ].children[ 0 ];
    enableAccess(childButton);
-   if( listChildren[ i ].classList.contains( "submenu-li" ) )
+   if( listChildren[ i ].classList.contains( "wrapper-submenu-parent" ) )
    {
     let sibUL = childButton.nextElementSibling;
     enableSubmenuAccess( sibUL );
@@ -164,7 +164,7 @@ MS.App = ( function()
   {
    var childButton = listChildren[ i ].children[ 0 ];
    disableAccess(childButton);
-   if( listChildren[ i ].classList.contains( "submenu-li" ) )
+   if( listChildren[ i ].classList.contains( "wrapper-submenu-parent" ) )
    {
     let sibUL = childButton.nextElementSibling;
     disableSubmenuAccess(sibUL);
@@ -176,13 +176,13 @@ MS.App = ( function()
  /// Opening/Closing Navigation
  function moveButtonIn()
  {
-  document.getElementById("nav-button").removeChild(buttonNavMain);
-  document.getElementById("nav-button-open").appendChild(buttonNavMain);
+  document.getElementById("wrapper-button-menu-closed").removeChild(buttonNavMain);
+  document.getElementById("wrapper-button-menu-open").appendChild(buttonNavMain);
  }
  function moveButtonOut()
  {
-  document.getElementById("nav-button-open").removeChild(buttonNavMain);
-  document.getElementById("nav-button").appendChild(buttonNavMain);
+  document.getElementById("wrapper-button-menu-open").removeChild(buttonNavMain);
+  document.getElementById("wrapper-button-menu-closed").appendChild(buttonNavMain);
  }
  function openNavMain()
  {
@@ -435,7 +435,7 @@ MS.App = ( function()
 
  function evtClickButtonSave()
  {
-  var z = document.querySelector('#show-content:checked');
+  var z = document.querySelector('#setting-content-unfold:checked');
   if( z == null )
   {
    z = "null";
@@ -445,8 +445,8 @@ MS.App = ( function()
    z = z.value;
   }
   var options = [
-   document.getElementById("theme-choice").value,
-   document.getElementById("font-size").value,
+   document.getElementById("setting-theme").value,
+   document.getElementById("setting-font-size").value,
    z
   ];
   setSiteSettings( options[ 0 ], options[ 1 ], options[ 2 ] );
@@ -506,7 +506,7 @@ MS.App = ( function()
   var navLast = navMain.children[1].children;
   navLast = navLast[ navLast.length - 1 ].children[0];
   navLast.addEventListener( "blur", evtBlurLastNav, false ); // button or a
-  if( navLast.parentNode.classList.contains("submenu-li") )
+  if( navLast.parentNode.classList.contains("wrapper-submenu-parent") )
   {
    navLast = navLast.nextElementSibling.children;
    navLast = navLast[ navLast.length - 1 ].children[0]; // ul ul a
@@ -516,10 +516,10 @@ MS.App = ( function()
   document.body.addEventListener( "keyup", evtKeyUpGlobal, false );
   disableAllAccess();
   buttonAccess.addEventListener( "click", evtClickButtonAccess, false );
-  document.getElementById("buttonAccessExit").addEventListener( "click", closeDialogAccess, false );
-  document.getElementById("buttonAccessExit").addEventListener( "blur", evtBlurAccessExit, false );
+  document.getElementById("button-settings-accessibility-close").addEventListener( "click", closeDialogAccess, false );
+  document.getElementById("button-settings-accessibility-close").addEventListener( "blur", evtBlurAccessExit, false );
   dialogAccess.children[0].addEventListener( "blur", evtBlurAccessExit, false );
-  document.getElementById("buttonAccessSave").addEventListener( "click", evtClickButtonSave, false );
+  document.getElementById("button-settings-accessibility-save").addEventListener( "click", evtClickButtonSave, false );
   if( isFirefox == false )
   {
    var elems = [ "button" ];
@@ -532,13 +532,13 @@ MS.App = ( function()
     }
    }
   }
-  var menuItems = document.querySelectorAll(".submenu-li a");
+  var menuItems = document.querySelectorAll(".wrapper-submenu-parent a");
   for( let i = 0; i < menuItems.length; i++ )
   {
    menuItems[i].addEventListener( "click", handleMenuClick, false );
    menuItems[i].addEventListener( "keyup", evtKeyButton, false );
   }
-  menuItems = document.querySelectorAll("#recommended a");
+  menuItems = document.querySelectorAll("#text-recommended-topics a");
   for( let i = 0; i < menuItems.length; i++ )
   {
    menuItems[i].addEventListener( "click", handleMenuClick, false );
