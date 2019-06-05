@@ -17,31 +17,31 @@ function setText( elem, mode )
 function toggleLC( lc )
 {
  var elem, txt;
- if( lc.classList.contains( "open" ) )
+ if( lc.classList.contains( "state-open" ) )
  {
-  lc.classList.remove("open");
+  lc.classList.remove("state-open");
   if( lc.classList.contains( "button-chapter-name" ) )
   {
-   lc.parentNode.classList.remove("open");
+   lc.parentNode.classList.remove("state-open");
   }
   else if( lc.classList.contains( "chapter" ) )
   {
    lc = lc.getElementsByClassName( "button-chapter-name" )[ 0 ];
-   lc.classList.remove("open");
+   lc.classList.remove("state-open");
   }
   txt = "Expand";
  }
  else
  {
-  lc.classList.add("open");
+  lc.classList.add("state-open");
   if( lc.classList.contains( "button-chapter-name" ) )
   {
-   lc.parentNode.classList.add("open");
+   lc.parentNode.classList.add("state-open");
   }
   else if( lc.classList.contains( "chapter" ) )
   {
    lc = lc.getElementsByClassName( "button-chapter-name" )[ 0 ];
-   lc.classList.add("open");
+   lc.classList.add("state-open");
   }
   txt = "Collapse";
  }
@@ -85,7 +85,7 @@ function isTriggerchapter( me )
    i = group_sliced_chapters.length;
   }
  }
- if( me.classList.contains( "open" ) && me.classList.contains( "resource" ) == false )
+ if( me.classList.contains( "state-open" ) && me.classList.contains( "resource" ) == false )
  {
   if( me.classList.contains( "button-chapter-name" ) )
   {

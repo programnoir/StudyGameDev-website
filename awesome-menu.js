@@ -186,9 +186,9 @@ MS.App = ( function()
  }
  function openNavMain()
  {
-  drawDark.className = "open";
-  buttonNavMain.className = "open";
-  navMain.className = "open";
+  drawDark.className = "state-open";
+  buttonNavMain.className = "state-open";
+  navMain.className = "state-open";
   buttonNavMain.setAttribute( 'aria-label', 'Close the menu ' );
   disableScroll();
   enableAllAccess();
@@ -203,14 +203,14 @@ MS.App = ( function()
    return;
   }
   let openedElements = Array.prototype.slice.call(
-                        navMain.getElementsByClassName( "open" ) );
+                        navMain.getElementsByClassName( "state-open" ) );
   for( let i of openedElements )
   {
-   i.classList.remove("open");
+   i.classList.remove("state-open");
   }
-  navMain.classList.remove("open");
-  drawDark.classList.remove("open");
-  buttonNavMain.classList.remove("open");
+  navMain.classList.remove("state-open");
+  drawDark.classList.remove("state-open");
+  buttonNavMain.classList.remove("state-open");
   buttonNavMain.setAttribute( 'aria-label', 'Open the menu ' );
   enableScroll();
   disableAllAccess();
@@ -255,14 +255,14 @@ MS.App = ( function()
  /// Toggle Opening/Closing of Submenus
  function openSubmenu( submenu )
  {
-  submenu.classList.add("open");
+  submenu.classList.add("state-open");
   enableSubmenuAccess(submenu.nextElementSibling);
   var toFocus = submenu.nextElementSibling.children[ 0 ].children[ 0 ];
   toFocus.focus();
  }
  function closeSubmenu( submenu )
  {
-  submenu.classList.remove("open");
+  submenu.classList.remove("state-open");
   disableSubmenuAccess(submenu.nextElementSibling);
  }
  function closeAllSubmenus()
@@ -278,7 +278,7 @@ MS.App = ( function()
  }
  function toggleSubmenu( submenu )
  {
-  if( submenu.classList.contains( "open" ) )
+  if( submenu.classList.contains( "state-open" ) )
   {
    closeSubmenu(submenu);
    submenu.setAttribute( 'aria-label', 'Open the ' + retrieveText(submenu) + ' sub-menu' );
@@ -299,7 +299,7 @@ MS.App = ( function()
  }
  function evtClickButtonNavMain( event )
  {
-  if( this.className == "open" )
+  if( this.className == "state-open" )
   {
    closeNavMain();
    lastFocused.focus();
@@ -313,8 +313,8 @@ MS.App = ( function()
 
  function closeDialogAccess()
  {
-  drawDark.classList.remove("config");
-  dialogAccess.classList.remove("open");
+  drawDark.classList.remove("state-accessibility-settings");
+  dialogAccess.classList.remove("state-open");
   disableAccess(dialogAccess);
   // Do the same for all selects and buttons in dialogAccess
   var buttonsDialogAccess = dialogAccess.getElementsByTagName( "button" );
@@ -350,7 +350,7 @@ MS.App = ( function()
   }
   else if( document.activeElement != buttonNavMain )
   {
-   if( navMain.className == "open" )
+   if( navMain.className == "state-open" )
    {
     closeNavMain();
     lastFocused.focus();
@@ -376,7 +376,7 @@ MS.App = ( function()
   {
    if( isNavFocused() == false )
    {
-    if( lastNav.classList.contains( "open" ) == false )
+    if( lastNav.classList.contains( "state-open" ) == false )
     {
      closeNavMain();
      lastFocused.focus();
@@ -401,19 +401,19 @@ MS.App = ( function()
  }
  function evtClickDarkDraw()
  {
-  if( this.classList.contains( "config" ) )
+  if( this.classList.contains( "state-accessibility-settings" ) )
   {
    closeDialogAccess();
   }
-  else if( navMain.className == "open" )
+  else if( navMain.className == "state-open" )
   {
    closeNavMain();
   }
  }
  function evtClickButtonAccess()
  {
-  dialogAccess.classList.add("open");
-  drawDark.classList.add("config");
+  dialogAccess.classList.add("state-open");
+  drawDark.classList.add("state-accessibility-settings");
   enableAccess(dialogAccess);
   var buttonsDialogAccess = dialogAccess.getElementsByTagName( "button" );
   buttonsDialogAccess = Array.prototype.slice.call( buttonsDialogAccess );
@@ -475,11 +475,11 @@ MS.App = ( function()
 
   var this_timer = setTimeout( function(){
    var targ = document.getElementById( to );
-   if( navMain.className == "open" )
+   if( navMain.className == "state-open" )
    {
     closeNavMain();
    }
-   document.getElementById( "wrapper-home-page-content" ).className = "hidden";
+   document.getElementById( "wrapper-home-page-content" ).className = "state-hidden";
    targ = targ.getElementsByTagName( "button" )[ 0 ];
    targ.focus();
 

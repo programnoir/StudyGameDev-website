@@ -97,11 +97,11 @@ MS.App2 = ( function()
 
  function exitGenCode()
  {
-  if( document.getElementById("background-black-alpha").classList.contains("gen") )
+  if( document.getElementById("background-black-alpha").classList.contains("state-code-generator") )
   {
-   document.getElementById("background-black-alpha").classList.remove("open");
-   document.getElementById("background-black-alpha").classList.remove("gen");
-   document.getElementById("wrapper-code-generator").classList.remove("active");
+   document.getElementById("background-black-alpha").classList.remove("state-open");
+   document.getElementById("background-black-alpha").classList.remove("state-code-generator");
+   document.getElementById("wrapper-code-generator").classList.remove("state-active");
    disableAccess(dialogGenCode);
    var AllButtons = dialogGenCode.getElementsByClassName("group-focusable-code-generator");
    for( var i = 0; i < AllButtons.length; i++ )
@@ -132,9 +132,9 @@ MS.App2 = ( function()
  function assignEventListeners()
  {
   document.getElementById("button-code-generator").addEventListener( "click", function(){
-   document.getElementById("background-black-alpha").classList.add("open");
-   document.getElementById("background-black-alpha").classList.add("gen");
-   document.getElementById("wrapper-code-generator").classList.add("active");
+   document.getElementById("background-black-alpha").classList.add("state-open");
+   document.getElementById("background-black-alpha").classList.add("state-code-generator");
+   document.getElementById("wrapper-code-generator").classList.add("state-active");
    enableAccess(dialogGenCode);
    var AllButtons = dialogGenCode.getElementsByClassName("group-focusable-code-generator");
    for( var i = 0; i < AllButtons.length; i++ )
