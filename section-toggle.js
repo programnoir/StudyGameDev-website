@@ -3,128 +3,127 @@
  css class toggle means .desc is no longer hidden.
  but wait, some screen reader users have vision.
 */
-var keysConfirm = {13:1,32:1};
-var group_class_chapter = document.getElementsByClassName("chapter");
+var kConfirm = { 13:1, 32:1 };
 
-function setText( elem, mode )
+/* Resets the ARIA label for the specified topic/chapter/resource. */
+function fSetNewARIALabel( hRelabeledElement, sReplacementLabel )
 {
- mode += " the ";
- mode += elem.textContent || elem.innerText;
- mode += " details";
- elem.setAttribute( "aria-label", mode );
+ sReplacementLabel += " the ";
+ sReplacementLabel += hRelabeledElement.textContent || hRelabeledElement.innerText;
+ sReplacementLabel += " details";
+ hRelabeledElement.setAttribute( "aria-label", sReplacementLabel );
 }
 
-function toggleLC( lc )
+/* Toggles the folding of a topic/chapter/resource. */
+function fToggleFoldingTopicChapterResource( hElement )
 {
- var elem, txt;
- if( lc.classList.contains( "state-open" ) )
+ let sNewARIALabel = "";
+ if( hElement.classList.contains( "state-open" ) )
  {
-  lc.classList.remove("state-open");
-  if( lc.classList.contains( "button-chapter-name" ) )
+  hElement.classList.remove( "state-open" );
+  if( hElement.classList.contains( "button-chapter-name" ) )
   {
-   lc.parentNode.classList.remove("state-open");
+   hElement.parentNode.classList.remove( "state-open" );
   }
-  else if( lc.classList.contains( "chapter" ) )
+  else if( hElement.classList.contains( "chapter" ) )
   {
-   lc = lc.getElementsByClassName( "button-chapter-name" )[ 0 ];
-   lc.classList.remove("state-open");
+   hElement = hElement.getElementsByClassName( "button-chapter-name" )[ 0 ];
+   hElement.classList.remove( "state-open" );
   }
-  txt = "Expand";
+  sNewARIALabel = "Expand";
  }
  else
  {
-  lc.classList.add("state-open");
-  if( lc.classList.contains( "button-chapter-name" ) )
+  hElement.classList.add( "state-open" );
+  if( hElement.classList.contains( "button-chapter-name" ) )
   {
-   lc.parentNode.classList.add("state-open");
+   hElement.parentNode.classList.add( "state-open" );
   }
-  else if( lc.classList.contains( "chapter" ) )
+  else if( hElement.classList.contains( "chapter" ) )
   {
-   lc = lc.getElementsByClassName( "button-chapter-name" )[ 0 ];
-   lc.classList.add("state-open");
+   hElement = hElement.getElementsByClassName( "button-chapter-name" )[ 0 ];
+   hElement.classList.add( "state-open" );
   }
-  txt = "Collapse";
+  sNewARIALabel = "Collapse";
  }
- if( lc.classList.contains( "button-chapter-name" ) )
+ if( hElement.classList.contains( "button-chapter-name" ) )
  {
-  setText( lc, txt );
+  fSetNewARIALabel( hElement, sNewARIALabel );
  }
  else
  {
-  lc.setAttribute( "aria-label", txt );
+  hElement.setAttribute( "aria-label", sNewARIALabel );
  }
 }
 
-function handleKeyUpLC( event )
+/* Handles key input for a a resource. */
+function fHandleKeyUpResource( event )
 {
- if( keysConfirm[ event.keyCode ] )
+ if( kConfirm[ event.keyCode ] )
  {
-  var node_current = document.activeElement.nodeName;
-  if( node_current != "A" )
+  let sNodeTagName = document.activeElement.nodeName;
+  if( sNodeTagName != "A" )
   {
-   toggleLC(this);
+   fToggleFoldingTopicChapterResource( this );
   }
  }
 }
-function handleClickLC( event )
+
+/* Handles key input for a a resource. */
+function fHandleClickResource( event )
 {
- var node_current = event.target.nodeName;
- if( node_current != "SPAN" && node_current != "A" )
+ let sNodeTagName = event.target.nodeName;
+ if( sNodeTagName != "SPAN" && sNodeTagName != "A" )
  {
-  toggleLC(this);
+  fToggleFoldingTopicChapterResource( this );
  }
 }
-function isTriggerchapter( me )
+
+/* A wrapper function for toggling a chapter and focusing its first child. */
+function fWrapperToggleChapter( hTargetChapter )
 {
- var group_sliced_chapters = Array.prototype.slice.call( group_class_chapter );
- for( var i = 0; i < group_sliced_chapters.length; i++ )
+ let aByClassChapter = document.getElementsByClassName( "chapter" );
+ var aSlicedChapters = Array.prototype.slice.call( aByClassChapter );
+ /// Note to self: Why does this for loop need to happen?
+ for( let i = 0; i < aSlicedChapters.length; i++ )
  {
-  if( me == group_sliced_chapters[ i ] )
+  if( hTargetChapter == aSlicedChapters[ i ] )
   {
-   toggleLC( group_sliced_chapters[ i ] );
-   i = group_sliced_chapters.length;
+   fToggleFoldingTopicChapterResource( aSlicedChapters[ i ] );
+   i = aSlicedChapters.length;
   }
  }
- if( me.classList.contains( "state-open" ) && me.classList.contains( "resource" ) == false )
+ if( hTargetChapter.classList.contains( "state-open" ) && hTargetChapter.classList.contains( "resource" ) == false )
  {
-  if( me.classList.contains( "button-chapter-name" ) )
+  if( hTargetChapter.classList.contains( "button-chapter-name" ) )
   {
-   me = me.parentNode;
+   hTargetChapter = hTargetChapter.parentNode;
   }
-  me = me.getElementsByTagName( "section" )[ 0 ];
-  me = me.getElementsByTagName( "div" )[ 0 ];
-  me.focus();
+  hTargetChapter = hTargetChapter.getElementsByTagName( "section" )[ 0 ];
+  hTargetChapter = hTargetChapter.getElementsByTagName( "div" )[ 0 ];
+  hTargetChapter.focus();
  }
  else
  {
-  me.focus();
+  hTargetChapter.focus();
  }
 }
-function handleClickchapter( event )
+
+/* Functions for key and mouse interactions with chapters. */
+function fHandleClickChapter( event )
 {
- isTriggerchapter(event.target);
+ fWrapperToggleChapter( event.target );
 }
-function handleKeyUpchapter( event )
+function fHandleKeyUpChapter( event )
 {
- if( keysConfirm[ event.keyCode ] )
+ if( kConfirm[ event.keyCode ] )
  {
-  isTriggerchapter(document.activeElement);
+  fWrapperToggleChapter( document.activeElement );
  }
 }
-function handleClickBC( event )
+
+/* Handles mouse input on the chapter folding toggle button. */
+function fHandleClickChapterButton( event )
 {
- toggleLC(this);
+ fToggleFoldingTopicChapterResource( this );
 }
-/*
-for( var i = 0; i < group_class_chapter.length; i++ )
-{
- group_class_chapter[ i ].addEventListener( "click", handleClickchapter, false );
- group_class_chapter[ i ].addEventListener( "keyup", handleKeyUpchapter, false );
-}
-var group_class_bc = document.getElementsByClassName("button-chapter-name");
-for( var i = 0; i < group_class_bc.length; i++ )
-{
- setText( group_class_bc[i], "Expand" );
- group_class_bc[ i ].addEventListener( "click", handleClickBC, false );
-}
-*/

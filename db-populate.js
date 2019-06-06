@@ -1,418 +1,407 @@
-/* db-populate.js
+/* dLinks-populate.js
  This script provides controls for populating the content in the site.
  Other parts only need to refer to the functions provided here.
 */
 
-// This global variable is dual-purposed for removing nodes and adding them.
-var refs = TAFFY([]);
-var total_tasks = 0;
-var bar_width = 0;
-var current = 0;
-var interrupt_flag = false;
+/// This global variable is dual-purposed for removing nodes and adding them.
+var dResourceStack = TAFFY([]); // Stacks made from queries of other databases.
+var bInterrupt = false; // Interruption flag for canceling async operations.
+var nCurrentTask = 0;
+var nTotalTasks = 0;
+var nBarWidthPercentage = 0; // For drawing the loading bar.
 
-/// Remove node
-function removeElement( node )
+/* Remove node and its children. */
+function fRemoveElement( hElement )
 {
- var range = document.createRange();
- range.selectNodeContents(node);
- range.deleteContents();
- range = null;
- var pN = node.parentNode;
- pN.removeChild(node);
- pN = null;
+ let hRange = document.createRange();
+ hRange.selectNodeContents( hElement );
+ hRange.deleteContents();
+ hRange = null;
+ let hParentElement = hElement.parentNode;
+ hParentElement.removeChild( hElement );
+ hParentElement = null;
 }
 
-function clearRefs()
+/* Erase contents of stack database. */
+function fClearDResourceStack()
 {
- refs().remove();
+ dResourceStack().remove();
 }
 
-/// Function for adding a new module using the refs entry.
-function addNewModule()
+/* Appends a resource link from the stack to the website. */
+function fAddNewResource()
 {
- var d = document.createElement('div');
- var tg = document.createElement('span');
- var aa = document.createElement('a');
- var dp = document.createElement('span');
- var first_result = refs().first();
+ let hDiv = document.createElement( "div" );
+ let hTag = document.createElement( "span" );
+ let hLink = document.createElement( "a" );
+ let hDetails = document.createElement( "span" );
+ let oResource = dResourceStack().first();
 
  // Containing div that acts similar to details.
- d.setAttribute( "aria-label", "Expand description" );
- d.setAttribute( "tabIndex", "0" );
- d.className = "resource";
- d.addEventListener( "keyup", handleKeyUpLC, false );
- d.addEventListener( "click", handleClickLC, false );
+ hDiv.setAttribute( "aria-label", "Expand description" );
+ hDiv.setAttribute( "tabindex", "0" );
+ hDiv.className = "resource";
+ hDiv.addEventListener( "keyup", fHandleKeyUpResource, false );
+ hDiv.addEventListener( "click", fHandleClickResource, false );
  // The tag in each summary.
- tg.classList.add("tag");
- tg.classList.add( first_result.tagColor );
- tg.appendChild( document.createTextNode( first_result.tagName ) );
+ hTag.classList.add( "tag" );
+ hTag.classList.add( oResource.sTagColor );
+ hTag.appendChild( document.createTextNode( oResource.sTag ) );
  // The link in the summary.
- aa.href = first_result.url;
- aa.setAttribute( "target", "_BLANK" );
- aa.className = "icon-external-link";
- aa.appendChild( document.createTextNode( first_result.summary ) );
+ hLink.href = oResource.sURL;
+ hLink.setAttribute( "target", "_BLANK" );
+ hLink.className = "icon-external-link";
+ hLink.appendChild( document.createTextNode( oResource.sSummary ) );
  // The description.
- dp.className = "resource-details";
- dp.appendChild( document.createTextNode( first_result.details ) );
+ hDetails.className = "resource-details";
+ hDetails.appendChild( document.createTextNode( oResource.sDetails ) );
  // Assemble it.
- d.appendChild( tg );
- d.appendChild( aa );
- d.appendChild( dp );
- document.getElementById( first_result.section ).appendChild( d );
- // Remove references?
- d = null;
- first_result = null;
- dp = null;
- aa = null;
- tg = null;
+ hDiv.appendChild( hTag );
+ hDiv.appendChild( hLink );
+ hDiv.appendChild( hDetails );
 
- refs().limit(1).remove();
- increaseLoadingBar();
+ document.getElementById( oResource.sSection ).appendChild( hDiv );
+
+ dResourceStack().limit( 1 ).remove();
+ fUpdateLoadingBar();
 }
 
-
-function addNewchapter( buttonText, import_id )
+/* Creates and returns a new empty chapter */
+function fCreateNewChapter( sChapterID, sChapterName )
 {
- var chapter = document.createElement('div');
- var b = document.createElement('button');
- var s = document.createElement('section');
- chapter.className = "chapter";
- b.className = "button-chapter-name";
- b.setAttribute( "type", "button" );
- b.setAttribute( "aria-label", "Expand description" );
- b.appendChild( document.createTextNode( buttonText ) );
- s.id = import_id;
- chapter.appendChild( b );
- chapter.appendChild( s );
- s = null;
- b = null;
+ let hDiv = document.createElement( "div" );
+ let hButton = document.createElement( "button" );
+ let hSection = document.createElement( "section" );
 
- return chapter;
+ hDiv.className = "chapter";
+
+ hButton.className = "button-chapter-name";
+ hButton.setAttribute( "type", "button" );
+ hButton.setAttribute( "aria-label", "Expand description" );
+ hButton.appendChild( document.createTextNode( sChapterName ) );
+
+ hSection.id = sChapterID;
+ // Assemble it.
+ hDiv.appendChild( hButton );
+ hDiv.appendChild( hSection );
+
+ return hDiv;
 }
 
-function addNewchapterFromMenuClick( import_d, import_i, import_terms )
+/* Adds a child to a topic in response to a menu click. */
+function fAddChapterFromMenu( hTopic, nChapterArrayIndex, aChapters )
 {
- var bText = import_terms[ import_i ][ 1 ];
- var idT = import_terms[ import_i ][ 0 ];
+ let sChapterID = aChapters[ nChapterArrayIndex ][ 0 ];
+ let sChapterName = aChapters[ nChapterArrayIndex ][ 1 ];
+ let hChapter = fCreateNewChapter( sChapterID, sChapterName );
 
- var chapterNode = addNewchapter( bText, idT );
-
- import_d.appendChild(chapterNode);
- return import_i + 1;
+ hTopic.appendChild( hChapter );
+ return nChapterArrayIndex + 1;
 }
 
-
-function addNewTopic( node_id, node_text )
+/* Creates, appends to site, and returns a topic element. */
+function fCreateAndAddNewTopic( sTopicID, sTopicName )
 {
- var d = document.createElement('div');
- d.className = "topic";
- d.id = node_id;
- var dh2 = document.createElement('h2');
- dh2.appendChild( document.createTextNode( node_text ) );
- d.appendChild(dh2);
- document.getElementById( "wrapper-resource-content" ).appendChild( d );
- dh2 = null;
- return d;
+ let hDiv = document.createElement( "div" );
+ let hH2 = document.createElement( "h2" );
+
+ hDiv.className = "topic";
+ hDiv.id = sTopicID;
+
+ hH2.appendChild( document.createTextNode( sTopicName ) );
+
+ /// Assemble.
+ hDiv.appendChild( hH2 );
+
+ document.getElementById( "wrapper-resource-content" ).appendChild( hDiv );
+ return hDiv;
 }
 
 /* Someone very kind has provided a basic way to do this.
 https://stackoverflow.com/questions/41366438/how-to-output-to-console-in-real-time-in-javascript
 */
 
-/// This part handles the loading bar.
-function increaseLoadingBar()
+/* Updates loading bar with increased amount. */
+function fUpdateLoadingBar()
 {
  // And to do that, we want one action, like this, repeated
- bar_width = ++current / total_tasks * 100;
+ nBarWidthPercentage = ++nCurrentTask / nTotalTasks * 100;
  // And for the browser to update like so,
- var loading_bar = document.getElementById("dynamic-loading-bar");
- loading_bar.style.width = bar_width + '%';
+ var hLoadingBar = document.getElementById( "dynamic-loading-bar" );
+ hLoadingBar.style.width = nBarWidthPercentage + '%';
  // but without processing the increase all at once.
- loading_bar.setAttribute('loading', current + ' / ' + total_tasks );
- if( bar_width == 100 )
+ hLoadingBar.setAttribute('loading', nCurrentTask + ' / ' + nTotalTasks );
+ if( nBarWidthPercentage == 100 )
  {
-  loading_bar.className = 'loading-complete';
+  hLoadingBar.className = 'loading-complete';
  }
 }
 
-/// This function is called to populate the site.
-function doHeavyTask( params )
+/* This function initiates an asynchronously performed task. */
+function fStartAsyncTask( oParameters )
 {
- var totalMillisAllotted = params.totalMillisAllotted;
- var totalTasks = params.totalTasks;
- var tasksPerTick = params.tasksPerTick;
- var tasksCompleted = 0;
- var totalTicks = Math.ceil( totalTasks / tasksPerTick );
- var interval = null;
+ let nMillisecondsAllotted = oParameters.nMillisecondsAllotted;
+ let nTasksAllotted = oParameters.nTasksAllotted;
+ let nTasksPerTick = oParameters.nTasksPerTick;
+ let nCompletedTasks = 0;
+ let nTotalTicks = Math.ceil( nTasksAllotted / nTasksPerTick );
+ let iCurrentAsyncTask = null;
+ let hLoadingBar = document.getElementById( "dynamic-loading-bar" );
 
- current = 0;
- var loading_bar = document.getElementById("dynamic-loading-bar");
- loading_bar.classList.remove("loading-complete");
- loading_bar.setAttribute('loading', current + ' / ' + total_tasks );
+ nCurrentTask = 0;
+ hLoadingBar.classList.remove( "loading-complete" );
+ hLoadingBar.setAttribute( "loading", nCurrentTask + " / " + nTotalTasks );
 
- if( totalTicks === 0 )
+ if( nTotalTicks === 0 )
  {
   return;
  }
 
- var doTick = function()
+ var fTickTask = function()
  {
-  var totalByEndOfTick = Math.min( tasksCompleted + tasksPerTick, totalTasks );
+  let nCompletedTasksByTickEnd = Math.min( nCompletedTasks + nTasksPerTick, nTasksAllotted );
   do
   {
-   params.task( tasksCompleted++ );
-  } while( tasksCompleted < totalByEndOfTick );
+   oParameters.fTask( nCompletedTasks++ );
+  } while( nCompletedTasks < nCompletedTasksByTickEnd );
 
-  if( tasksCompleted >= totalTasks || interrupt_flag )
+  if( nCompletedTasks >= nTasksAllotted || bInterrupt )
   {
-   if( interrupt_flag == false )
+   if( bInterrupt == false )
    {
-    params.taskUponCompletion();
+    oParameters.fUponAsyncTaskCompletion();
    }
-   clearInterval(interval);
+   clearInterval( iCurrentAsyncTask );
   }
  };
  // Tick once immediately, and then as many times as needed using setInterval
- doTick();
- if( totalTicks > 1 )
+ fTickTask();
+ if( nTotalTicks > 1 )
  {
-  interval = setInterval( doTick, totalMillisAllotted / totalTicks );
+  iCurrentAsyncTask = setInterval( fTickTask, nMillisecondsAllotted / nTotalTicks );
  }
 }
 
-/// Iterate through actively opened elements and destroy all nodes.
-function removeTopicNodes()
+/* Remove all active topics. */
+function fRemoveTopicNodes()
 {
- var openedElements = Array.prototype.slice.call(
-                       document.getElementsByClassName( "topic" ) );
- for( let i_r = openedElements.length - 1; i_r >= 0; i_r--  )
+ let aTopics = Array.prototype.slice.call( document.getElementsByClassName( "topic" ) );
+
+ for( let nTopicsIndex = aTopics.length - 1; nTopicsIndex >= 0; nTopicsIndex--  )
  {
-  removeElement( openedElements[i_r] );
+  fRemoveElement( aTopics[ nTopicsIndex ] );
  }
- openedElements = null;
 }
-
-/// Iterate through actively opened elements and destroy all nodes.
-function removeResourceNodes()
+/* Remove all Resources */
+function fRemoveResourceNodes()
 {
- var openedElements = Array.prototype.slice.call(
-                       document.getElementsByClassName( "resource" ) );
- for( let i_r = openedElements.length - 1; i_r >= 0; i_r--  )
+ let aResources = Array.prototype.slice.call( document.getElementsByClassName( "resource" ) );
+ for( let nResourcesIndex = aResources.length - 1; nResourcesIndex >= 0; nResourcesIndex--  )
  {
-  removeElement( openedElements[i_r] );
+  fRemoveElement( aResources[ nResourcesIndex ] );
  }
- openedElements = null;
 }
 
-
-function addModuleToRef( i_record )
+/* Copies a record entry (an array made of a dLinks entry) to the stack. */
+function fCopyRecordToStack( aRecord )
 {
-  refs.insert( {
-   "tagName" : i_record[ "tagName" ], "tagColor" : i_record[ "tagColor" ],
-   "section" : i_record[ "section" ], "summary" : i_record[ "summary" ],
-   "url" : i_record[ "url" ], "details" : i_record[ "details" ] }
-  );
-}
-
-
-/// Populate the refs object according to section (handled by menu clicks)
-function populateRefsWithResourcesBySection( terms )
-{
- for( let i = 0; i < terms.length; i++ )
- {
-  db( { "section" : terms[ i ] } ).each( function( record, recordnumber )
+ dResourceStack.insert(
   {
-   addModuleToRef(record);
+   "sTag" : aRecord[ "sTag" ], "sTagColor" : aRecord[ "sTagColor" ],
+   "sSection" : aRecord[ "sSection" ], "sSummary" : aRecord[ "sSummary" ],
+   "sURL" : aRecord[ "sURL" ], "sDetails" : aRecord[ "sDetails" ]
+  }
+ );
+}
+
+/* Populate the dResourceStack object according to section (handled by menu clicks) */
+function fPopulateStackBySection( aSectionNames )
+{
+ for( let nSectionArrayIndex = 0; nSectionArrayIndex < aSectionNames.length; nSectionArrayIndex++ )
+ {
+  dLinks( { "sSection" : aSectionNames[ nSectionArrayIndex ] } ).each( function( record, recordnumber )
+  {
+   fCopyRecordToStack( record );
   } );
  }
 }
 
-
-
-
-/// Populate refs with results from search input string "s"
-function populateRefsWithResourcesBySearch( s )
+/* Populate dResourceStack with results from search input string. */
+function fPopulateStackBySearch( sSearch )
 {
- db( function(){
-   if( this.section.includes( s ) || this.summary.includes( s ) ||
-        this.details.includes( s ) || this.url.includes( s ) ||
-        this.tagName.includes( s ) )
-   {
-    return true;
-   }
-   return false;
-  }).each(
-  function( record, recordnumber )
+ dLinks( function()
+ {
+  if( this.sSection.includes( sSearch ) || this.sSummary.includes( sSearch ) ||
+       this.sDetails.includes( sSearch ) || this.sURL.includes( sSearch ) ||
+       this.sTag.includes( sSearch ) )
   {
-   addModuleToRef(record);
+   return true;
   }
- );
-
-
-}
-
-function addAllEventListeners()
-{
- var group_class_chapter = document.getElementsByClassName("chapter");
- for( let j = 0; j < group_class_chapter.length; j++ )
+  return false;
+ } ).each( function( record, recordnumber )
  {
-  group_class_chapter[ j ].addEventListener( "click", handleClickchapter, false );
-  group_class_chapter[ j ].addEventListener( "keyup", handleKeyUpchapter, false );
- }
- var group_class_bc = document.getElementsByClassName("button-chapter-name");
- for( let j = 0; j < group_class_bc.length; j++ )
+   fCopyRecordToStack( record );
+ } );
+}
+
+/* After database entries are appended to the site, we add event listeners. */
+function fAddAllEventListeners()
+{
+ let aByClassChapter = document.getElementsByClassName( "chapter" );
+ for( let nChapterIndex = 0; nChapterIndex < aByClassChapter.length; nChapterIndex++ )
  {
-  setText( group_class_bc[ j ], "Expand" );
-  group_class_bc[ j ].addEventListener( "click", handleClickBC, false );
+  aByClassChapter[ nChapterIndex ].addEventListener( "click", fHandleClickChapter, false );
+  aByClassChapter[ nChapterIndex ].addEventListener( "keyup", fHandleClickChapter, false );
  }
- group_class_chapter = null;
- group_class_bc = null;
+ let aByClassChapterButtonName = document.getElementsByClassName( "button-chapter-name" );
+ for( let nButtonIndex = 0; nButtonIndex < aByClassChapterButtonName.length; nButtonIndex++ )
+ {
+  fSetNewARIALabel( aByClassChapterButtonName[ nButtonIndex ], "Expand" );
+  aByClassChapterButtonName[ nButtonIndex ].addEventListener( "click", fHandleClickChapterButton, false );
+ }
 }
 
-/// TODO: Each button click in awesome menu needs a function to gather the sections under an ID
-function getListOfSections( node_selected )
+/* Retrieves an array of chapters from the queried topic. */
+function fGetChapterArray( sQueriedTopicID )
 {
- return db_topics( { "topic_id" : node_selected } ).first().topic_array;
+ return dTopics( { "sTopicID" : sQueriedTopicID } ).first().aChapters;
 }
 
-function populateResourcesIntoTopic( node_selected )
+/* Asynchronously Populates a stack and then populates a topic with the stack. */
+function fPopulateTopicWithStack( sQueriedTopicID )
 {
- interrupt_flag = false;
- var terms = getListOfSections( node_selected );
- populateRefsWithResourcesBySection(terms);
- total_tasks = refs().count();
- doHeavyTask(
+ bInterrupt = false;
+ var aChaptersFromQuery = fGetChapterArray( sQueriedTopicID );
+ fPopulateStackBySection( aChaptersFromQuery );
+ nTotalTasks = dResourceStack().count();
+
+ fStartAsyncTask(
   { // And supply a bunch of arguments in the form of an object.
-   totalMillisAllotted: 25,
-   totalTasks: total_tasks,
-   tasksPerTick: 1,
-   task: function() // In here we attach a function.
+   nMillisecondsAllotted: 25,
+   nTasksAllotted: nTotalTasks,
+   nTasksPerTick: 1,
+   fTask: function() // In here we attach a function.
    {
-    addNewModule();
+    fAddNewResource();
    },
-   taskUponCompletion: function()
+   fUponAsyncTaskCompletion: function()
    {
-    addAllEventListeners();
+    fAddAllEventListeners();
    }
   }
  );
 }
 
-function populateTopicsBySection( node_selected )
+/* Handled via menu click, make a topic and append chapters to it. */
+function fPopulateTopicsViaSection( sQueriedTopicID )
 {
- interrupt_flag = false;
- var terms = getListOfSections( node_selected );
- total_tasks = terms.length;
- var i = 0;
+ var aChaptersFromQuery = fGetChapterArray( sQueriedTopicID );
+ var nChaptersQueryIndex = 0;
+ nTotalTasks = aChaptersFromQuery.length;
+ bInterrupt = false;
 
  /// Create the topic element.
- var h2Text = db_topics( { "topic_id" : node_selected } ).first().topic;
- var d = addNewTopic( node_selected, h2Text );
+ let sTopicName = dTopics( { "sTopicID" : sQueriedTopicID } ).first().sTopic;
+ var hTopic = fCreateAndAddNewTopic( sQueriedTopicID, sTopicName );
 
- doHeavyTask(
+ fStartAsyncTask(
   {
-   totalMillisAllotted: 25,
-   totalTasks: total_tasks,
-   tasksPerTick: 1,
-   task: function()
+   nMillisecondsAllotted: 25,
+   nTasksAllotted: nTotalTasks,
+   nTasksPerTick: 1,
+   fTask: function()
    {
-    i = addNewchapterFromMenuClick( d, i, terms );
+    nChaptersQueryIndex = fAddChapterFromMenu( hTopic, nChaptersQueryIndex, aChaptersFromQuery );
    },
-   taskUponCompletion: function()
+   fUponAsyncTaskCompletion: function()
    {
-    d = null;
-    populateResourcesIntoTopic( node_selected );
+    hTopic = null;
+    fPopulateTopicWithStack( sQueriedTopicID );
    }
   }
  );
 }
 
-function prepareTopicBySearch( node_selected )
+/* Wrapper function for the search function to create topics. */
+function fPrepareTopicViaSearch( sQueriedTopicID )
 {
- interrupt_flag = false;
- var terms = getListOfSections( node_selected );
- total_tasks = terms.length;
- var i = 0;
+ let aChaptersFromQuery = fGetChapterArray( sQueriedTopicID );
+ nTotalTasks = aChaptersFromQuery.length;
+ bInterrupt = false;
+ //let i = 0;
 
- /// Create the topic element.
- var h2Text = db_topics( { "topic_id" : node_selected } ).first().topic;
- addNewTopic( node_selected, h2Text );
+ let sTopicName = dTopics( { "sTopicID" : sQueriedTopicID } ).first().sTopic;
+ fCreateAndAddNewTopic( sQueriedTopicID, sTopicName );
 }
 
-function populateTopicsBySearch( k, i_tIndex, i_a_sections, i_a_topics )
+/* Using a search term, append topics to the website. */
+function fPopulateTopicsViaSearch( nSectionIndex, nTopicsIndex, aSections, aTopics )
 {
- var text_button = "";
- var sec = i_a_sections[ k ];
- var topic_selected = db_topics( function()
+ let sChapterName = "";
+ let sCurrentSection = aSections[ nSectionIndex ];
+ let oSelectedTopic = dTopics( function()
   {
-   for( let z = 0; z < this.topic_array.length; z++ )
+   for( let nChaptersIndex = 0; nChaptersIndex < this.aChapters.length; nChaptersIndex++ )
    {
-    if( this.topic_array[ z ][ 0 ] == sec )
+    if( this.aChapters[ nChaptersIndex ][ 0 ] == sCurrentSection )
     {
-     text_button = this.topic_array[ z ][ 1 ];
+     sChapterName = this.aChapters[ nChaptersIndex ][ 1 ];
      return true;
     }
    }
    return false;
   }
  ).first();
- var flagMadeTopicAlready = false;
+ let bAlreadyMadeTopic = false;
 
  // This groups the topics into one place.
- for( let l = 0; l < i_a_topics.length; l++ )
+ for( let nAlreadyTopicsIndex = 0; nAlreadyTopicsIndex < aTopics.length; nAlreadyTopicsIndex++ )
  {
-  if( i_a_topics[ l ] == topic_selected.topic )
+  if( aTopics[ nAlreadyTopicsIndex ] == oSelectedTopic.sTopic )
   {
-   l = i_a_sections.length;
-   flagMadeTopicAlready = true;
+   nAlreadyTopicsIndex = aSections.length;
+   bAlreadyMadeTopic = true;
   }
  }
 
- if( flagMadeTopicAlready == false )
+ if( bAlreadyMadeTopic == false )
  {
-  i_a_topics[ i_tIndex ] = topic_selected.topic;
-  i_tIndex++;
-  prepareTopicBySearch( topic_selected.topic_id );
+  aTopics[ nTopicsIndex ] = oSelectedTopic.sTopic;
+  nTopicsIndex++;
+  fPrepareTopicViaSearch( oSelectedTopic.sTopicID );
  }
- var node_chapter = addNewchapter( text_button, i_a_sections[ k ] );
- document.getElementById( topic_selected.topic_id ).appendChild( node_chapter );
+ var node_chapter = fCreateNewChapter( aSections[ nSectionIndex ], sChapterName );
+ document.getElementById( oSelectedTopic.sTopicID ).appendChild( node_chapter );
 
- return { _k : k + 1, _t: i_tIndex };
+ return { nSectionIndexValue : nSectionIndex + 1, nTopicsIndexValue: nTopicsIndex };
 }
 
-function eraseEventListeners()
+
+/* This iterates through all of the appended db elements and removes event listeners. */
+function fEraseEventListeners()
 {
- var group_class_bc = document.getElementsByClassName("button-chapter-name");
- for( let j = 0; j < group_class_bc.length; j++ )
+ let aByClassChapterButtonName = document.getElementsByClassName( "button-chapter-name" );
+ for( let nButtonIndex = 0; nButtonIndex < aByClassChapterButtonName.length; nButtonIndex++ )
  {
-  group_class_bc[ j ].removeEventListener( "click", handleClickBC, false );
+  aByClassChapterButtonName[ nButtonIndex ].removeEventListener( "click", fHandleClickChapterButton, false );
  }
- var group_class_chapter = document.getElementsByClassName("chapter");
- for( let j = 0; j < group_class_chapter.length; j++ )
+ let aByClassChapter = document.getElementsByClassName( "chapter" );
+ for( let nChapterIndex = 0; nChapterIndex < aByClassChapter.length; nChapterIndex++ )
  {
-  group_class_chapter[ j ].removeEventListener( "click", handleClickchapter, false );
-  group_class_chapter[ j ].removeEventListener( "keyup", handleKeyUpchapter, false );
+  aByClassChapter[ nChapterIndex ].removeEventListener( "click", fHandleClickChapter, false );
+  aByClassChapter[ nChapterIndex ].removeEventListener( "keyup", fHandleKeyUpChapter, false );
  }
- var group_class_topic = document.getElementsByClassName("topic");
- for( let j = group_class_topic.length - 1; j >= 0 ; j-- )
+ let aByClassTopic = document.getElementsByClassName( "topic" );
+ for( let nTopicIndex = aByClassTopic.length - 1; nTopicIndex >= 0 ; nTopicIndex-- )
  {
-  removeElement( group_class_topic[ j ] );
+  fRemoveElement( aByClassTopic[ nTopicIndex ] );
  }
- group_class_bc = null;
- group_class_chapter = null;
- group_class_topic = null;
 }
 
-function populateByMenuClick( node_selected )
+/* Wrapper function for erasing event listeners and populating topics. */
+function fPopulateViaMenu( sQueriedTopicID )
 {
- interrupt_flag = true; // First, cancel all existing timers.
- eraseEventListeners();
- setTimeout( populateTopicsBySection( node_selected ), 26 );
+ bInterrupt = true; // First, cancel all existing timers.
+ fEraseEventListeners();
+ setTimeout( fPopulateTopicsViaSection( sQueriedTopicID ), 26 );
 }
-
-/*
- 1. Clear out the existing nodes. Done!
- 2a. (Menu) Make a collection of the nodes by ID.
- 2b. (Search) Make a collection of the nodes by search term.
- 3. Populate the nodes according to the collection.
-*/

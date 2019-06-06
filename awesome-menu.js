@@ -119,22 +119,22 @@ MS.App = ( function()
  /// Tabindex and ARIA-Hidden
  function enableAccess( this_tag )
  {
-  this_tag.removeAttribute("tabindex");
-  this_tag.removeAttribute("aria-hidden");
+  this_tag.removeAttribute( "tabindex" );
+  this_tag.removeAttribute( "aria-hidden" );
  }
  function disableAccess( this_tag )
  {
   this_tag.setAttribute( "tabindex", "-1" );
   this_tag.setAttribute( "aria-hidden", "true" );
  }
- function enableSubmenuAccess(this_tag)
+ function enableSubmenuAccess( this_tag )
  {
   for( let i = 0; i < this_tag.children.length; i++ )
   {
    enableAccess( this_tag.children[ i ].children[ 0 ] );
   }
  }
- function disableSubmenuAccess(this_tag)
+ function disableSubmenuAccess( this_tag )
  {
   for( let i = 0; i < this_tag.children.length; i++ )
   {
@@ -143,7 +143,7 @@ MS.App = ( function()
  }
  function enableAllAccess()
  { // Links lose their tabIndex="-1" thing.
-  enableAccess(navMain);
+  enableAccess( navMain );
   var listChildren = navMain.children[ 1 ].children;
   for( let i = 0; i < listChildren.length; i++ )
   {
@@ -412,8 +412,8 @@ MS.App = ( function()
  }
  function evtClickButtonAccess()
  {
-  dialogAccess.classList.add("state-open");
-  drawDark.classList.add("state-accessibility-settings");
+  dialogAccess.classList.add( "state-open" );
+  drawDark.classList.add( "state-accessibility-settings" );
   enableAccess(dialogAccess);
   var buttonsDialogAccess = dialogAccess.getElementsByTagName( "button" );
   buttonsDialogAccess = Array.prototype.slice.call( buttonsDialogAccess );
@@ -465,15 +465,14 @@ MS.App = ( function()
  function handleMenuClick( event )
  {
   ///
-  var topics = document.getElementsByClassName("topic");
+  var topics = document.getElementsByClassName( "topic" );
   var to = event.target.getAttribute( "to" );
   // In this part, we set all of the attributes appropriately.
+  fRemoveResourceNodes(); // Clear out nodes we are no longer using (reduce RAM usage)
+  fPopulateViaMenu( to );
 
-  //////////////////////////////////////////////////////////////////////////////-------------------------------------------
-  removeResourceNodes(); // Clear out nodes we are no longer using (reduce RAM usage)
-  populateByMenuClick(to);
-
-  var this_timer = setTimeout( function(){
+  var this_timer = setTimeout( function()
+  {
    var targ = document.getElementById( to );
    if( navMain.className == "state-open" )
    {

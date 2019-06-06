@@ -6,10 +6,10 @@ var timer = null;
 
 function beginNewSearch()
 {
- eraseEventListeners(); // Erases event listeners and resource nodes.
- removeResourceNodes();
- removeTopicNodes();
- clearRefs();
+ fEraseEventListeners(); // Erases event listeners and resource nodes.
+ fRemoveResourceNodes();
+ fRemoveTopicNodes();
+ fClearDResourceStack();
  /// The idea here is to preserve the active section and then gradually
  //   add topics and search results to a
  node_saved_section = document.getElementsByClassName( "topic" );
@@ -25,9 +25,9 @@ function beginNewSearch()
  /// The tricky part is that I must first get results from the resources
  ///  and then acquire the matching sections before putting everything
  ///  in its place.
- populateRefsWithResourcesBySearch( string_search );
+ fPopulateStackBySearch( string_search );
 
- var array_of_sections = refs().distinct("section"); // This gets an array of refs sections.
+ var array_of_sections = dResourceStack().distinct( "sSection" ); // This gets an array of refs sections.
 
   // Now I just need topics.
  var array_of_topics = [];
@@ -35,33 +35,33 @@ function beginNewSearch()
 
  total_tasks = array_of_sections.length;
  var k = 0;
- doHeavyTask(
+ fStartAsyncTask(
  { // And supply a bunch of arguments in the form of an object.
-  totalMillisAllotted: 25,
-  totalTasks: total_tasks,
-  tasksPerTick: 1,
-  task: function() // In here we attach a function.
+  nMillisecondsAllotted: 25,
+  nTasksAllotted: total_tasks,
+  nTasksPerTick: 1,
+  fTask: function() // In here we attach a function.
   {
-   var o_kt = populateTopicsBySearch( k, topic_index, array_of_sections, array_of_topics );
-   k = o_kt._k;
-   topic_index = o_kt._t;
+   var o_kt = fPopulateTopicsViaSearch( k, topic_index, array_of_sections, array_of_topics );
+   k = o_kt.nSectionIndexValue;
+   topic_index = o_kt.nTopicsIndexValue;
    o_kt = null;
   },
-  taskUponCompletion: function()
+  fUponAsyncTaskCompletion: function()
   {
-   total_tasks = refs().count();
-   doHeavyTask(
+   total_tasks = dResourceStack().count();
+   fStartAsyncTask(
    { // And supply a bunch of arguments in the form of an object.
-    totalMillisAllotted: 25,
-    totalTasks: total_tasks,
-    tasksPerTick: 1,
-    task: function() // In here we attach a function.
+    nMillisecondsAllotted: 25,
+    nTasksAllotted: total_tasks,
+    nTasksPerTick: 1,
+    fTask: function() // In here we attach a function.
     {
-     addNewModule();
+     fAddNewResource();
     },
-    taskUponCompletion: function()
+    fUponAsyncTaskCompletion: function()
     {
-     addAllEventListeners();
+     fAddAllEventListeners();
     }
    }
    );
@@ -75,10 +75,10 @@ function beginNewSearch()
 function revertState()
 {
  // First, we eliminate all resource nodes.
- eraseEventListeners(); // Erases event listeners and resource nodes.
- removeResourceNodes();
- removeTopicNodes();
- clearRefs();
+ fEraseEventListeners(); // Erases event listeners and resource nodes.
+ fRemoveResourceNodes();
+ fRemoveTopicNodes();
+ fClearDResourceStack();
  // Next, we check if we have saved a section.
  // If there is one, we load that node.
  if( node_saved_section == null )
@@ -87,7 +87,7 @@ function revertState()
  }
  setTimeout( function()
  {
-  populateTopicsBySection( node_saved_section );
+  fPopulateTopicsViaSection( node_saved_section );
   node_saved_section = null;
  }, 26 );
 }
