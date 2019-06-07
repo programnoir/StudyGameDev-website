@@ -3,7 +3,7 @@
  css class toggle means .desc is no longer hidden.
  but wait, some screen reader users have vision.
 */
-var kConfirm = { 13:1, 32:1 };
+var kConfirm = { 13: 1, 32: 1 };
 
 /* Resets the ARIA label for the specified topic/chapter/resource. */
 function fSetNewARIALabel( hRelabeledElement, sReplacementLabel )
@@ -93,7 +93,7 @@ function fWrapperToggleChapter( hTargetChapter )
    i = aSlicedChapters.length;
   }
  }
- if( hTargetChapter.classList.contains( "state-open" ) && hTargetChapter.classList.contains( "resource" ) == false )
+ if( hTargetChapter.classList.contains( "state-open" ) == false && hTargetChapter.classList.contains( "resource" ) == false )
  {
   if( hTargetChapter.classList.contains( "button-chapter-name" ) )
   {
@@ -101,18 +101,21 @@ function fWrapperToggleChapter( hTargetChapter )
   }
   hTargetChapter = hTargetChapter.getElementsByTagName( "section" )[ 0 ];
   hTargetChapter = hTargetChapter.getElementsByTagName( "div" )[ 0 ];
-  hTargetChapter.focus();
- }
- else
- {
-  hTargetChapter.focus();
+  setTimeout( function()
+   {
+    hTargetChapter.focus();
+   }, 1 // Needs one tick to render.
+  );
  }
 }
 
 /* Functions for key and mouse interactions with chapters. */
 function fHandleClickChapter( event )
 {
- fWrapperToggleChapter( event.target );
+ if( event.type == "mousedown" || kConfirm[ event.keyCode ] )
+ {
+  fWrapperToggleChapter( event.target );
+ }
 }
 function fHandleKeyUpChapter( event )
 {

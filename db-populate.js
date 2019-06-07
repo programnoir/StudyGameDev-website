@@ -251,7 +251,7 @@ function fAddAllEventListeners()
  for( let nChapterIndex = 0; nChapterIndex < aByClassChapter.length; nChapterIndex++ )
  {
   aByClassChapter[ nChapterIndex ].addEventListener( "click", fHandleClickChapter, false );
-  aByClassChapter[ nChapterIndex ].addEventListener( "keyup", fHandleClickChapter, false );
+  aByClassChapter[ nChapterIndex ].addEventListener( "keyup", fHandleKeyUpChapter, false );
  }
  let aByClassChapterButtonName = document.getElementsByClassName( "button-chapter-name" );
  for( let nButtonIndex = 0; nButtonIndex < aByClassChapterButtonName.length; nButtonIndex++ )

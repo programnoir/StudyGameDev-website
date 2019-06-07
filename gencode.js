@@ -17,7 +17,7 @@
   focus the button again
 */
 
-MS.App2 = ( function()
+oAwesomeMenu.App2 = ( function()
 {
  dialogGenCode = document.getElementById("wrapper-code-generator");
 
@@ -186,5 +186,5 @@ MS.App2 = ( function()
 
 window.addEventListener('load', function()
 {
- new MS.App2.init();
+ new oAwesomeMenu.App2.init();
 });

@@ -14,57 +14,54 @@
  https://codepen.io/marcysutton/pen/JoQqVw
  https://codepen.io/rjmccollam/pen/ZYNEXd
 */
-var MS = MS || {};
-MS.App = ( function()
+var oAwesomeMenu = {};
+oAwesomeMenu.fApplication = ( function()
 {
- var isFirefox = typeof InstallTrigger !== "undefined",
- lastFocused = document.getElementById( "text-site-title" ).children[ 0 ],
- flagDialogAccess = false,
- keysMenu = { 90: 1,  191: 1 }, // Z and slash
- keysConfirm = { 13: 1,  32: 1 }, // ENTER, SPACE
- keysScroll = { 32: 1,  37: 1,  38: 1,  39: 1,  40: 1 }, // ARROWS
- keysMouse = { 0: 1,  1: 1,  2: 1 },
- // temp vars: openedElements, submenuButtons,
- buttonNavMain = document.getElementById( "button-main-menu" ),
- navMain = document.getElementById( "wrapper-main-menu" ),
- buttonsSubmenu = navMain.getElementsByClassName( "button-toggle-submenu" ),
- mainWrap = document.getElementById( "wrapper-main-site-content" ),
- drawDark = document.getElementById( "background-black-alpha" ),
- buttonAccess = document.getElementById( "button-settings-accessibility" ),
- dialogAccess = document.getElementById( "wrapper-settings-accessibility" );
+ var bIsFirefox = typeof InstallTrigger !== "undefined",
+ hLastFocusedID = document.getElementById( "text-site-title" ).children[ 0 ],
+ bAccessibilityDialogOpen = false,
+ kMenuShortcut = { 90: 1,  191: 1 }, // Z and slash
+ kScroll = { 32: 1,  37: 1,  38: 1,  39: 1,  40: 1 }, // ARROWS
+ kMouse = { 0: 1,  1: 1,  2: 1 },
+ hMainMenuButton = document.getElementById( "button-main-menu" ),
+ hMainMenuWrapper = document.getElementById( "wrapper-main-menu" ),
+ aByClassButtonToggleSubmenu = hMainMenuWrapper.getElementsByClassName( "button-toggle-submenu" ),
+ hBlackBackground = document.getElementById( "background-black-alpha" ),
+ hAccessibilityDialogButton = document.getElementById( "button-settings-accessibility" ),
+ hAccessibilityDialog = document.getElementById( "wrapper-settings-accessibility" );
 
 
- /// Set Cookie Settings: 1. dark/bright, 2. default/larger/largest
- function set_cookie( theme_value, font_value, show_content_value, lifespan_in_days, valid_domain )
+ /* Set Cookie Settings: 1. dark/bright, 2. default/larger/largest 3. yes/no to unfolding */
+ function fSetCookie( sTheme, sFontSize, sUnfoldContent, nLifespanDays, sValidDomain )
  {
   // https://www.thesitewizard.com/javascripts/cookies.shtml (Thank youuu)
-  var domain_string = valid_domain ? ( "; domain=" + valid_domain) : '';
-  document.cookie = "theme" + "=" + encodeURIComponent( theme_value ) +
-   "; max-age=" + 60 * 60 * 24 * lifespan_in_days +
-   "; path=/" + domain_string ;
-  document.cookie = "fontsize" + "=" + encodeURIComponent( font_value ) +
-   "; max-age=" + 60 * 60 * 24 * lifespan_in_days +
-   "; path=/" + domain_string ;
-  document.cookie = "showcontent" + "=" + encodeURIComponent( show_content_value ) +
-   "; max-age=" + 60 * 60 * 24 * lifespan_in_days +
-   "; path=/" + domain_string ;
+  var sDomain = sValidDomain ? ( "; domain=" + sValidDomain ) : '';
+  document.cookie = "theme" + "=" + encodeURIComponent( sTheme ) +
+   "; max-age=" + 60 * 60 * 24 * nLifespanDays +
+   "; path=/" + sDomain ;
+  document.cookie = "fontsize" + "=" + encodeURIComponent( sFontSize ) +
+   "; max-age=" + 60 * 60 * 24 * nLifespanDays +
+   "; path=/" + sDomain ;
+  document.cookie = "showcontent" + "=" + encodeURIComponent( sUnfoldContent ) +
+   "; max-age=" + 60 * 60 * 24 * nLifespanDays +
+   "; path=/" + sDomain ;
  }
 
 
- /// Get Cookie once you reload.
- function get_cookie( cookie_name )
+ /* Get Cookie once it has been set. */
+ function fGetCookie( sCookieName )
  {
   // https://www.thesitewizard.com/javascripts/cookies.shtml
-  var cookie_string = document.cookie;
-  if( cookie_string.length != 0 )
+  var sCookie = document.cookie;
+  if( sCookie.length != 0 )
   {
-   var cookie_array = cookie_string.split( '; ' );
-   for( let i = 0; i < cookie_array.length; i++ )
+   var aCookie = sCookie.split( '; ' );
+   for( let nCookieIndex = 0; nCookieIndex < aCookie.length; nCookieIndex++ )
    {
-    cookie_value = cookie_array[ i ].match( cookie_name + '=(.*)' );
-    if (cookie_value != null)
+    let aCookieValue = aCookie[ nCookieIndex ].match( sCookieName + '=(.*)' );
+    if( aCookieValue != null )
     {
-     return decodeURIComponent( cookie_value[ 1 ] );
+     return decodeURIComponent( aCookieValue[ 1 ] ); // The value in () above.
     }
    }
   }
@@ -73,480 +70,482 @@ MS.App = ( function()
 
 
  /// Site settings, set by cookies and forms.
- function setSiteSettings( theme, fontsize, showcontent )
+ function fApplySettings( sSettingTheme, sSettingFontSize, sSettingShowContent )
  {
-  document.body.className = theme;
-  document.getElementsByTagName("html")[0].className = fontsize;
-  document.getElementById("setting-unfolding-marker").className = showcontent;
+  document.body.className = sSettingTheme;
+  document.getElementsByTagName( "html" )[ 0 ].className = sSettingFontSize;
+  document.getElementById( "setting-unfolding-marker" ).className = sSettingShowContent;
  }
 
 
  /// Focus after a small timer.
- function focusDelay( me )
+ function fDelayFocusOnElement( hElement )
  {
-  setTimeout( function(){ me.focus(); }, 100 );  // For readability.
+  setTimeout( function(){ hElement.focus(); }, 100 );  // For readability.
  }
 
 
  /// Scroll Disabling (mouse)
- function preventDefault( e )
+ function preventDefault( hEvent )
  {
-  e = e || window.event;
-  if( e.preventDefault )
+  hEvent = hEvent || window.event;
+  if( hEvent.preventDefault )
   {
-   e.preventDefault();
+   hEvent.preventDefault();
   }
-  e.returnValue = false;
+  hEvent.returnValue = false;
  }
- function preventDefaultForScrollKeys( e )
+ function fPreventScrollKeys( hEvent )
  { /// Keyboard
-  if( keysScroll[ e.keyCode ] )
+  if( kScroll[ hEvent.keyCode ] )
   {
-   preventDefault(e);
+   preventDefault( hEvent );
    return false;
   }
  }
- function enableScroll()
+ function fEnableScroll()
  { /// Re-enabling scroll
   document.onkeydown = null;
  }
- function disableScroll()
+ function fDisableScroll()
  { /// Re-enabling keys
-  document.onkeydown = preventDefaultForScrollKeys;
+  document.onkeydown = fPreventScrollKeys;
  }
 
 
  /// Tabindex and ARIA-Hidden
- function enableAccess( this_tag )
+ function fTabScreenReaderOn( hElement )
  {
-  this_tag.removeAttribute( "tabindex" );
-  this_tag.removeAttribute( "aria-hidden" );
+  hElement.removeAttribute( "tabindex" );
+  hElement.removeAttribute( "aria-hidden" );
  }
- function disableAccess( this_tag )
+ function fTabScreenReaderOff( hElement )
  {
-  this_tag.setAttribute( "tabindex", "-1" );
-  this_tag.setAttribute( "aria-hidden", "true" );
+  hElement.setAttribute( "tabindex", "-1" );
+  hElement.setAttribute( "aria-hidden", "true" );
  }
- function enableSubmenuAccess( this_tag )
+ function fSubmenuTabScreenOn( hElement )
  {
-  for( let i = 0; i < this_tag.children.length; i++ )
+  for( let nSubmenuChildrenIndex = 0; nSubmenuChildrenIndex < hElement.children.length; nSubmenuChildrenIndex++ )
   {
-   enableAccess( this_tag.children[ i ].children[ 0 ] );
+   fTabScreenReaderOn( hElement.children[ nSubmenuChildrenIndex ].children[ 0 ] );
   }
  }
- function disableSubmenuAccess( this_tag )
+ function fSubmenuTabScreenOff( hElement )
  {
-  for( let i = 0; i < this_tag.children.length; i++ )
+  for( let nSubmenuChildrenIndex = 0; nSubmenuChildrenIndex < hElement.children.length; nSubmenuChildrenIndex++ )
   {
-   disableAccess( this_tag.children[ i ].children[ 0 ] );
+   fTabScreenReaderOff( hElement.children[ nSubmenuChildrenIndex ].children[ 0 ] );
   }
  }
- function enableAllAccess()
+ function fAllTabScreenOn()
  { // Links lose their tabIndex="-1" thing.
-  enableAccess( navMain );
-  var listChildren = navMain.children[ 1 ].children;
-  for( let i = 0; i < listChildren.length; i++ )
+  fTabScreenReaderOn( hMainMenuWrapper );
+  let aMainMenuChildren = hMainMenuWrapper.children[ 1 ].children;
+  for( let nMenuChildrenIndex = 0; nMenuChildrenIndex < aMainMenuChildren.length; nMenuChildrenIndex++ )
   {
-   var childButton = listChildren[ i ].children[ 0 ];
-   enableAccess(childButton);
-   if( listChildren[ i ].classList.contains( "wrapper-submenu-parent" ) )
+   let hButton = aMainMenuChildren[ nMenuChildrenIndex ].children[ 0 ];
+   fTabScreenReaderOn( hButton );
+   if( aMainMenuChildren[ nMenuChildrenIndex ].classList.contains( "wrapper-submenu-parent" ) )
    {
-    let sibUL = childButton.nextElementSibling;
-    enableSubmenuAccess( sibUL );
+    let hSiblingList = hButton.nextElementSibling;
+    fSubmenuTabScreenOn( hSiblingList );
    }
   }
  }
- function disableAllAccess()
+ function fAllTabScreenOff()
  { // Links lose their tabIndex="-1" thing.
-  disableAccess(navMain);
-  var listChildren = navMain.children[ 1 ].children;
-  for( let i = 0; i < listChildren.length; i++ )
+  fTabScreenReaderOff( hMainMenuWrapper );
+  var aMainMenuChildren = hMainMenuWrapper.children[ 1 ].children;
+  for( let nMenuChildrenIndex = 0; nMenuChildrenIndex < aMainMenuChildren.length; nMenuChildrenIndex++ )
   {
-   var childButton = listChildren[ i ].children[ 0 ];
-   disableAccess(childButton);
-   if( listChildren[ i ].classList.contains( "wrapper-submenu-parent" ) )
+   var hButton = aMainMenuChildren[ nMenuChildrenIndex ].children[ 0 ];
+   fTabScreenReaderOff( hButton );
+   if( aMainMenuChildren[ nMenuChildrenIndex ].classList.contains( "wrapper-submenu-parent" ) )
    {
-    let sibUL = childButton.nextElementSibling;
-    disableSubmenuAccess(sibUL);
+    let hSiblingList = hButton.nextElementSibling;
+    fSubmenuTabScreenOff( hSiblingList );
    }
   }
  }
-
 
  /// Opening/Closing Navigation
- function moveButtonIn()
+ function fMoveMenuButtonToOpen()
  {
-  document.getElementById("wrapper-button-menu-closed").removeChild(buttonNavMain);
-  document.getElementById("wrapper-button-menu-open").appendChild(buttonNavMain);
+  document.getElementById( "wrapper-button-menu-closed" ).removeChild( hMainMenuButton );
+  document.getElementById( "wrapper-button-menu-open" ).appendChild( hMainMenuButton );
  }
- function moveButtonOut()
+ function fMoveMenuButtonToClosed()
  {
-  document.getElementById("wrapper-button-menu-open").removeChild(buttonNavMain);
-  document.getElementById("wrapper-button-menu-closed").appendChild(buttonNavMain);
+  document.getElementById( "wrapper-button-menu-open" ).removeChild( hMainMenuButton );
+  document.getElementById( "wrapper-button-menu-closed" ).appendChild( hMainMenuButton );
  }
- function openNavMain()
+ function fOpenMainMenu()
  {
-  drawDark.className = "state-open";
-  buttonNavMain.className = "state-open";
-  navMain.className = "state-open";
-  buttonNavMain.setAttribute( 'aria-label', 'Close the menu ' );
-  disableScroll();
-  enableAllAccess();
-  focusDelay( navMain.children[ 1 ].children[ 0 ].children[ 0 ] );
-  moveButtonIn();
-  navMain.children[ 1 ].children[ 0 ].children[ 0 ].focus();
+  hBlackBackground.className = "state-open";
+  hMainMenuButton.className = "state-open";
+  hMainMenuWrapper.className = "state-open";
+  hMainMenuButton.setAttribute( "aria-label", "Close the menu " );
+  fDisableScroll();
+  fAllTabScreenOn();
+  fDelayFocusOnElement( hMainMenuWrapper.children[ 1 ].children[ 0 ].children[ 0 ] );
+  fMoveMenuButtonToOpen();
+  hMainMenuWrapper.children[ 1 ].children[ 0 ].children[ 0 ].focus();
  }
- function closeNavMain()
+ function fCloseMainMenu()
  {
-  if( flagDialogAccess )
+  if( bAccessibilityDialogOpen )
   {
    return;
   }
-  let openedElements = Array.prototype.slice.call(
-                        navMain.getElementsByClassName( "state-open" ) );
-  for( let i of openedElements )
+  let aSlicedMenuOpenChildren = Array.prototype.slice.call( hMainMenuWrapper.getElementsByClassName( "state-open" ) );
+  for( let hMenuOpenChild of aSlicedMenuOpenChildren )
   {
-   i.classList.remove("state-open");
+   hMenuOpenChild.classList.remove( "state-open" );
   }
-  navMain.classList.remove("state-open");
-  drawDark.classList.remove("state-open");
-  buttonNavMain.classList.remove("state-open");
-  buttonNavMain.setAttribute( 'aria-label', 'Open the menu ' );
-  enableScroll();
-  disableAllAccess();
-  moveButtonOut();
+  hMainMenuWrapper.classList.remove( "state-open" );
+  hBlackBackground.classList.remove( "state-open" );
+  hMainMenuButton.classList.remove( "state-open" );
+  hMainMenuButton.setAttribute( "aria-label", "Open the menu " );
+  fEnableScroll();
+  fAllTabScreenOff();
+  fMoveMenuButtonToClosed();
  }
 
 
  /// Is child a descendent of parent?
- function isDescendent( parent, child )
+ function fIsDescendent( hParent, hChild )
  {
-  var node = child.parentNode;
-  while( node != null )
+  let hNode = hChild.parentNode;
+  while( hNode != null )
   {
-   if( node == parent )
+   if( hNode == hParent )
    {
     return true;
    }
-   node = node.parentNode;
+   hNode = hNode.parentNode;
   }
   return false;
  }
 
 
  /// Are we focused on something in the menu?
- function isNavFocused()
+ function fIsNavFocused()
  {
-  return isDescendent( navMain, document.activeElement );
+  return fIsDescendent( hMainMenuWrapper, document.activeElement );
  }
 
 
  /// Wait, you mean INNERTEXT ISN'T CROSS-BROWSER, YET?!
- function retrieveText( elem )
+ function fRetrieveText( hElement )
  {
-  if( typeof elem.textContent != null )
+  if( typeof hElement.textContent != null )
   {
-   return elem.textContent;
+   return hElement.textContent;
   }
-  return elem.innerText;
+  return hElement.innerText;
  }
 
 
  /// Toggle Opening/Closing of Submenus
- function openSubmenu( submenu )
+ function fOpenSubmenu( hSubmenu )
  {
-  submenu.classList.add("state-open");
-  enableSubmenuAccess(submenu.nextElementSibling);
-  var toFocus = submenu.nextElementSibling.children[ 0 ].children[ 0 ];
-  toFocus.focus();
+  hSubmenu.classList.add( "state-open" );
+  fSubmenuTabScreenOn( hSubmenu.nextElementSibling );
+  let hFirstSubmenuItem = hSubmenu.nextElementSibling.children[ 0 ].children[ 0 ];
+  hFirstSubmenuItem.focus();
  }
- function closeSubmenu( submenu )
+ function fCloseSubmenu( hSubmenu )
  {
-  submenu.classList.remove("state-open");
-  disableSubmenuAccess(submenu.nextElementSibling);
+  hSubmenu.classList.remove( "state-open" );
+  fSubmenuTabScreenOff( hSubmenu.nextElementSibling );
  }
- function closeAllSubmenus()
+ function fCloseAllSubmenus()
  {
-  let submenuButtons = Array.prototype.slice.call(buttonsSubmenu);
-  for( let i of submenuButtons )
+  let aSlicedSubmenuButtons = Array.prototype.slice.call( aByClassButtonToggleSubmenu );
+  for( let hSubmenuButton of aSlicedSubmenuButtons )
   {
-   if( isDescendent( i.parentNode, document.activeElement ) == false )
+   if( fIsDescendent( hSubmenuButton.parentNode, document.activeElement ) == false )
    {
-    closeSubmenu(i);
+    fCloseSubmenu( hSubmenuButton );
    }
   }
  }
- function toggleSubmenu( submenu )
+ function fToggleSubmenu( hSubmenu )
  {
-  if( submenu.classList.contains( "state-open" ) )
+  if( hSubmenu.classList.contains( "state-open" ) )
   {
-   closeSubmenu(submenu);
-   submenu.setAttribute( 'aria-label', 'Open the ' + retrieveText(submenu) + ' sub-menu' );
+   fCloseSubmenu( hSubmenu );
+   hSubmenu.setAttribute( "aria-label", "Open the " + fRetrieveText( hSubmenu ) + " sub-menu" );
   }
   else
   {
-   openSubmenu(submenu);
-   submenu.setAttribute( 'aria-label', 'Close the ' + retrieveText(submenu) + ' sub-menu' );
+   fOpenSubmenu( hSubmenu );
+   hSubmenu.setAttribute( "aria-label", "Close the " + fRetrieveText( hSubmenu ) + " sub-menu" );
   }
  }
 
 
  /// Events
- function evtClickButtonSubmenu()
+ function fEventClickSubmenu()
  {
-  closeAllSubmenus();
-  toggleSubmenu(this);
+  fCloseAllSubmenus();
+  fToggleSubmenu( this );
  }
- function evtClickButtonNavMain( event )
+ function fEventClickMainMenuButton( hEvent )
  {
   if( this.className == "state-open" )
   {
-   closeNavMain();
-   lastFocused.focus();
+   fCloseMainMenu();
+   hLastFocusedID.focus();
   }
   else
   {
-   openNavMain();
+   fOpenMainMenu();
   }
  }
 
 
- function closeDialogAccess()
+ function fCloseAccessibilityDialog()
  {
-  drawDark.classList.remove("state-accessibility-settings");
-  dialogAccess.classList.remove("state-open");
-  disableAccess(dialogAccess);
-  // Do the same for all selects and buttons in dialogAccess
-  var buttonsDialogAccess = dialogAccess.getElementsByTagName( "button" );
-  buttonsDialogAccess = Array.prototype.slice.call( buttonsDialogAccess );
-  var selectsDialogAccess = dialogAccess.getElementsByTagName( "select" );
-  selectsDialogAccess = Array.prototype.slice.call( selectsDialogAccess );
-  for( let i = 0; i < buttonsDialogAccess.length; i++ )
+  hBlackBackground.classList.remove( "state-accessibility-settings" );
+  hAccessibilityDialog.classList.remove( "state-open" );
+  fTabScreenReaderOff( hAccessibilityDialog );
+  // Do the same for all selects and buttons in hAccessibilityDialog
+  let aByTagNameButton = hAccessibilityDialog.getElementsByTagName( "button" );
+  let aByTagNameSelect = hAccessibilityDialog.getElementsByTagName( "select" );
+  aByTagNameButton = Array.prototype.slice.call( aByTagNameButton );
+  aByTagNameSelect = Array.prototype.slice.call( aByTagNameSelect );
+
+  for( let hButtonArrayIndex = 0; hButtonArrayIndex < aByTagNameButton.length; hButtonArrayIndex++ )
   {
-   disableAccess( buttonsDialogAccess[ i ] );
+   fTabScreenReaderOff( aByTagNameButton[ hButtonArrayIndex ] );
   }
-  for( let i = 0; i < selectsDialogAccess.length; i++  )
+  for( let hSelectArrayIndex = 0; hSelectArrayIndex < aByTagNameSelect.length; hSelectArrayIndex++  )
   {
-   disableAccess( selectsDialogAccess[ i ] );
+   fTabScreenReaderOff( aByTagNameSelect[ hSelectArrayIndex ] );
   }
-  dialogAccess.children[ 0 ].setAttribute( "tabindex", "-1" );
-  flagDialogAccess = false;
-  buttonAccess.focus();
+  hAccessibilityDialog.children[ 0 ].setAttribute( "tabindex", "-1" );
+  bAccessibilityDialogOpen = false;
+  hAccessibilityDialogButton.focus();
  }
 
 
- function evtKeyUpGlobal( event )
+ function fEventKeyUpGlobal( hEvent )
  {
-  if( flagDialogAccess )
+  if( bAccessibilityDialogOpen )
   {
-   if( isDescendent( dialogAccess, document.activeElement ) == false )
+   if( fIsDescendent( hAccessibilityDialog, document.activeElement ) == false )
    {
-    closeDialogAccess();
+    fCloseAccessibilityDialog();
    }
   }
-  else if( isNavFocused() )
+  else if( fIsNavFocused() )
   {
-   closeAllSubmenus();
+   fCloseAllSubmenus();
   }
-  else if( document.activeElement != buttonNavMain )
+  else if( document.activeElement != hMainMenuButton )
   {
-   if( navMain.className == "state-open" )
+   if( hMainMenuWrapper.className == "state-open" )
    {
-    closeNavMain();
-    lastFocused.focus();
+    fCloseMainMenu();
+    hLastFocusedID.focus();
    }
    else
    {
-    lastFocused = document.activeElement;
-    if( keysMenu[event.keyCode] )
+    hLastFocusedID = document.activeElement;
+    if( kMenuShortcut[ event.keyCode ] )
     {
-     var ae = document.activeElement.nodeName;
-     if( ae != "INPUT" && ae != "TEXTAREA" )
+     let sActiveNodeName = document.activeElement.nodeName;
+     if( sActiveNodeName != "INPUT" && sActiveNodeName != "TEXTAREA" )
      {
-      buttonNavMain.focus();
+      hMainMenuButton.focus();
      }
     }
    }
   }
  }
- function evtBlurLastNav()
+ function fEventBlurLastMenuItem()
  {
-  var lastNav = this;
+  var hLastMenuItem = this;
   setTimeout( function()
   {
-   if( isNavFocused() == false )
+   if( fIsNavFocused() == false )
    {
-    if( lastNav.classList.contains( "state-open" ) == false )
+    if( hLastMenuItem.classList.contains( "state-open" ) == false )
     {
-     closeNavMain();
-     lastFocused.focus();
+     fCloseMainMenu();
+     hLastFocusedID.focus();
     }
    }
-  }, 100 );
+  }, 1 );
  }
 
- function evtBlurAccessExit( event )
+ function fEventBlurAccessibility( hEvent )
  {
   setTimeout( function()
   {
-   if( isDescendent( dialogAccess, document.activeElement ) == false )
+   if( fIsDescendent( hAccessibilityDialog, document.activeElement ) == false )
    {
     if( document.activeElement == document.body )
     { // The mouse was probably clicked.
      return;
     }
-    closeDialogAccess();
+    fCloseAccessibilityDialog();
    }
   }, 100 );
  }
- function evtClickDarkDraw()
+ function fEventClickBlackBackground()
  {
   if( this.classList.contains( "state-accessibility-settings" ) )
   {
-   closeDialogAccess();
+   fCloseAccessibilityDialog();
   }
-  else if( navMain.className == "state-open" )
+  else if( hMainMenuWrapper.className == "state-open" )
   {
-   closeNavMain();
+   fCloseMainMenu();
   }
  }
- function evtClickButtonAccess()
+ function fEventClickAccessibilityDialogButton()
  {
-  dialogAccess.classList.add( "state-open" );
-  drawDark.classList.add( "state-accessibility-settings" );
-  enableAccess(dialogAccess);
-  var buttonsDialogAccess = dialogAccess.getElementsByTagName( "button" );
-  buttonsDialogAccess = Array.prototype.slice.call( buttonsDialogAccess );
-  var selectsDialogAccess = dialogAccess.getElementsByTagName( "select" );
-  selectsDialogAccess = Array.prototype.slice.call( selectsDialogAccess );
-  for( let i = 0; i < buttonsDialogAccess.length; i++ )
+  hAccessibilityDialog.classList.add( "state-open" );
+  hBlackBackground.classList.add( "state-accessibility-settings" );
+  fTabScreenReaderOn(hAccessibilityDialog);
+  let aByTagNameButton = hAccessibilityDialog.getElementsByTagName( "button" );
+  aByTagNameButton = Array.prototype.slice.call( aByTagNameButton );
+  let aByTagNameSelect = hAccessibilityDialog.getElementsByTagName( "select" );
+  aByTagNameSelect = Array.prototype.slice.call( aByTagNameSelect );
+  for( let hButtonArrayIndex = 0; hButtonArrayIndex < aByTagNameButton.length; hButtonArrayIndex++ )
   {
-   enableAccess( buttonsDialogAccess[ i ] );
+   fTabScreenReaderOn( aByTagNameButton[ hButtonArrayIndex ] );
   }
-  for( let i = 0; i < selectsDialogAccess.length; i++  )
+  for( let hSelectArrayIndex = 0; hSelectArrayIndex < aByTagNameSelect.length; hSelectArrayIndex++  )
   {
-   enableAccess( selectsDialogAccess[ i ] );
+   fTabScreenReaderOn( aByTagNameSelect[ hSelectArrayIndex ] );
   }
-  dialogAccess.children[ 0 ].setAttribute( "tabindex", "0" );
-  // Do the same for all selects and buttons in dialogAccess
-  flagDialogAccess = true;
-  dialogAccess.children[ 0 ].focus();
+  hAccessibilityDialog.children[ 0 ].setAttribute( "tabindex", "0" );
+  // Do the same for all selects and buttons in hAccessibilityDialog
+  bAccessibilityDialogOpen = true;
+  hAccessibilityDialog.children[ 0 ].focus();
  }
 
- function evtClickButtonSave()
+ function fEventClickAccessibilitySaveButton()
  {
-  var z = document.querySelector('#setting-content-unfold:checked');
-  if( z == null )
+  let hUnfoldCheckbox = document.querySelector( "#setting-content-unfold:checked" );
+  let sUnfoldSetting = "null";
+  if( hUnfoldCheckbox != null )
   {
-   z = "null";
+   sUnfoldSetting = hUnfoldCheckbox.value;
   }
-  else
-  {
-   z = z.value;
-  }
-  var options = [
-   document.getElementById("setting-theme").value,
-   document.getElementById("setting-font-size").value,
-   z
+  var aOptions = [
+   document.getElementById( "setting-theme" ).value,
+   document.getElementById( "setting-font-size" ).value,
+   sUnfoldSetting
   ];
-  setSiteSettings( options[ 0 ], options[ 1 ], options[ 2 ] );
-  set_cookie( options[ 0 ], options[ 1 ], options[ 2 ], 30, "studygamedev.com" );
+  fApplySettings( aOptions[ 0 ], aOptions[ 1 ], aOptions[ 2 ] );
+  fSetCookie( aOptions[ 0 ], aOptions[ 1 ], aOptions[ 2 ], 30, "studygamedev.com" );
  }
 
- function evtKeyButton( event )
+ function fEventKeyDownOnButton( hEvent )
  {
-  if( event.keyCode == 32 )
+  if( hEvent.keyCode == 32 )
   {
    this.click();
   }
  }
 
  /// Custom function for when the menu items are clicked in studygamedev.
- function handleMenuClick( event )
+ function fHandleMenuClick( hEvent )
  {
   ///
-  var topics = document.getElementsByClassName( "topic" );
-  var to = event.target.getAttribute( "to" );
+  let aByClassTopic = document.getElementsByClassName( "topic" );
+  let sToAttribute = hEvent.target.getAttribute( "to" );
   // In this part, we set all of the attributes appropriately.
   fRemoveResourceNodes(); // Clear out nodes we are no longer using (reduce RAM usage)
-  fPopulateViaMenu( to );
+  fPopulateViaMenu( sToAttribute );
 
-  var this_timer = setTimeout( function()
+  var iTimer = setTimeout( function()
   {
-   var targ = document.getElementById( to );
-   if( navMain.className == "state-open" )
+   var hTopic = document.getElementById( sToAttribute );
+   if( hMainMenuWrapper.className == "state-open" )
    {
-    closeNavMain();
+    fCloseMainMenu();
    }
    document.getElementById( "wrapper-home-page-content" ).className = "state-hidden";
-   targ = targ.getElementsByTagName( "button" )[ 0 ];
-   targ.focus();
+   let hTopicChapterButton = hTopic.getElementsByTagName( "button" )[ 0 ];
+   hTopicChapterButton.focus();
 
- }, 26 ); // 5 to give enough of a buffer
+  }, 26 ); // 5 to give enough of a buffer
  }
 
- function initApp()
+ function fInitApplication()
  { // Bind actions to functions.
   document.body.focus();
-  buttonNavMain.addEventListener( "click", evtClickButtonNavMain, false );
-  buttonNavMain.setAttribute( 'aria-label', 'Open the menu' );
-  let submenuButtons = Array.prototype.slice.call(buttonsSubmenu);
-  for( let i = 0; i < submenuButtons.length; i++ )
+  hMainMenuButton.addEventListener( "click", fEventClickMainMenuButton, false );
+  hMainMenuButton.setAttribute( "aria-label", "Open the menu" );
+  let aSlicedSubmenuButtons = Array.prototype.slice.call( aByClassButtonToggleSubmenu );
+
+  for( let hSubmenuButton = 0; hSubmenuButton < aSlicedSubmenuButtons.length; hSubmenuButton++ )
   {
-   submenuButtons[i].addEventListener( "click", evtClickButtonSubmenu, false );
-   submenuButtons[i].setAttribute( 'aria-label', 'Open the ' +
-                                  retrieveText(submenuButtons[i]) + ' sub-menu' );
+   aSlicedSubmenuButtons[ hSubmenuButton ].addEventListener( "click", fEventClickSubmenu, false );
+   aSlicedSubmenuButtons[ hSubmenuButton ].setAttribute( "aria-label", "Open the " +
+                                  fRetrieveText( aSlicedSubmenuButtons[ hSubmenuButton ] ) + " sub-menu" );
   }
-  var navLast = navMain.children[1].children;
-  navLast = navLast[ navLast.length - 1 ].children[0];
-  navLast.addEventListener( "blur", evtBlurLastNav, false ); // button or a
-  if( navLast.parentNode.classList.contains("wrapper-submenu-parent") )
+
+  let hLastMenuItem = hMainMenuWrapper.children[ 1 ].children;
+  hLastMenuItem = hLastMenuItem[ hLastMenuItem.length - 1 ].children[ 0 ];
+  hLastMenuItem.addEventListener( "blur", fEventBlurLastMenuItem, false ); // button or a
+  if( hLastMenuItem.parentNode.classList.contains("wrapper-submenu-parent") )
   {
-   navLast = navLast.nextElementSibling.children;
-   navLast = navLast[ navLast.length - 1 ].children[0]; // ul ul a
-   navLast.addEventListener( "blur", evtBlurLastNav, false );
+   hLastMenuItem = hLastMenuItem.nextElementSibling.children;
+   hLastMenuItem = hLastMenuItem[ hLastMenuItem.length - 1 ].children[0]; // ul ul a
+   hLastMenuItem.addEventListener( "blur", fEventBlurLastMenuItem, false );
   }
-  drawDark.addEventListener( "click", evtClickDarkDraw, false );
-  document.body.addEventListener( "keyup", evtKeyUpGlobal, false );
-  disableAllAccess();
-  buttonAccess.addEventListener( "click", evtClickButtonAccess, false );
-  document.getElementById("button-settings-accessibility-close").addEventListener( "click", closeDialogAccess, false );
-  document.getElementById("button-settings-accessibility-close").addEventListener( "blur", evtBlurAccessExit, false );
-  dialogAccess.children[0].addEventListener( "blur", evtBlurAccessExit, false );
-  document.getElementById("button-settings-accessibility-save").addEventListener( "click", evtClickButtonSave, false );
-  if( isFirefox == false )
+
+  hBlackBackground.addEventListener( "click", fEventClickBlackBackground, false );
+  document.body.addEventListener( "keyup", fEventKeyUpGlobal, false );
+
+  fAllTabScreenOff();
+
+  hAccessibilityDialogButton.addEventListener( "click", fEventClickAccessibilityDialogButton, false );
+  document.getElementById( "button-settings-accessibility-close" ).addEventListener( "click", fCloseAccessibilityDialog, false );
+  document.getElementById( "button-settings-accessibility-close" ).addEventListener( "blur", fEventBlurAccessibility, false );
+  hAccessibilityDialog.children[ 0 ].addEventListener( "blur", fEventBlurAccessibility, false );
+  document.getElementById( "button-settings-accessibility-save" ).addEventListener( "click", fEventClickAccessibilitySaveButton, false );
+
+  if( bIsFirefox == false )
   {
-   var elems = [ "button" ];
-   for( let i = 0; i < elems.length; i++ )
+   let aByTagNameButton = document.getElementsByTagName( "button" );
+   for( let nButtonIndex = 0; nButtonIndex < aByTagNameButton.length; nButtonIndex++ )
    {
-    var allElems = document.getElementsByTagName(elems[i]);
-    for( let j = 0; j < allElems.length; j++ )
-    {
-     allElems[j].addEventListener( "keyup", evtKeyButton, false );
-    }
+    aByTagNameButton[ nButtonIndex ].addEventListener( "keyup", fEventKeyDownOnButton, false );
    }
   }
-  var menuItems = document.querySelectorAll(".wrapper-submenu-parent a");
-  for( let i = 0; i < menuItems.length; i++ )
+  let aMenuAnchors = document.querySelectorAll(".wrapper-submenu-parent a");
+  for( let nMenuAnchorIndex = 0; nMenuAnchorIndex < aMenuAnchors.length; nMenuAnchorIndex++ )
   {
-   menuItems[i].addEventListener( "click", handleMenuClick, false );
-   menuItems[i].addEventListener( "keyup", evtKeyButton, false );
+   aMenuAnchors[ nMenuAnchorIndex ].addEventListener( "click", fHandleMenuClick, false );
+   aMenuAnchors[ nMenuAnchorIndex ].addEventListener( "keyup", fEventKeyDownOnButton, false );
   }
-  menuItems = document.querySelectorAll("#text-recommended-topics a");
-  for( let i = 0; i < menuItems.length; i++ )
+  let aRecommendedTopicLinks = document.querySelectorAll("#text-recommended-topics a");
+  for( let nRecommendedIndex = 0; nRecommendedIndex < aRecommendedTopicLinks.length; nRecommendedIndex++ )
   {
-   menuItems[i].addEventListener( "click", handleMenuClick, false );
-   menuItems[i].addEventListener( "keyup", evtKeyButton, false );
+   aRecommendedTopicLinks[ nRecommendedIndex ].addEventListener( "click", fHandleMenuClick, false );
+   aRecommendedTopicLinks[ nRecommendedIndex ].addEventListener( "keyup", fEventKeyDownOnButton, false );
   }
-  closeDialogAccess();
-  setSiteSettings( get_cookie("theme"), get_cookie("fontsize"), get_cookie("showcontent") );
+  fCloseAccessibilityDialog();
+  fApplySettings( fGetCookie("theme"), fGetCookie("fontsize"), fGetCookie("showcontent") );
  }
 
 
- return{ init: function(){initApp();} }
-})();
+ return { init: function()
+  {
+   fInitApplication();
+  }
+ }
+} )();
 
-window.addEventListener('load', function()
+window.addEventListener( "load", function()
 {
- new MS.App.init();
+ new oAwesomeMenu.fApplication.init();
 });
