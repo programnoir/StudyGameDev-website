@@ -10,8 +10,7 @@ function fNewSearch()
  fRemoveResourceNodes();
  fRemoveTopicNodes();
  fClearDResourceStack();
- /// The idea here is to preserve the active section and then gradually
- //   add topics and search results to a
+
  sSavedChapter = document.getElementsByClassName( "topic" );
  if( sSavedChapter.length == 0 )
  {
@@ -21,10 +20,7 @@ function fNewSearch()
  {
   sSavedChapter = document.getElementsByClassName( "topic" )[0].id;
  }
- /// To-do: Populate search results.
- /// The tricky part is that I must first get results from the resources
- ///  and then acquire the matching sections before putting everything
- ///  in its place.
+
  fPopulateStackBySearch( sSearchQuery );
 
  let aDistinctQueriedChapters = dResourceStack().distinct( "sSection" ); // This gets an array of refs sections.
