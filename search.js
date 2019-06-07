@@ -1,10 +1,10 @@
-var input_search = document.getElementById( "line-input-search" );
-var node_saved_section = null;
-var string_search = "";
-var timer = null;
+var hSearch = document.getElementById( "line-input-search" );
+var sSavedChapter = null;
+var sSearchQuery = "";
+var iSearchTimer = null;
 
 
-function beginNewSearch()
+function fNewSearch()
 {
  fEraseEventListeners(); // Erases event listeners and resource nodes.
  fRemoveResourceNodes();
@@ -12,58 +12,58 @@ function beginNewSearch()
  fClearDResourceStack();
  /// The idea here is to preserve the active section and then gradually
  //   add topics and search results to a
- node_saved_section = document.getElementsByClassName( "topic" );
- if( node_saved_section.length == 0 )
+ sSavedChapter = document.getElementsByClassName( "topic" );
+ if( sSavedChapter.length == 0 )
  {
-  node_saved_section = null;
+  sSavedChapter = null;
  }
  else
  {
-  node_saved_section = document.getElementsByClassName( "topic" )[0].id;
+  sSavedChapter = document.getElementsByClassName( "topic" )[0].id;
  }
  /// To-do: Populate search results.
  /// The tricky part is that I must first get results from the resources
  ///  and then acquire the matching sections before putting everything
  ///  in its place.
- fPopulateStackBySearch( string_search );
+ fPopulateStackBySearch( sSearchQuery );
 
- var array_of_sections = dResourceStack().distinct( "sSection" ); // This gets an array of refs sections.
+ let aDistinctQueriedChapters = dResourceStack().distinct( "sSection" ); // This gets an array of refs sections.
 
   // Now I just need topics.
- var array_of_topics = [];
- var topic_index = 0;
+ let aQuerysTopics = [];
+ let nQuerysTopicsIndex = 0;
+ nTotalTasks = aDistinctQueriedChapters.length;
+ let nSectionIndexValue = 0;
 
- total_tasks = array_of_sections.length;
- var k = 0;
  fStartAsyncTask(
- { // And supply a bunch of arguments in the form of an object.
-  nMillisecondsAllotted: 25,
-  nTasksAllotted: total_tasks,
-  nTasksPerTick: 1,
-  fTask: function() // In here we attach a function.
-  {
-   var o_kt = fPopulateTopicsViaSearch( k, topic_index, array_of_sections, array_of_topics );
-   k = o_kt.nSectionIndexValue;
-   topic_index = o_kt.nTopicsIndexValue;
-   o_kt = null;
-  },
-  fUponAsyncTaskCompletion: function()
-  {
-   total_tasks = dResourceStack().count();
-   fStartAsyncTask(
-   { // And supply a bunch of arguments in the form of an object.
-    nMillisecondsAllotted: 25,
-    nTasksAllotted: total_tasks,
-    nTasksPerTick: 1,
-    fTask: function() // In here we attach a function.
-    {
-     fAddNewResource();
-    },
-    fUponAsyncTaskCompletion: function()
-    {
-     fAddAllEventListeners();
+  { // And supply a bunch of arguments in the form of an object.
+   nMillisecondsAllotted: 25,
+   nTasksAllotted: nTotalTasks,
+   nTasksPerTick: 1,
+   fTask: function() // In here we attach a function.
+   {
+    let oSectionsTopicsIndices = fPopulateTopicsViaSearch( nSectionIndexValue, nQuerysTopicsIndex, aDistinctQueriedChapters, aQuerysTopics );
+    nSectionIndexValue = oSectionsTopicsIndices.nSectionIndexValue;
+    nQuerysTopicsIndex = oSectionsTopicsIndices.nTopicsIndexValue;
+    oSectionsTopicsIndices = null;
+   },
+   fUponAsyncTaskCompletion: function()
+   {
+    nTotalTasks = dResourceStack().count();
+    fStartAsyncTask(
+    { // And supply a bunch of arguments in the form of an object.
+     nMillisecondsAllotted: 25,
+     nTasksAllotted: nTotalTasks,
+     nTasksPerTick: 1,
+     fTask: function() // In here we attach a function.
+     {
+      fAddNewResource();
+     },
+     fUponAsyncTaskCompletion: function()
+     {
+      fAddAllEventListeners();
+     }
     }
-   }
    );
   }
  }
@@ -72,7 +72,7 @@ function beginNewSearch()
 
 
 /// Called when the search box is empty.
-function revertState()
+function fHandleSearchEmpty()
 {
  // First, we eliminate all resource nodes.
  fEraseEventListeners(); // Erases event listeners and resource nodes.
@@ -81,46 +81,46 @@ function revertState()
  fClearDResourceStack();
  // Next, we check if we have saved a section.
  // If there is one, we load that node.
- if( node_saved_section == null )
+ if( sSavedChapter == null )
  {
   return;
  }
  setTimeout( function()
  {
-  fPopulateTopicsViaSection( node_saved_section );
-  node_saved_section = null;
+  fPopulateTopicsViaSection( sSavedChapter );
+  sSavedChapter = null;
  }, 26 );
 }
 
-/// handleSearchInput is the main processor of the search functions.
-function handleSearchInput()
+/// fHandleSearchInput is the main processor of the search functions.
+function fHandleSearchInput()
 {
- /// First, we need a timer before we process all of these for loops.
+ /// First, we need a iSearchTimer before we process all of these for loops.
 
  // Compare the strings.
- var value_input_search = input_search.value.toLowerCase();
+ let sSearchValue = hSearch.value.toLowerCase();
 
- if( value_input_search == string_search || ( value_input_search.length > 0 && value_input_search.length < 4 ) )
+ if( sSearchValue == sSearchQuery || ( sSearchValue.length > 0 && sSearchValue.length < 4 ) )
  {
   return;
  }
- string_search = value_input_search;
- if( value_input_search == "" )
+ sSearchQuery = sSearchValue;
+ if( sSearchValue == "" )
  {
   // If we have completely cleared the input, we need to revert to normal.
-  clearTimeout(timer);
-  revertState();
+  clearTimeout(iSearchTimer);
+  fHandleSearchEmpty();
   return;
  }
 
- // Otherwise, we need to check the timer. If it is null, we start one.
- if( timer != null )
+ // Otherwise, we need to check the iSearchTimer. If it is null, we start one.
+ if( iSearchTimer != null )
  {
-  clearTimeout(timer); // Only counts down until we have a search result.
+  clearTimeout( iSearchTimer ); // Only counts down until we have a search result.
  }
 
- timer = setTimeout( beginNewSearch, 2000 );
+ iSearchTimer = setTimeout( fNewSearch, 2000 );
 
 }
 
-input_search.addEventListener( "keyup", handleSearchInput );
+hSearch.addEventListener( "keyup", fHandleSearchInput );
