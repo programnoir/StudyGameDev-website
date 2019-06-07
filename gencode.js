@@ -4,8 +4,8 @@
   add each as an option to #section select.
 
  Button: Make Code
-  .draw-dark -- .open .gen
-  #gen-code -- .active, remove tabIndex="-1"
+  .background-black-alpha -- .open .gen
+  #wrapper-code-generator -- .active, remove tabIndex="-1"
   focus on h1.
  Inputs -> Textarea
   keyup or value change updates textarea.
@@ -13,178 +13,192 @@
   copies to clipboard.
  Exit: Exit Make Code
   self remove .active, set tabIndex = -1
-  .draw-dark clear of classes.
+  .background-black-alpha clear of classes.
   focus the button again
 */
 
-MS.App2 = ( function()
+oAwesomeMenu.fCodeGeneratorApplication = ( function()
 {
- dialogGenCode = document.getElementById("gen-code");
+ var hCodeGeneratorWrapper = document.getElementById( "wrapper-code-generator" );
 
  /// Is child a descendent of parent?
 
- function isDescendent( parent, child )
+ function fIsDescendent( hParent, hChild )
  {
-  var node = child.parentNode;
-  while( node != null )
+  var hNode = hChild.parentNode;
+  while( hNode != null )
   {
-   if( node == parent )
+   if( hNode == hParent )
    {
     return true;
    }
-   node = node.parentNode;
+   hNode = hNode.parentNode;
   }
   return false;
  }
 
  /// Access enablement and disablement.
 
- function enableAccess( this_tag )
+ function fTabScreenReaderOn( hElement )
  {
-  this_tag.removeAttribute("tabindex");
-  this_tag.removeAttribute("aria-hidden");
+  hElement.removeAttribute("tabindex");
+  hElement.removeAttribute("aria-hidden");
  }
- function disableAccess( this_tag )
+ function fTabScreenReaderOff( hElement )
  {
-  this_tag.setAttribute( "tabindex", "-1" );
-  this_tag.setAttribute( "aria-hidden", "true" );
+  hElement.setAttribute( "tabindex", "-1" );
+  hElement.setAttribute( "aria-hidden", "true" );
  }
 
  /// Populate one of the inputs with options.
 
- function populateSections()
+ function fPopulateSectionParameter()
  {
-  var secSel = document.getElementById("section");
-  var contents = document.getElementsByClassName("bc");
-  for( var i = 0; i < contents.length; i++ )
-  {
-   var opt = document.createElement('option');
-   opt.innerHTML = contents[i].innerHTML || contents[i].textContent;
-   opt.value = contents[i].nextElementSibling.id;
-   secSel.appendChild(opt);
-  }
+  let hSelectSection = document.getElementById( "parameter-select-section" );
+  dTopics().each( function( record, recordNumber )
+   {
+    for( let nTopicArrayIndex = 0; nTopicArrayIndex < record[ "aChapters" ].length; nTopicArrayIndex++ )
+    {
+     let hOption = document.createElement( "option" );
+     hOption.value = record[ "aChapters" ][ nTopicArrayIndex ][ 0 ];
+     hOption.innerHTML = record[ "aChapters" ][ nTopicArrayIndex ][ 1 ];
+     hSelectSection.appendChild( hOption );
+    }
+   }
+  );
  }
 
  /// Creates a generated string of code to use in db.js.
 
- function convertIO()
+ function fCreateCodeString()
  {
-  var str="{\n section: \"";
-  str += document.getElementById("section").value;
-  str += "\",\n tagName: \"";
-  var tag = document.getElementById("tagSelect").value.split(",");
-  str += tag[1];
-  str += "\",\n tagColor: \"";
-  str += tag[0];
-  str += "\",\n url: \"";
-  str += document.getElementById("url").value;
-  str += "\",\n summary: \"";
-  str += document.getElementById("summary").value;
-  str += "\",\n details: \"";
-  str += document.getElementById("details").value;
-  str += "\"\n},";
-  return str;
+  let sCode = "dLinks.insert( { \"sSection\" : ";
+  sCode += document.getElementById( "parameter-select-section" ).value;
+  sCode += "\", \"sTag\" : \"";
+  var aTagValues = document.getElementById( "parameter-select-tag" ).value.split(",");
+  sCode += aTagValues[ 1 ];
+  sCode += "\", \"sTagColor\" : \"";
+  sCode += aTagValues[ 0 ];
+  sCode += "\",\n \"sURL\"     : \"";
+  sCode += document.getElementById( "parameter-resource-url" ).value;
+  sCode += "\",\n \"sSummary\" : \"";
+  sCode += document.getElementById( "parameter-resource-summary" ).value;
+  sCode += "\",\n \"sDetails\" : \"";
+  sCode += document.getElementById( "parameter-resource-details" ).value;
+  sCode += "\"\n} );";
+  return sCode;
  }
 
- /// Utilize the convertIO function to update it.
+ /// Utilize the fCreateCodeString function to update it.
 
- function updateOutput()
+ function fUpdateOutputText()
  {
-  document.getElementById("out").value = convertIO();
+  document.getElementById( "text-output-code-generator" ).value = fCreateCodeString();
  }
 
  /// Close the code generation dialog.
 
- function exitGenCode()
+ function fCloseCodeGenerator()
  {
-  if( document.getElementById("draw-dark").classList.contains("gen") )
+  if( document.getElementById( "background-black-alpha" ).classList.contains( "state-code-generator" ) )
   {
-   document.getElementById("draw-dark").classList.remove("open");
-   document.getElementById("draw-dark").classList.remove("gen");
-   document.getElementById("gen-code").classList.remove("active");
-   disableAccess(dialogGenCode);
-   var AllButtons = dialogGenCode.getElementsByClassName("gen-group");
-   for( var i = 0; i < AllButtons.length; i++ )
+   document.getElementById( "background-black-alpha" ).classList.remove( "state-open" );
+   document.getElementById( "background-black-alpha" ).classList.remove( "state-code-generator" );
+   document.getElementById( "wrapper-code-generator" ).classList.remove( "state-active" );
+   fTabScreenReaderOff( hCodeGeneratorWrapper );
+
+   let aByClassFocusableFields = hCodeGeneratorWrapper.getElementsByClassName("group-focusable-code-generator");
+   for( var nFocusableFieldsIndex = 0; nFocusableFieldsIndex < aByClassFocusableFields.length; nFocusableFieldsIndex++ )
    {
-    disableAccess(AllButtons[i]);
+    fTabScreenReaderOff( aByClassFocusableFields[ nFocusableFieldsIndex ] );
    }
-   document.getElementById("button-generate-code").focus();
+   document.getElementById( "button-code-generator" ).focus();
   }
  }
 
- function evtBlurCodeGenExit(event)
+ function fEventBlueCodeGenerator( hEvent )
  {
   setTimeout( function()
   {
-   if( isDescendent( dialogGenCode, document.activeElement ) == false )
+   if( fIsDescendent( hCodeGeneratorWrapper, document.activeElement ) == false )
    {
     if( document.activeElement == document.body )
     { // The mouse was probably clicked.
      return;
     }
-    exitGenCode();
+    fCloseCodeGenerator();
    }
   }, 100 );
  }
 
  /// Assign multiple event listeners at once.
 
- function assignEventListeners()
+ function fApplyEventListeners()
  {
-  document.getElementById("button-generate-code").addEventListener( "click", function(){
-   document.getElementById("draw-dark").classList.add("open");
-   document.getElementById("draw-dark").classList.add("gen");
-   document.getElementById("gen-code").classList.add("active");
-   enableAccess(dialogGenCode);
-   var AllButtons = dialogGenCode.getElementsByClassName("gen-group");
-   for( var i = 0; i < AllButtons.length; i++ )
+  document.getElementById( "button-code-generator" ).addEventListener( "click", function()
+  {
+   document.getElementById( "background-black-alpha" ).classList.add( "state-open" );
+   document.getElementById( "background-black-alpha" ).classList.add( "state-code-generator" );
+   document.getElementById( "wrapper-code-generator" ).classList.add( "state-active" );
+   fTabScreenReaderOn( hCodeGeneratorWrapper );
+
+   let aByClassFocusableFields = hCodeGeneratorWrapper.getElementsByClassName("group-focusable-code-generator");
+   for( var nFocusableFieldsIndex = 0; nFocusableFieldsIndex < aByClassFocusableFields.length; nFocusableFieldsIndex++ )
    {
-    enableAccess(AllButtons[i]);
+    fTabScreenReaderOn( aByClassFocusableFields[ nFocusableFieldsIndex ] );
    }
-   document.getElementById("gen-title").setAttribute("tabIndex","0");
-   document.getElementById("gen-title").focus();
+   document.getElementById( "text-code-generator-title" ).setAttribute( "tabIndex", "0" );
+   document.getElementById( "text-code-generator-title" ).focus();
   }, false );
 
-  var inp = document.getElementsByClassName("in");
-  for( var i = 0; i < inp.length; i++ )
+  let aByClassLineInput = document.getElementsByClassName("form-line-input-code-generator");
+  for( var nLineInputsIndex = 0; nLineInputsIndex < aByClassLineInput.length; nLineInputsIndex++ )
   {
-   inp[i].addEventListener( "keyup", updateOutput, false );
-  }
-  inp = document.getElementsByClassName("select");
-  for( var i = 0; i < inp.length; i++ )
-  {
-   inp[i].addEventListener( "change", updateOutput, false );
+   aByClassLineInput[ nLineInputsIndex ].addEventListener( "keyup", fUpdateOutputText, false );
   }
 
-  var cB = document.getElementById('copy');
-  cB.addEventListener('click', function(event)
-  { // Copy button
-   document.getElementById('out').select();
-   document.execCommand('copy');
-  });
+  let aByClassSelect = document.getElementsByClassName("form-select-code-generator");
+  for( var nSelectsIndex = 0; nSelectsIndex < aByClassSelect.length; nSelectsIndex++ )
+  {
+   aByClassSelect[ nSelectsIndex ].addEventListener( "change", fUpdateOutputText, false );
+  }
 
-  document.getElementById("gen-title").addEventListener( "blur", evtBlurCodeGenExit, false );
-  document.getElementById("close-gen-code").addEventListener( "blur", evtBlurCodeGenExit, false );
-  document.getElementById('close-gen-code').addEventListener('click', exitGenCode, false );
-  document.getElementById('draw-dark').addEventListener('click', exitGenCode, false );
+  let hCopyButton = document.getElementById('button-code-generator-copy-output');
+  hCopyButton.addEventListener( "click", function( hEvent )
+   { // Copy button
+    document.getElementById( "text-output-code-generator" ).select();
+    document.execCommand( "copy" );
+   }
+  );
+
+  document.getElementById( "text-code-generator-title" ).addEventListener( "blur", fEventBlueCodeGenerator, false );
+  document.getElementById( "button-code-generator-close" ).addEventListener( "blur", fEventBlueCodeGenerator, false );
+  document.getElementById( "button-code-generator-close" ).addEventListener( "click", fCloseCodeGenerator, false );
+  document.getElementById( "background-black-alpha" ).addEventListener( "click", fCloseCodeGenerator, false );
  }
 
- function initApp()
+ function fInitApplication()
  {
-  populateSections();
-  assignEventListeners();
-  disableAccess(dialogGenCode);
-  var AllButtons = dialogGenCode.getElementsByClassName("gen-group");
-  for( var i = 0; i < AllButtons.length; i++ )
+  fPopulateSectionParameter();
+  fApplyEventListeners();
+  fTabScreenReaderOff( hCodeGeneratorWrapper );
+
+  let aByClassFocusableFields = hCodeGeneratorWrapper.getElementsByClassName("group-focusable-code-generator");
+  for( let nFocusableFieldsIndex = 0; nFocusableFieldsIndex < aByClassFocusableFields.length; nFocusableFieldsIndex++ )
   {
-   disableAccess(AllButtons[i]);
+   fTabScreenReaderOff( aByClassFocusableFields[ nFocusableFieldsIndex ] );
   }
  }
 
- return{ init: function(){initApp();} }
+ return {
+  init: function()
+  {
+   fInitApplication();
+  }
+ };
 })();
 
-window.addEventListener('load', function()
+window.addEventListener( "load", function()
 {
- new MS.App2.init();
+ new oAwesomeMenu.fCodeGeneratorApplication.init();
 });

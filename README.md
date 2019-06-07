@@ -9,15 +9,16 @@ StudyGameDev is a relatively simple website project, facilitating the use of HTM
 
 * index.php - This is the project's "starting point." It is the page where all of the components come together. Mostly HTML.
 * style.css - Used to detail the website with a responsive, high contrast theme.
-* awesome-menu.js - Modular script for the A.W.E.S.O.M.E. menu, a keyboard-accessible, screen reader-tested, slide-in menu system.
 * section-toggle.js - Script for accessing different website sections and turning them off and on.
-* db.js - The database of game development resources and all their entries.
+* taffy-min.js - A JS library for object-based libraries that perform faster than arrays.
+* db-init.js - The database of game development resources and all their entries.
+* db-populate.js - (Most of) the functionality for adding topics, sections, and resources to the site.
+* awesome-menu.js - Modular script for the A.W.E.S.O.M.E. menu, a keyboard-accessible, screen reader-tested, slide-in menu system.
 * gencode.js - A quick tool for generating database entries for existing sections and topics.
-* jquery.js - A library I am temporarily using for the search feature of the website.
 * search.js - The code for reading and responding to user input in the search bar.
 
 ## Licenses
-* This version of jQuery is under the [MIT license](https://tldrlegal.com/license/mit-license). For more information, visit https://jquery.org/license/
+* This version of Taffy DB is under the [MIT license](https://tldrlegal.com/license/mit-license).
 * The font licenses (Open Font License) for ABeeZee and Oswald are contained within the font directory.
 
 # How a Beginner Can Contribute to StudyGameDev.com
@@ -36,9 +37,9 @@ On this page, you can find StudyGameDev.com's current Issues under the Issues ta
 
 If there are not any issues that you can fix with code, that's okay! You can still make a contribution to the project!
 1. Think of a website where you learned information that could be included on StudyGameDev.com.
-2. Copy the URL to that resource and fill out the form on StudyGameDev.com's Code Generator. This tool will generate a small piece of code that you can add to the db.js file. Remember to specify the category topic of this resource as well as the media type that it is in. Write a title and a brief summary of the content. Press the copy button to copy the resulting code.
+2. Copy the URL to that resource and fill out the form on StudyGameDev.com's Code Generator. This tool will generate a small piece of code that you can add to the db-init.js file. Remember to specify the category topic of this resource as well as the media type that it is in. Write a title and a brief summary of the content. Press the copy button to copy the resulting code.
 ## Step Five: Create a New Branch for Your Own Modifications
-This will group your changes so that you can later request they be made to the original version. Let's assume the above example of using the code generator to edit the db.js file.
+This will group your changes so that you can later request they be made to the original version. Let's assume the above example of using the code generator to edit the db-init.js file.
 
 In your Github Desktop software, navigate to the Branch menu at the top of the screen, and select "New Branch." The keyboard shortcut for this is `Ctrl+Shift+N`. Alternatively, you can use the "Current Branch" submenu to create a new branch. You can give this branch whatever name you wish to use. You could name it something like "db New Resources," if you want a suggestion.
 ## Step Six: Publish the Branch to Github
@@ -47,17 +48,17 @@ This will make your branch visible on the Github page for the StudyGameDev.com p
 2. To publish the branch, click the button just to the right of the Current Branch dropdown menu that says "Publish Branch to Github".
 ## Step Seven: Begin Making Modifications
 1. Ensure that your newly created branch is selected by looking at the Current Branch dropdown menu. If your branch's name is visible, you can proceed to step two. Otherwise, use the dropdown menu to select your branch.
-2. Simply open the db.js file in any plaintext editor (such as Notepad or Atom, but not Microsoft Word or OpenOffice Writer, those are rich text editors!) and paste the code in a reasonable location (usually amongst similarly categorized information.
+2. Simply open the db-init.js file in any plaintext editor (such as Notepad or Atom, but not Microsoft Word or OpenOffice Writer, those are rich text editors!) and paste the code in a reasonable location (usually amongst similarly categorized information.
 3. Github Desktop will detect your changes and show them in its user interface.
 4. Remember to test your changes to ensure that your resource appears in the right place and that your changes haven't caused a glitch somewhere!
-You can repeat this process and end up with 2 or even more new blocks of code to be added to db.js.
+You can repeat this process and end up with 2 or even more new blocks of code to be added to db-init.js.
 ## Step Eight: Commit and Push the Changes to Your Branch
 1. Commit: To update your branch with your changes, navigate to the bottom-left corner of the window where you can see the form to commit your edits. Name your edit in the title (example: "DB Add: `Name of resource goes here`"). Add a brief description or summary of what changes you made to which files. Then click "Commit to `Name of branch`" to commit the changes.
 2. Push: Next to the Current Branch dropdown menu, the button has changed to be labelled with "Push Origin." Press this button. Your branch is now a newer version of the project than the original.
 ## Step Nine: Perform a Pull Request
 Performing a pull request means that you wish to add your changes to the original project. This has to be requested of me, nitronova, the project maintainer.
 1. Navigate to the Branch menu at the top of the window of your Github Desktop software and select "Create Pull Request." The keyboard shortcut to this is `Ctrl+R`. This will open a new tab in your web browser where you can go into detail with the issues or additions you wish to fix.
-2. If you are following the db.js example, select the label that says "New Resource for db.js".
+2. If you are following the db-init.js example, select the label that says "New Resource for db-init.js".
 3. When everything looks good, click the green button that says "Create Pull Request." You can make edits if you realize you forgot anything in particular.
 
 I will at that point review your submission. If the request is approved, we will work on merging it. For simple database additions, this is as simple as merging the pull request with the master. Once this is done, you can at that point delete the branch you have created by going back to Github Desktop, navigating to the Branch menu, and select "Delete," checking "Yes" for deleting the remote. If you forget to check it then see this [guide to deleting a branch on Github](https://help.github.com/en/articles/creating-and-deleting-branches-within-your-repository).
