@@ -15,7 +15,7 @@
  https://codepen.io/rjmccollam/pen/ZYNEXd
 */
 var oAwesomeMenu = {};
-oAwesomeMenu.fApplication = ( function()
+oAwesomeMenu.fMenuApplication = ( function()
 {
  var bIsFirefox = typeof InstallTrigger !== "undefined",
  hLastFocusedID = document.getElementById( "text-site-title" ).children[ 0 ],
@@ -538,14 +538,15 @@ oAwesomeMenu.fApplication = ( function()
  }
 
 
- return { init: function()
+ return {
+  init: function()
   {
    fInitApplication();
   }
- }
+ };
 } )();
 
 window.addEventListener( "load", function()
 {
- new oAwesomeMenu.fApplication.init();
+ new oAwesomeMenu.fMenuApplication.init();
 });
