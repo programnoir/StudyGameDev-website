@@ -102,6 +102,7 @@
      <ul id="submenu-3d-modelling" tabindex="-1">
       <li><a href="#" to="3d-intro">Intro to 3D</a></li>
       <li><a href="#" to="3d-softwares">3D Software</a></li>
+      <li><a href="#" to="3d-blender">Blender</a></li>
       <li><a href="#" to="3d-animation-topic">3D Animation</a></li>
      </ul>
     </li>
@@ -259,7 +260,7 @@
      <a class="orange" href="#" to="sd-recording">Recording Techniques</a>
      <a class="yellow" href="#" to="mp-music-theory">Music Theory</a>
      <a class="lime" href="#" to="art-intro">How to Draw</a>
-     <a class="green" href="#">Learn Blender 3D</a>
+     <a class="green" href="#" to="3d-blender">Learn Blender 3D</a>
      <a class="turquoise" href="#" to="gd-intro">Game Design</a>
      <a class="skyblue" href="#" to="ux-menus">User-Friendliness</a>
      <a class="cobalt" href="#">Testing Techniques</a>
