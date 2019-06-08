@@ -1,0 +1,3 @@
+taffy-min.js, developed by joe@taffydb.com and created by Ian Smith.
+
+I, nitronova, the developer of the remainder of the StudyGameDev project, release the remaining code into the public domain.
