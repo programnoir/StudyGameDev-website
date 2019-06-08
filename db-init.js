@@ -44,6 +44,14 @@ dTopics.insert( { "sTopicID" : "prog-c", "sTopic" : "The C Programming Language"
     [ "prog-c-books-references", "Books and References on C" ],
    ]
  } );
+dTopics.insert( { "sTopicID" : "prog-c-sharp", "sTopic" : "The C# Programming Language",
+ "aChapters" : [
+    [ "prog-c-sharp-books", "Books and References on C#" ],
+    [ "prog-c-sharp-intro", "The Basics of C#" ],
+    [ "prog-c-sharp-data", "C# Data Types and Constants" ],
+    [ "prog-c-ops-conds", "C# Operators and Conditionals" ],
+   ]
+ } );
 dTopics.insert( { "sTopicID" : "prog-lua", "sTopic" : "The Lua Programming Language",
   "aChapters" : [
      [ "prog-lua-books-references", "Books and References on Lua" ]
@@ -429,6 +437,65 @@ dLinks.insert( { "sSection" : "prog-c-books-references", "sTag" : "Website", "sT
  "sURL"     : "https://www.tutorialspoint.com/c_standard_library/index.htm",
  "sSummary" : "The C Standard Library",
  "sDetails" : "For each function you encounter from the standard library, you should look it up here to understand it better. For example, did you know printf returns an integer? This is stuff you should learn."
+} );
+// ### prog-c-sharp-books ######################################################
+dLinks.insert( { "sSection" : "prog-c-sharp-books", "sTag" : "Book", "sTagColor" : "green",
+ "sURL"     : "https://static1.squarespace.com/static/5019271be4b0807297e8f404/t/5824ad58f7e0ab31fc216843/1478798685347/CSharp+Book+2016+Rob+Miles+8.2.pdf",
+ "sSummary" : "The Yellow Book (Cheese Edition)",
+ "sDetails" : "Rob Miles's Beginner-Level C# Book"
+} );
+// ### prog-c-sharp-intro ######################################################
+dLinks.insert( { "sSection" : "prog-c-sharp-intro", "sTag" : "Article", "sTagColor" : "orange",
+ "sURL"     : "https://www.developer.com/net/asp/article.php/922211/What-is-C.htm",
+ "sSummary" : "What is C#?",
+ "sDetails" : "Developer.com writer Bradley Jones describes C# and what its benefits are, compared to other languages."
+} );
+dLinks.insert( { "sSection" : "prog-c-sharp-intro", "sTag" : "Article", "sTagColor" : "orange",
+ "sURL"     : "https://www.tutorialspoint.com/csharp/csharp_program_structure.htm",
+ "sSummary" : "Basic Program Structure of a C# Program (Pt. 1)",
+ "sDetails" : "TutorialsPoint provides simple entry-level explanations for the basic components of a C# program."
+} );
+dLinks.insert( { "sSection" : "prog-c-sharp-intro", "sTag" : "Article", "sTagColor" : "orange",
+ "sURL"     : "https://www.tutorialspoint.com/csharp/csharp_basic_syntax.htm",
+ "sSummary" : "Basic Program Structure of a C# Program (Pt. 2)",
+ "sDetails" : "TutorialsPoint goes into detail involving the basic syntax of C#."
+} );
+// ### prog-c-sharp-data #######################################################
+dLinks.insert( { "sSection" : "prog-c-sharp-data", "sTag" : "Article", "sTagColor" : "orange",
+ "sURL"     : "https://www.tutorialspoint.com/csharp/csharp_variables.htm",
+ "sSummary" : "C# Variables",
+ "sDetails" : "Variables in C# are just like variables in other languages."
+} );
+dLinks.insert( { "sSection" : "prog-c-sharp-data", "sTag" : "Article", "sTagColor" : "orange",
+ "sURL"     : "https://www.tutorialspoint.com/csharp/csharp_data_types.htm",
+ "sSummary" : "C# Data Types",
+ "sDetails" : "TutorialsPoint details on the data types of variables in C#."
+} );
+dLinks.insert( { "sSection" : "prog-c-sharp-data", "sTag" : "Article", "sTagColor" : "orange",
+ "sURL"     : "https://www.tutorialspoint.com/csharp/csharp_type_conversion.htm",
+ "sSummary" : "C# Data Types, Part 2: Type Conversion",
+ "sDetails" : "Sometimes you'll need to convert your data types. Here's how to do it in C#."
+} );
+dLinks.insert( { "sSection" : "prog-c-sharp-data", "sTag" : "Article", "sTagColor" : "orange",
+ "sURL"     : "https://www.tutorialspoint.com/csharp/csharp_constants.htm",
+ "sSummary" : "C# Constants",
+ "sDetails" : "Where variables hold data, constants *are* the data."
+} );
+// ### prog-c-ops-conds ########################################################
+dLinks.insert( { "sSection" : "prog-c-ops-conds", "sTag" : "Article", "sTagColor" : "orange",
+ "sURL"     : "https://www.tutorialspoint.com/csharp/csharp_operators.htm",
+ "sSummary" : "C# Operators",
+ "sDetails" : "An explanation of the various operators in C#"
+} );
+dLinks.insert( { "sSection" : "prog-c-ops-conds", "sTag" : "Article", "sTagColor" : "orange",
+ "sURL"     : "https://www.tutorialspoint.com/csharp/csharp_decision_making.htm",
+ "sSummary" : "C# Conditionals, Part 1: Branch Conditionals",
+ "sDetails" : "An overview of if, if-else, and switch statements, as well as the nesting of each."
+} );
+dLinks.insert( { "sSection" : "prog-c-ops-conds", "sTag" : "Article", "sTagColor" : "orange",
+ "sURL"     : "https://www.tutorialspoint.com/csharp/csharp_loops.htm",
+ "sSummary" : "C# Conditionals, Part 2: Loop Conditionals",
+ "sDetails" : "Covers for, do-while, and while loops. Also covers loop control keywords such as break and continue."
 } );
 // ### prog-lua-books-references ###############################################
 dLinks.insert( { "sSection" : "prog-lua-books-references", "sTag" : "Website", "sTagColor" : "yellow",

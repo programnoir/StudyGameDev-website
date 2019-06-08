@@ -55,6 +55,7 @@
      <ul id="submenu-programming" tabindex="-1">
       <li><a href="#" to="prog-intro">Intro to Programming</a></li>
       <li><a href="#" to="prog-c">Learn C</a></li>
+      <li><a href="#" to="prog-c-sharp">Learn C#</a></li>
       <li><a href="#" to="prog-lua">Learn Lua</a></li>
       <li><a href="#" to="prog-eng-love2d">Love2D (Lua)</a></li>
      </ul>
@@ -252,14 +253,14 @@
     <p>We list resources that explain topics of game development. Under each category, we try to arrange information in an academic order. There are a lot of resources to dive into, here, so let's get you started with a few recommended subjects.</p>
     <p>These resources are coming soon, stay tuned while we continue to populate the site.</p>
     <p id="text-recommended-topics">
-     <a class="red" href="#">Learn C#</a>
+     <a class="red" href="#" to="prog-c-sharp">Learn C#</a>
      <a class="scarlet" href="#">Worldbuilding</a>
-     <a class="orange" href="#">Recording Techniques</a>
-     <a class="yellow" href="#">Music Theory</a>
-     <a class="lime" href="#">How to Draw</a>
+     <a class="orange" href="#" to="sd-recording">Recording Techniques</a>
+     <a class="yellow" href="#" to="mp-music-theory">Music Theory</a>
+     <a class="lime" href="#" to="art-intro">How to Draw</a>
      <a class="green" href="#">Learn Blender 3D</a>
-     <a class="turquoise" href="#">Game Design</a>
-     <a class="skyblue" href="#">User-Friendliness</a>
+     <a class="turquoise" href="#" to="gd-intro">Game Design</a>
+     <a class="skyblue" href="#" to="gd-intro">User-Friendliness</a>
      <a class="cobalt" href="#">Testing Techniques</a>
      <a class="blue" href="#" to="ppm-documentation">Design Documents</a>
      <a class="purple" href="#" to="mkt-inbound">Market Research</a>
