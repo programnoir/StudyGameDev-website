@@ -260,7 +260,7 @@
      <a class="lime" href="#" to="art-intro">How to Draw</a>
      <a class="green" href="#">Learn Blender 3D</a>
      <a class="turquoise" href="#" to="gd-intro">Game Design</a>
-     <a class="skyblue" href="#" to="gd-intro">User-Friendliness</a>
+     <a class="skyblue" href="#" to="ux-menus">User-Friendliness</a>
      <a class="cobalt" href="#">Testing Techniques</a>
      <a class="blue" href="#" to="ppm-documentation">Design Documents</a>
      <a class="purple" href="#" to="mkt-inbound">Market Research</a>
