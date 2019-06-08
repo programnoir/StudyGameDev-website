@@ -359,7 +359,6 @@ oAwesomeMenu.fMenuApplication = ( function()
     fCloseMainMenu();
     if( hLastFocusedID != null )
     {
-     console.log("what??");
      hLastFocusedID.focus();
      hLastFocusedID == null;
     }
