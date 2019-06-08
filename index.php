@@ -64,6 +64,7 @@
      <button id="button-submenu-writing" class="button-toggle-submenu scarlet" aria-controls="submenu-writing" aria-haspopup="menu" type="button">Writing</button>
      <ul id="submenu-writing" tabindex="-1">
       <li><a href="#" to="writ-intro">Intro to Writing</a></li>
+      <li><a href="#" to="writ-worldbuilding">Worldbuilding</a></li>
      </ul>
     </li>
     <li class="wrapper-submenu-parent" role="menuitem" tabindex="-1">
@@ -254,7 +255,7 @@
     <p>These resources are coming soon, stay tuned while we continue to populate the site.</p>
     <p id="text-recommended-topics">
      <a class="red" href="#" to="prog-c-sharp">Learn C#</a>
-     <a class="scarlet" href="#">Worldbuilding</a>
+     <a class="scarlet" href="#" to="writ-worldbuilding">Worldbuilding</a>
      <a class="orange" href="#" to="sd-recording">Recording Techniques</a>
      <a class="yellow" href="#" to="mp-music-theory">Music Theory</a>
      <a class="lime" href="#" to="art-intro">How to Draw</a>
