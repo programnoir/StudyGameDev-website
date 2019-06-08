@@ -18,9 +18,12 @@ var oAwesomeMenu = {};
 oAwesomeMenu.fMenuApplication = ( function()
 {
  var bIsFirefox = typeof InstallTrigger !== "undefined",
- hLastFocusedID = document.getElementById( "text-site-title" ).children[ 0 ],
+ hLastFocusedID = null;//document.getElementById( "text-site-title" ).children[ 0 ],
+ bShortcutToSearch = false;
  bAccessibilityDialogOpen = false,
+ kTab = { 9: 1 };
  kMenuShortcut = { 90: 1,  191: 1 }, // Z and slash
+ kSearchShortcut = { 88: 1, 190: 1 } // X and .
  kScroll = { 32: 1,  37: 1,  38: 1,  39: 1,  40: 1 }, // ARROWS
  kMouse = { 0: 1,  1: 1,  2: 1 },
  hMainMenuButton = document.getElementById( "button-main-menu" ),
@@ -297,7 +300,11 @@ oAwesomeMenu.fMenuApplication = ( function()
   if( this.className == "state-open" )
   {
    fCloseMainMenu();
-   hLastFocusedID.focus();
+   if( hLastFocusedID != null )
+   {
+    hLastFocusedID.focus();
+    hLastFocusedID == null;
+   }
   }
   else
   {
@@ -325,6 +332,7 @@ oAwesomeMenu.fMenuApplication = ( function()
   {
    fTabScreenReaderOff( aByTagNameSelect[ hSelectArrayIndex ] );
   }
+  fTabScreenReaderOff( document.getElementById( "setting-content-unfold" ) );
   hAccessibilityDialog.children[ 0 ].setAttribute( "tabindex", "-1" );
   bAccessibilityDialogOpen = false;
   hAccessibilityDialogButton.focus();
@@ -342,25 +350,62 @@ oAwesomeMenu.fMenuApplication = ( function()
   }
   else if( fIsNavFocused() )
   {
-   fCloseAllSubmenus();
+   fCloseAllSubmenus(); // Automatically close non-focused submenus.
   }
   else if( document.activeElement != hMainMenuButton )
   {
    if( hMainMenuWrapper.className == "state-open" )
    {
     fCloseMainMenu();
-    hLastFocusedID.focus();
+    if( hLastFocusedID != null )
+    {
+     console.log("what??");
+     hLastFocusedID.focus();
+     hLastFocusedID == null;
+    }
    }
    else
    {
-    hLastFocusedID = document.activeElement;
-    if( kMenuShortcut[ event.keyCode ] )
+    if( kTab[ hEvent.keyCode ] )
+    {
+     if( hEvent.shiftKey == false )
+     {
+      if( bShortcutToSearch )
+      {
+       if( hLastFocusedID != null )
+       {
+        hLastFocusedID.focus();
+        bShortcutToSearch = false;
+        hLastFocusedID == null;
+       }
+      }
+     }
+     if( hLastFocusedID != null )
+     {
+      if( document.activeElement == document.getElementById( "line-input-search" ) )
+      {
+       bShortcutToSearch = true;
+      }
+      else
+      {
+       bShortcutToSearch = false;
+      }
+     }
+    }
+    else if( hEvent.ctrlKey && kMenuShortcut[ hEvent.keyCode ] )
     {
      let sActiveNodeName = document.activeElement.nodeName;
      if( sActiveNodeName != "INPUT" && sActiveNodeName != "TEXTAREA" )
      {
+      hLastFocusedID = document.activeElement;
       hMainMenuButton.focus();
      }
+    }
+    else if( hEvent.ctrlKey && kSearchShortcut[ hEvent.keyCode ] )
+    {
+     hLastFocusedID = document.activeElement;
+     bShortcutToSearch = true;
+     document.getElementById( "line-input-search" ).focus();
     }
    }
   }
@@ -410,7 +455,7 @@ oAwesomeMenu.fMenuApplication = ( function()
  {
   hAccessibilityDialog.classList.add( "state-open" );
   hBlackBackground.classList.add( "state-accessibility-settings" );
-  fTabScreenReaderOn(hAccessibilityDialog);
+  fTabScreenReaderOn( hAccessibilityDialog );
   let aByTagNameButton = hAccessibilityDialog.getElementsByTagName( "button" );
   aByTagNameButton = Array.prototype.slice.call( aByTagNameButton );
   let aByTagNameSelect = hAccessibilityDialog.getElementsByTagName( "select" );
@@ -423,6 +468,7 @@ oAwesomeMenu.fMenuApplication = ( function()
   {
    fTabScreenReaderOn( aByTagNameSelect[ hSelectArrayIndex ] );
   }
+  TabScreenReaderOn( document.getElementById( "setting-content-unfold" ) );
   hAccessibilityDialog.children[ 0 ].setAttribute( "tabindex", "0" );
   // Do the same for all selects and buttons in hAccessibilityDialog
   bAccessibilityDialogOpen = true;
