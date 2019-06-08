@@ -73,6 +73,11 @@ dTopics.insert( { "sTopicID" : "writ-intro", "sTopic" : "Introduction and Fundam
      [ "writ-story-fundamentals", "Fundamentals of Storytelling" ]
     ]
  } );
+dTopics.insert( { "sTopicID" : "writ-worldbuilding", "sTopic" : "Worldbuilding",
+  "aChapters" : [
+     [ "writ-worldbuilding-intro", "The Basics of Worldbuilding" ],
+    ]
+ } );
 
 
 /// Sound Design
@@ -546,6 +551,12 @@ dLinks.insert( { "sSection" : "writ-story-fundamentals", "sTag" : "Article", "sT
  "sURL"     : "https://msu.edu/course/tc/842/SevenElements%20Story.htm",
  "sSummary" : "7 Elements of Good Storytelling",
  "sDetails" : "A quick and simple breakdown of the vital elements of a video game's story."
+} );
+// ### writ-worldbuilding-intro ################################################
+dLinks.insert( { "sSection" : "writ-worldbuilding-intro", "sTag" : "Article", "sTagColor" : "orange",
+ "sURL"     : "https://en.wikipedia.org/wiki/Worldbuilding",
+ "sSummary" : "Wikipedia: Worldbuilding",
+ "sDetails" : "A comprehensive overview; its definition, its history, and even some methods."
 } );
 
 
