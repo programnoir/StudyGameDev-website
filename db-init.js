@@ -208,10 +208,16 @@ dTopics.insert( { "sTopicID" : "3d-intro", "sTopic" : "Introduction to 3D Modell
  } );
 dTopics.insert( { "sTopicID" : "3d-softwares", "sTopic" : "Manuals, Advice, and Resources for 3D Software",
    "aChapters" : [
-      [ "3d-blender", "Blender" ],
+      [ "3d-blender-group", "Blender" ],
       [ "3d-3dsmax", "3DS Max" ],
       [ "3d-maya", "Maya" ],
       [ "3d-free-textures", "Free Texture Sites" ],
+     ]
+ } );
+//
+dTopics.insert( { "sTopicID" : "3d-blender", "sTopic" : "Manuals, Advice, and Resources for 3D Software",
+   "aChapters" : [
+      [ "3d-blender-books", "Blender Manuals and Courses" ],
      ]
  } );
 dTopics.insert( { "sTopicID" : "3d-animation-topic", "sTopic" : "3D Animation",
@@ -1320,58 +1326,32 @@ dLinks.insert( { "sSection" : "3d-asset-software", "sTag" : "Software", "sTagCol
  "sSummary" : "Blender",
  "sDetails" : "A free and GPL-friendly 3D asset creation software with lots of features, such as modelling, UV unwrapping, texturing, rigging, simulations, animation, etc."
 } );
-// ### 3d-blender ##############################################################
-dLinks.insert( { "sSection" : "3d-blender", "sTag" : "Online Manual", "sTagColor" : "green",
- "sURL"     : "https://docs.blender.org/manual/en/dev/index.html",
- "sSummary" : "Blender Manual (2.6+)",
- "sDetails" : "Blender's official user manual for version 2.6 and above. The manual is also downloadable."
-} );
-dLinks.insert( { "sSection" : "3d-blender", "sTag" : "Course", "sTagColor" : "blue",
- "sURL"     : "https://www.youtube.com/playlist?list=PLa1F2ddGya_8V90Kd5eC5PeBjySbXWGK1",
- "sSummary" : "Blender's Video Tutorials",
- "sDetails" : "How to use Blender's UI, transformations, layers, meshes, surfaces, and more are covered here."
-} );
-dLinks.insert( { "sSection" : "3d-blender", "sTag" : "Channel", "sTagColor" : "yellow",
+dLinks.insert( { "sSection" : "3d-blender-group", "sTag" : "Channel", "sTagColor" : "yellow",
  "sURL"     : "https://www.youtube.com/user/blendercookie",
  "sSummary" : "CG Cookie",
  "sDetails" : "This YouTube user uploads plenty of helpful videos that cover Blender techniques and news."
 } );
-dLinks.insert( { "sSection" : "3d-blender", "sTag" : "Channel", "sTagColor" : "yellow",
- "sURL"     : "https://www.youtube.com/user/DarrinLile/playlists",
- "sSummary" : "Darrin Lile",
- "sDetails" : "Darrin has made multiple playlists that help you become familiar with the software after following several exercises."
-} );
-dLinks.insert( { "sSection" : "3d-blender", "sTag" : "Channel", "sTagColor" : "yellow",
- "sURL"     : "https://www.youtube.com/user/AndrewPPrice/playlists",
- "sSummary" : "Andrew Price (Blender Guru)",
- "sDetails" : "Andrew has made several playlists that quickly cover various basics of using Blender."
-} );
-dLinks.insert( { "sSection" : "3d-blender", "sTag" : "Download", "sTagColor" : "purple",
+dLinks.insert( { "sSection" : "3d-blender-group", "sTag" : "Download", "sTagColor" : "purple",
  "sURL"     : "http://3dnchu.com/archives/sprytile-for-blender/",
  "sSummary" : "Sprytile for Blender",
  "sDetails" : "Allows 3D modelling based on tilesets."
 } );
-dLinks.insert( { "sSection" : "3d-blender", "sTag" : "Video", "sTagColor" : "red",
+dLinks.insert( { "sSection" : "3d-blender-group", "sTag" : "Video", "sTagColor" : "red",
  "sURL"     : "https://www.youtube.com/watch?v=hJ0GpTQaShs",
  "sSummary" : "Blender to Unreal Engine 4",
  "sDetails" : "Numerous software developers guide a Blender user on how to use their creations in the Unreal game engine."
 } );
-dLinks.insert( { "sSection" : "3d-blender", "sTag" : "Video", "sTagColor" : "red",
+dLinks.insert( { "sSection" : "3d-blender-group", "sTag" : "Video", "sTagColor" : "red",
  "sURL"     : "https://cgcookie.com/tutorial/maintaining-visual-consistency-between-blender-cycles-unreal-engine",
  "sSummary" : "Visual Consistency from Blender to UE4",
  "sDetails" : "When creating game assets with Blender for use in Unreal it's ideal to maintain visual fidelity between both applications. "
 } );
-dLinks.insert( { "sSection" : "3d-blender", "sTag" : "Graphic", "sTagColor" : "red",
+dLinks.insert( { "sSection" : "3d-blender-group", "sTag" : "Graphic", "sTagColor" : "red",
  "sURL"     : "https://www.giudansky.com/images/downloads/blender/blender3d-shortcuts-infographic.png",
  "sSummary" : "Infographic on Shortcuts",
  "sDetails" : "The larger something, the more important/frequently used it is."
 } );
-dLinks.insert( { "sSection" : "3d-blender", "sTag" : "Course", "sTagColor" : "blue",
- "sURL"     : "https://www.udemy.com/3dmotive-intro-to-3d-modeling-using-blender/",
- "sSummary" : "3DMotive's Blender Course ($)",
- "sDetails" : "Covers the UI, modelling, UV unwrapping, texturing, rigging, and more."
-} );
-dLinks.insert( { "sSection" : "3d-blender", "sTag" : "Video", "sTagColor" : "red",
+dLinks.insert( { "sSection" : "3d-blender-group", "sTag" : "Video", "sTagColor" : "red",
  "sURL"     : "https://www.youtube.com/watch?v=xNlGsmZ6osk",
  "sSummary" : "Hair Shader for Blender",
  "sDetails" : "This shader is an implementation of the paper by Chiang et al., used by major production companies."
@@ -1429,6 +1409,27 @@ dLinks.insert( { "sSection" : "3d-free-textures", "sTag" : "Website", "sTagColor
  "sURL"     : "https://texturehaven.com/",
  "sSummary" : "Texture Haven",
  "sDetails" : "Freely-licensed, high-quality textures supported by Patreon."
+} );
+// ### 3d-blender-books ########################################################
+dLinks.insert( { "sSection" : "3d-blender-books", "sTag" : "Online Manual", "sTagColor" : "green",
+ "sURL"     : "https://docs.blender.org/manual/en/dev/index.html",
+ "sSummary" : "Blender Manual",
+ "sDetails" : "Blender's official documentation based on the latest version."
+} );
+dLinks.insert( { "sSection" : "3d-blender-books", "sTag" : "Course", "sTagColor" : "blue",
+ "sURL"     : "https://www.youtube.com/playlist?list=PLa1F2ddGya_8V90Kd5eC5PeBjySbXWGK1",
+ "sSummary" : "Blender's Video Tutorials",
+ "sDetails" : "How to use Blender's UI, transformations, layers, meshes, surfaces, and more are covered here."
+} );
+dLinks.insert( { "sSection" : "3d-blender-books", "sTag" : "Channel", "sTagColor" : "yellow",
+ "sURL"     : "https://www.youtube.com/user/DarrinLile/playlists",
+ "sSummary" : "Darrin Lile",
+ "sDetails" : "Darrin has made multiple playlists that help you become familiar with the software after following several exercises."
+} );
+dLinks.insert( { "sSection" : "3d-blender-books", "sTag" : "Channel", "sTagColor" : "yellow",
+ "sURL"     : "https://www.youtube.com/user/AndrewPPrice/playlists",
+ "sSummary" : "Andrew Price (Blender Guru)",
+ "sDetails" : "Andrew has made several playlists that quickly cover various basics of using Blender."
 } );
 // ### 3d-animation ############################################################
 dLinks.insert( { "sSection" : "3d-animation", "sTag" : "Video", "sTagColor" : "red",
