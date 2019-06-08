@@ -72,7 +72,7 @@ oAwesomeMenu.fCodeGeneratorApplication = ( function()
 
  function fCreateCodeString()
  {
-  let sCode = "dLinks.insert( { \"sSection\" : ";
+  let sCode = "dLinks.insert( { \"sSection\" : \"";
   sCode += document.getElementById( "parameter-select-section" ).value;
   sCode += "\", \"sTag\" : \"";
   var aTagValues = document.getElementById( "parameter-select-tag" ).value.split(",");
