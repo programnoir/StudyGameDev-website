@@ -255,6 +255,12 @@ dTopics.insert( { "sTopicID" : "ux-menus", "sTopic" : "User-Friendly Menus",
 dTopics.insert( { "sTopicID" : "qa-intro", "sTopic" : "Introduction to Quality Assurance",
    "aChapters" : [
       [ "qa-what-is", "What is Quality Assurance?" ],
+      [ "qa-basics", "Basics of Quality Assurance" ],
+     ]
+ } );
+dTopics.insert( { "sTopicID" : "qa-techniques", "sTopic" : "Techniques in Software Testing",
+   "aChapters" : [
+      [ "qa-testing-overview", "What Are the Software Testing Techniques?" ],
      ]
  } );
 
@@ -1538,15 +1544,43 @@ dLinks.insert( { "sSection" : "ux-menu-cases", "sTag" : "Article", "sTagColor" :
  "sDetails" : "Rebecca Cordingley's two column shop system."
 } );
 
+
 // ### qa-what-is ##############################################################
 dLinks.insert( { "sSection" : "qa-what-is", "sTag" : "Video", "sTagColor" : "red",
  "sURL"     : "https://www.youtube.com/watch?v=ntpZt8eAvy0",
  "sSummary" : "So You Want To Be in QA",
  "sDetails" : "Extra Credits describes quality assurance, repro steps, and how to acquire a job in the quality assurance."
 } );
+// ### qa-basics ###############################################################
+dLinks.insert( { "sSection" : "qa-basics", "sTag" : "Video", "sTagColor" : "red",
+ "sURL"     : "https://www.youtube.com/watch?v=OLayCNOPWIo",
+ "sSummary" : "Learn to QA: Blackbox Testing",
+ "sDetails" : "A veteran QA tester explains the blackbox approach of testing."
+} );
+dLinks.insert( { "sSection" : "qa-basics", "sTag" : "Video", "sTagColor" : "red",
+ "sURL"     : "https://www.youtube.com/watch?v=_WUzC2tiJoE",
+ "sSummary" : "Learn to QA: Embedded Testing",
+ "sDetails" : "Also known as the whitebox/greybox tester, these QA testers are present at the start of a project and look at code."
+} );
+dLinks.insert( { "sSection" : "qa-basics", "sTag" : "Video", "sTagColor" : "red",
+ "sURL"     : "https://www.youtube.com/watch?v=ChftT_2GkIc",
+ "sSummary" : "Learn to QA: Beta Testing",
+ "sDetails" : "Beta testers are like unpaid blackbox testers in a different stage of development."
+} );
+dLinks.insert( { "sSection" : "qa-basics", "sTag" : "Video", "sTagColor" : "red",
+ "sURL"     : "https://www.youtube.com/watch?v=rFaWOw8bIMM",
+ "sSummary" : "Seven Principles of Software Testing",
+ "sDetails" : "This is an important list of things to consider involving your role as a software tester."
+} );
+// ## qa-techniques ############################################################
+dLinks.insert( { "sSection" : "qa-testing-overview", "sTag" : "Video", "sTagColor" : "red",
+ "sURL"     : "https://www.youtube.com/watch?v=WHzeb8YgvM4",
+ "sSummary" : "Software Testing Techniques: An Overview",
+ "sDetails" : "A brief overview of the various testing techniques of QA."
+} );
 
 
-// ### ppm-what-is ##############################################################
+// ### ppm-what-is #############################################################
 dLinks.insert( { "sSection" : "ppm-what-is", "sTag" : "Video", "sTagColor" : "red",
  "sURL"     : "https://youtu.be/wRe-81QyzU8",
  "sSummary" : "(GDC) Becoming a Producer the Hard Way",
