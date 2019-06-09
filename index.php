@@ -123,6 +123,7 @@
      <button id="button-submenu-quality-assurance" class="button-toggle-submenu cobalt" aria-controls="submenu-quality-assurance" aria-haspopup="menu" type="button">Quality Assurance</button>
      <ul id="submenu-quality-assurance" tabindex="-1">
       <li><a href="#" to="qa-intro">Intro to QA</a></li>
+      <li><a href="#" to="qa-techniques">Testing Techniques</a></li>
      </ul>
     </li>
     <li class="wrapper-submenu-parent" role="menuitem" tabindex="-1">
@@ -263,7 +264,7 @@
      <a class="green" href="#" to="3d-blender">Learn Blender 3D</a>
      <a class="turquoise" href="#" to="gd-intro">Game Design</a>
      <a class="skyblue" href="#" to="ux-menus">User-Friendliness</a>
-     <a class="cobalt" href="#">Testing Techniques</a>
+     <a class="cobalt" href="#" to="qa-intro">Game Testing</a>
      <a class="blue" href="#" to="ppm-documentation">Design Documents</a>
      <a class="purple" href="#" to="mkt-inbound">Market Research</a>
      <a class="violet" href="#" to="fm-taxes">Business Taxes</a>
