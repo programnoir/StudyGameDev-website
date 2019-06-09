@@ -258,7 +258,7 @@ dTopics.insert( { "sTopicID" : "qa-intro", "sTopic" : "Introduction to Quality A
       [ "qa-basics", "Basics of Quality Assurance" ],
      ]
  } );
-dTopics.insert( { "sTopicID" : "qa-testing", "sTopic" : "Techniques in Software Testing",
+dTopics.insert( { "sTopicID" : "qa-techniques", "sTopic" : "Techniques in Software Testing",
    "aChapters" : [
       [ "qa-testing-overview", "What Are the Software Testing Techniques?" ],
      ]
