@@ -58,6 +58,7 @@
       <li><a href="#" to="prog-c-sharp">Learn C#</a></li>
       <li><a href="#" to="prog-lua">Learn Lua</a></li>
       <li><a href="#" to="prog-eng-love2d">Love2D (Lua)</a></li>
+      <li><a href="#" to="prog-eng-godot">Godot (GDScript)</a></li>
      </ul>
     </li>
     <li class="wrapper-submenu-parent" role="menuitem" tabindex="-1">
@@ -256,7 +257,7 @@
     <p>We list resources that explain topics of game development. Under each category, we try to arrange information in an academic order. There are a lot of resources to dive into, here, so let's get you started with a few recommended subjects.</p>
     <p>These resources are coming soon, stay tuned while we continue to populate the site.</p>
     <p id="text-recommended-topics">
-     <a class="red" href="#" to="prog-c-sharp">Learn C#</a>
+     <a class="red" href="#" to="prog-eng-godot">Learn GDScript</a>
      <a class="scarlet" href="#" to="writ-worldbuilding">Worldbuilding</a>
      <a class="orange" href="#" to="sd-recording">Recording Techniques</a>
      <a class="yellow" href="#" to="mp-music-theory">Music Theory</a>

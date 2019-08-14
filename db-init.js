@@ -63,6 +63,13 @@ dTopics.insert( { "sTopicID" : "prog-eng-love2d", "sTopic" : "The Love2D Engine"
     [ "prog-love2d-engine-basics", "Basics of the Love2D Engine" ]
    ]
  } );
+ dTopics.insert( { "sTopicID" : "prog-eng-godot", "sTopic" : "GDScript and the Godot Engine",
+  "aChapters" : [
+     [ "prog-godot-engine-software", "Godot Engine and Softwares" ],
+     [ "prog-godot-engine-basics", "Basics of Godot" ],
+     [ "prog-gdscript-overview", "Overview of GDScript" ]
+    ]
+  } );
 
 
 /// Writing
@@ -543,8 +550,39 @@ dLinks.insert( { "sSection" : "prog-love2d-engine-basics", "sTag" : "Playlist", 
  "sSummary" : "Love2D Tutorial Videos (Advanced)",
  "sDetails" : "YouTuber recursor offers a more thorough course on developing games using Love2D."
 } );
-
-
+// ### prog-godot-engine-software ##############################################
+dLinks.insert( { "sSection" : "prog-godot-engine-software", "sTag" : "Software", "sTagColor" : "purple",
+ "sURL"     : "https://godotengine.org/",
+ "sSummary" : "Godot Engine",
+ "sDetails" : "A free, open-source, and permissively licensed game development engine with unique approaches to production and workflow."
+} );
+// ### prog-godot-engine-basics ################################################
+dLinks.insert( { "sSection" : "prog-godot-engine-basics", "sTag" : "Video", "sTagColor" : "red",
+ "sURL"     : "https://www.youtube.com/watch?v=qVl3BYY6zaQ",
+ "sSummary" : "What is Godot?",
+ "sDetails" : "GDQuest discusses Godot (this engine will update itself a lot over a short time, but these links will generally apply for future versions)"
+} );
+dLinks.insert( { "sSection" : "prog-godot-engine-basics", "sTag" : "Online Manual", "sTagColor" : "green",
+ "sURL"     : "http://docs.godotengine.org/en/3.1/index.html",
+ "sSummary" : "Godot Docs",
+ "sDetails" : "A crucial reference for working in the Godot engine. The Getting Started section is worth a read."
+} );
+dLinks.insert( { "sSection" : "prog-godot-engine-basics", "sTag" : "Video", "sTagColor" : "red",
+ "sURL"     : "https://www.youtube.com/watch?v=TjuK1ijv5KA",
+ "sSummary" : "The Default UI of Godot",
+ "sDetails" : "An overview of the Godot engine's UI layout and how they service the engine."
+} );
+dLinks.insert( { "sSection" : "prog-godot-engine-basics", "sTag" : "Article", "sTagColor" : "orange",
+ "sURL"     : "http://docs.godotengine.org/en/3.1/getting_started/step_by_step/scenes_and_nodes.html",
+ "sSummary" : "Godot's Scenes and Nodes",
+ "sDetails" : "An additional explanation to how Godot's components arrange themselves to create the things that appear in a finished game."
+} );
+// ### prog-gdscript-overview ##################################################
+dLinks.insert( { "sSection" : "prog-gdscript-overview", "sTag" : "Online Manual", "sTagColor" : "green",
+ "sURL"     : "http://docs.godotengine.org/en/3.1/getting_started/scripting/gdscript/gdscript_basics.html#doc-gdscript",
+ "sSummary" : "Godot Docs: Scripting in GDScript",
+ "sDetails" : "GDScript is a language that feels similar to Python. It is a powerful way to edit not just your games but the editor itself, as well."
+} );
 
 // ### writ-intro-articles #####################################################
 dLinks.insert( { "sSection" : "writ-intro-articles", "sTag" : "Wiki", "sTagColor" : "yellow",
