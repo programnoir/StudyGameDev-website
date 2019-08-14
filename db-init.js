@@ -572,10 +572,35 @@ dLinks.insert( { "sSection" : "prog-godot-engine-basics", "sTag" : "Video", "sTa
  "sSummary" : "The Default UI of Godot",
  "sDetails" : "An overview of the Godot engine's UI layout and how they service the engine."
 } );
+dLinks.insert( { "sSection" : "prog-godot-engine-basics", "sTag" : "Video", "sTagColor" : "red",
+ "sURL"     : "https://www.youtube.com/watch?v=GEsYhhBlr1M",
+ "sSummary" : "The Godot Filesystem",
+ "sDetails" : "A video going over the filesystem dock in the UI"
+} );
 dLinks.insert( { "sSection" : "prog-godot-engine-basics", "sTag" : "Article", "sTagColor" : "orange",
  "sURL"     : "http://docs.godotengine.org/en/3.1/getting_started/step_by_step/scenes_and_nodes.html",
  "sSummary" : "Godot's Scenes and Nodes",
  "sDetails" : "An additional explanation to how Godot's components arrange themselves to create the things that appear in a finished game."
+} );
+dLinks.insert( { "sSection" : "prog-godot-engine-basics", "sTag" : "Article", "sTagColor" : "orange",
+ "sURL"     : "https://docs.godotengine.org/en/3.1/getting_started/step_by_step/instancing.html",
+ "sSummary" : "Instancing Scenes in Godot",
+ "sDetails" : "Scenes can be rooms, entities, UI, or anything else you imagine, and are like templates from which you make \"instances\" of in your \"room\" or \"level\" scenes. The docs detail this further."
+} );
+dLinks.insert( { "sSection" : "prog-godot-engine-basics", "sTag" : "Video", "sTagColor" : "red",
+ "sURL"     : "https://www.youtube.com/watch?v=lpOP2tbl3zc",
+ "sSummary" : "Godot's Node Inspector",
+ "sDetails" : "Each node has properties that can be modified in the editor itself, rather than needing code. This video introduces you to it."
+} );
+dLinks.insert( { "sSection" : "prog-godot-engine-basics", "sTag" : "Video", "sTagColor" : "red",
+ "sURL"     : "https://www.youtube.com/watch?v=O5abE3aODxg",
+ "sSummary" : "What Are Signals?",
+ "sDetails" : "One of Godot's most prominent features is its signal system, a means of conveying events between nodes or scenes."
+} );
+dLinks.insert( { "sSection" : "prog-godot-engine-basics", "sTag" : "Article", "sTagColor" : "orange",
+ "sURL"     : "https://docs.godotengine.org/en/3.1/getting_started/step_by_step/exporting.html",
+ "sSummary" : "Exporting Games in Godot",
+ "sDetails" : "A quick article that details how exporting is done. A recommended read to avoid getting confused by an interface that is less than straightforward."
 } );
 // ### prog-gdscript-overview ##################################################
 dLinks.insert( { "sSection" : "prog-gdscript-overview", "sTag" : "Online Manual", "sTagColor" : "green",
@@ -583,6 +608,12 @@ dLinks.insert( { "sSection" : "prog-gdscript-overview", "sTag" : "Online Manual"
  "sSummary" : "Godot Docs: Scripting in GDScript",
  "sDetails" : "GDScript is a language that feels similar to Python. It is a powerful way to edit not just your games but the editor itself, as well."
 } );
+dLinks.insert( { "sSection" : "prog-gdscript-overview", "sTag" : "Video", "sTagColor" : "red",
+ "sURL"     : "https://www.youtube.com/watch?v=UcdwP1Q2UlU",
+ "sSummary" : "Introduction to GDScript for Beginners",
+ "sDetails" : "If you are new to code or want to easily transition to GDScript from another language, this video helps break down the basics."
+} );
+
 
 // ### writ-intro-articles #####################################################
 dLinks.insert( { "sSection" : "writ-intro-articles", "sTag" : "Wiki", "sTagColor" : "yellow",
