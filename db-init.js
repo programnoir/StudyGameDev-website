@@ -568,6 +568,16 @@ dLinks.insert( { "sSection" : "prog-godot-engine-basics", "sTag" : "Online Manua
  "sDetails" : "A crucial reference for working in the Godot engine. The Getting Started section is worth a read."
 } );
 dLinks.insert( { "sSection" : "prog-godot-engine-basics", "sTag" : "Video", "sTagColor" : "red",
+ "sURL"     : "https://docs.godotengine.org/en/3.1/getting_started/step_by_step/intro_to_the_editor_interface.html#project-manager",
+ "sSummary" : "Creating and Managing Projects in Godot",
+ "sDetails" : "One of the first interfaces you encounter is the project management window. This article explains it."
+} );
+dLinks.insert( { "sSection" : "prog-godot-engine-basics", "sTag" : "Video", "sTagColor" : "red",
+ "sURL"     : "https://www.youtube.com/watch?v=hG_MgGHAX-Q",
+ "sSummary" : "Getting Started in Godot",
+ "sDetails" : "Gamefromscratch provides a pretty thorough introduction to obtaining the engine and an overview of what is included."
+} );
+dLinks.insert( { "sSection" : "prog-godot-engine-basics", "sTag" : "Video", "sTagColor" : "red",
  "sURL"     : "https://www.youtube.com/watch?v=TjuK1ijv5KA",
  "sSummary" : "The Default UI of Godot",
  "sDetails" : "An overview of the Godot engine's UI layout and how they service the engine."
@@ -612,6 +622,11 @@ dLinks.insert( { "sSection" : "prog-gdscript-overview", "sTag" : "Video", "sTagC
  "sURL"     : "https://www.youtube.com/watch?v=UcdwP1Q2UlU",
  "sSummary" : "Introduction to GDScript for Beginners",
  "sDetails" : "If you are new to code or want to easily transition to GDScript from another language, this video helps break down the basics."
+} );
+dLinks.insert( { "sSection" : "prog-gdscript-overview", "sTag" : "Video", "sTagColor" : "red",
+ "sURL"     : "https://www.youtube.com/watch?v=KF0ixMxmW98",
+ "sSummary" : "The Search and Help System in Godot",
+ "sDetails" : "A crucial interface for looking up documentation for the engine's API and more."
 } );
 
 
