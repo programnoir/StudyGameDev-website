@@ -67,7 +67,8 @@ dTopics.insert( { "sTopicID" : "prog-eng-love2d", "sTopic" : "The Love2D Engine"
   "aChapters" : [
      [ "prog-godot-engine-software", "Godot Engine and Softwares" ],
      [ "prog-godot-engine-basics", "Basics of Godot" ],
-     [ "prog-gdscript-overview", "Overview of GDScript" ]
+     [ "prog-gdscript-overview", "Overview of GDScript" ],
+     [ "prog-godot-input", "Input Mapping/Remapping" ]
     ]
   } );
 
@@ -627,6 +628,27 @@ dLinks.insert( { "sSection" : "prog-gdscript-overview", "sTag" : "Video", "sTagC
  "sURL"     : "https://www.youtube.com/watch?v=KF0ixMxmW98",
  "sSummary" : "The Search and Help System in Godot",
  "sDetails" : "A crucial interface for looking up documentation for the engine's API and more."
+} );
+// ### prog-godot-input ########################################################
+dLinks.insert( { "sSection" : "prog-godot-input", "sTag" : "Video", "sTagColor" : "red",
+ "sURL"     : "https://www.youtube.com/watch?v=ZTvlZXJ2IRI",
+ "sSummary" : "Input Mapping for Beginners",
+ "sDetails" : "Alvin Roe demonstrates a super simple project that involves the input mapping system in Godot. There's a bonus part about cameras, too."
+} );
+dLinks.insert( { "sSection" : "prog-godot-input", "sTag" : "Video", "sTagColor" : "red",
+ "sURL"     : "https://www.youtube.com/watch?v=OOnm32Uad0g",
+ "sSummary" : "How to Use the Input Map",
+ "sDetails" : "UmaiPixel's video dives into an existing project and gives a more carefully explained video about the remapping feature."
+} );
+dLinks.insert( { "sSection" : "prog-godot-input", "sTag" : "Video", "sTagColor" : "red",
+ "sURL"     : "https://www.youtube.com/watch?v=7r7ZPmspDew",
+ "sSummary" : "GameFromScratch: Keyboard, Mouse, and Joystick",
+ "sDetails" : "GameFromScratch's series is more geared towards more experienced users and details how to work with Event and Input as well as keyboard, mouse, and joystick."
+} );
+dLinks.insert( { "sSection" : "prog-godot-input", "sTag" : "Video", "sTagColor" : "red",
+ "sURL"     : "https://www.youtube.com/watch?v=PKV_i4kaC0M",
+ "sSummary" : "GDQuest: Input Remapping",
+ "sDetails" : "This input remapping demo shows how to prompt the player to map their own inputs, all while using Godot's built-in input features."
 } );
 
 
